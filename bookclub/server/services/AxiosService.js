@@ -1,13 +1,12 @@
 import Axios from 'axios'
-import { baseURL } from '../env'
 import { logger } from '../utils/Logger.js'
 
-export const api = Axios.create({
-  baseURL,
+export const gbApi = Axios.create({
+  baseURL: 'https://www.googleapis.com/books/v1',
   timeout: 8000
 })
-api.interceptors.request.use(config => config, handleAxiosError)
-api.interceptors.response.use(response => response, handleAxiosError)
+gbApi.interceptors.request.use(config => config, handleAxiosError)
+gbApi.interceptors.response.use(response => response, handleAxiosError)
 
 function handleAxiosError(error) {
   if (error.response) {
