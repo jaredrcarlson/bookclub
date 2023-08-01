@@ -1,8 +1,11 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+  <nav class="navbar navbar-expand-lg navbar-dark dark-blue-bg px-3">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
+        <h1>
+          <i class="mdi mdi-book-open-page-variant-outline"></i>
+          <span class="navbar-font"> Jabb</span>
+        </h1>
       </div>
     </router-link>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
@@ -10,10 +13,20 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
+      <ul class="navbar-nav me-auto text-end">
         <li>
-          <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
+          <router-link :to="{ name: 'About Us' }" class="btn text-light selectable">
+            About Us
+          </router-link>
+        </li>
+        <li>
+          <router-link :to="{ name: 'Books' }" class="btn text-light selectable">
+            Books
+          </router-link>
+        </li>
+        <li>
+          <router-link :to="{ name: 'Book Clubs' }" class="btn text-light selectable">
+            Book Clubs
           </router-link>
         </li>
       </ul>

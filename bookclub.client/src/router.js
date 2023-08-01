@@ -12,9 +12,19 @@ const routes = [
     component: loadPage('HomePage')
   },
   {
-    path: '/about',
-    name: 'About',
-    component: loadPage('AboutPage')
+    path: '/bookclubs',
+    name: 'Book Clubs',
+    component: loadPage('BookClubsPage')
+  },
+  {
+    path: '/books',
+    name: 'Books',
+    component: loadPage('BooksPage')
+  },
+  {
+    path: '/aboutus',
+    name: 'About Us',
+    component: loadPage('AboutUsPage')
   },
   {
     path: '/account',
