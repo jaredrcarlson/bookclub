@@ -12,6 +12,8 @@ export const gbApi = Axios.create({
 })
 api.interceptors.request.use(config => config, handleAxiosError)
 api.interceptors.response.use(response => response, handleAxiosError)
+gbApi.interceptors.request.use(config => config, handleAxiosError)
+gbApi.interceptors.response.use(response => response, handleAxiosError)
 
 function handleAxiosError(error) {
   if (error.response) {
