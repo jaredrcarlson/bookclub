@@ -17,6 +17,11 @@ const routes = [
     component: loadPage('BookClubsPage')
   },
   {
+    path: '/createbookclub',
+    name: 'Create Book Club',
+    component: loadPage('CreateBookClub')
+  },
+  {
     path: '/books',
     name: 'Books',
     component: loadPage('BooksPage')
