@@ -3,6 +3,7 @@ import BaseController from "../utils/BaseController.js";
 import { clubsService } from "../services/ClubsService.js";
 import { clubMembersService } from "../services/ClubMembersService.js";
 import { clubPostsService } from "../services/ClubPostsService.js";
+import { clubBooksService } from "../services/ClubBooksService.js";
 
 export class ClubsController extends BaseController {
 
@@ -14,6 +15,7 @@ export class ClubsController extends BaseController {
       .get('/:clubId', this.getClubById)
       .get('/:clubId/members', this.getClubMembers)
       .get('/:clubId/posts', this.getClubPosts)
+      .get('/:clubId/clubBooks', this.getClubBooks)
 
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createClub)
@@ -54,6 +56,15 @@ export class ClubsController extends BaseController {
       const clubId = req.params.clubId
       const clubPosts = await clubPostsService.getClubPosts(clubId)
       return res.send(clubPosts)
+    } catch (error) {
+      next(error)
+    }
+  }
+  async getClubBooks(req, res, next) {
+    try {
+      const clubId = req.params.clubId
+      const clubBooks = await clubBooksService.getClubBooksByClubId(clubId)
+      return res.send(clubBooks)
     } catch (error) {
       next(error)
     }
