@@ -11,7 +11,7 @@
           </p>
         </div>
         <div class="dark-blue-bg mt-3 rounded-top p-3 fs-5">
-          <router-link :to="{name:'Club List'}">
+          <router-link :to="{name:'Club List Page'}">
             <p class="route-text" type="button">
               <i class="mdi mdi-bookmark"></i> About us
             </p>

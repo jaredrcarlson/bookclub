@@ -36,13 +36,13 @@ const routes = [
     path: '/bookclubdetails/:clubId',
     name: 'Book Club Details',
     component: loadPage('BookClubDetailsPage'),
-    // children: [
-    //   {
-    //     path: 'clublist',
-    //     name: 'Club List',
-    //     component: 'Club List',
-    //   }
-    // ]
+    children: [
+      {
+        path: 'clublist',
+        name: 'Club List Page',
+        component: loadPage('ClubListPage'),
+      }
+    ]
   },
   {
     path: '/account',
