@@ -9,7 +9,7 @@ export const ClubMemberSchema = new Schema({
 
 ClubMemberSchema.virtual('profile', {
   localField: 'creatorId',
-  foreignField: 'id',
+  foreignField: '_id',
   justOne: true,
   ref: 'Account'
 })
