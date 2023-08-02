@@ -15,6 +15,11 @@ export const AppState = reactive({
   /** @type {import('./models/Book.js').Book[]} */
   books: [],
 
+  /** @type {import('./models/Book.js').Book[]} */
+  booksToAdd: [],
+
   /** @type {import('./models/Book.js').Book} */
   selectedBook: null,
+
+  members: [],
 })

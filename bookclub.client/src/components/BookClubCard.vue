@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{name:'Book Club Details', params:{clubId: clubProp.id}}">
+  <router-link :to="(`bookclubdetails/${clubProp.id}/clubabout`)">
     <div class="mx-3">
       <div>
         <img class="img-fluid card-img" :src=clubProp.coverImg alt="card img">
@@ -14,7 +14,7 @@
         <!-- FIXME - Add memberCount to model and to the following element -->
         <div class="d-flex justify-content-between">
           <span>
-            25 club members
+            <span>{{ clubProp.memberCount }}</span> club members
           </span>
           <button class="btn orange-btn">
             Join Club
@@ -34,7 +34,8 @@ export default {
     clubProp: {type: Club, required: true}
   },
   setup(){
-    return {}
+    return {
+    }
   }
 }
 </script>
