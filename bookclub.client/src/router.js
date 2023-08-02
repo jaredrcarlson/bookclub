@@ -41,7 +41,28 @@ const routes = [
         path: 'clublist',
         name: 'Club List Page',
         component: loadPage('ClubListPage'),
-      }
+      },
+      {
+        path: 'clubabout',
+        name: 'Club About Page',
+        component: loadPage('ClubAboutPage'),
+      },
+      {
+        path: 'clubannouncement',
+        name: 'Club Announcement Page',
+        component: loadPage('ClubAnnouncementPage'),
+      },
+      {
+        path: 'clubdiscussion',
+        name: 'Club Discussion Page',
+        component: loadPage('ClubDiscussionPage'),
+      },
+      {
+        path: 'clubmembers',
+        name: 'Club Member Page',
+        component: loadPage('ClubMemberPage'),
+      },
+
     ]
   },
   {

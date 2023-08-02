@@ -11,23 +11,36 @@
           </p>
         </div>
         <div class="dark-blue-bg mt-3 rounded-top p-3 fs-5">
-          <router-link :to="{name:'Club List Page'}">
+          <router-link :to="{name:'Club About Page'}">
             <p class="route-text" type="button">
               <i class="mdi mdi-bookmark"></i> About us
             </p>
           </router-link>
-          <p class="route-text" type="button">
-            <i class="mdi mdi-flag-variant"></i> Announcements
-          </p>
+
+          <router-link :to="{name: 'Club Announcement Page'}">
+            <p class="route-text" type="button">
+              <i class="mdi mdi-flag-variant"></i> Announcements
+            </p>
+          </router-link>
+
+          <router-link :to="{name:'Club List Page'}">
             <p class="route-text" type="button">
               <i class="mdi mdi-format-list-bulleted"></i> Book List
             </p>
-          <p class="route-text" type="button">
-            <i class="mdi mdi-forum"></i> Discussion Board
-          </p>
-          <p class="route-text" type="button">
-            <i class="mdi mdi-account-multiple"></i> Member List
-          </p>
+          </router-link>
+
+          <router-link :to="{name: 'Club Discussion Page'}">
+            <p class="route-text" type="button">
+              <i class="mdi mdi-forum"></i> Discussion Board
+            </p>
+          </router-link>
+
+          <router-link :to="{name: 'Club Member Page'}">
+            <p class="route-text" type="button">
+              <i class="mdi mdi-account-multiple"></i> Member List
+            </p>
+          </router-link>
+
         </div>
       </div>
       <div class="col-md-9 col-12">
