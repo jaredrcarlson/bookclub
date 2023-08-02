@@ -2,6 +2,7 @@ import { Auth0Provider } from "@bcwdev/auth0provider";
 import BaseController from "../utils/BaseController.js";
 import { clubsService } from "../services/ClubsService.js";
 import { clubMembersService } from "../services/ClubMembersService.js";
+import { clubPostsService } from "../services/ClubPostsService.js";
 
 export class ClubsController extends BaseController {
 
@@ -12,6 +13,7 @@ export class ClubsController extends BaseController {
       .get('', this.getClubs)
       .get('/:clubId', this.getClubById)
       .get('/:clubId/members', this.getClubMembers)
+      .get('/:clubId/posts', this.getClubPosts)
 
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createClub)
@@ -47,6 +49,15 @@ export class ClubsController extends BaseController {
       next(error)
     }
   }
+  async getClubPosts(req, res, next) {
+    try {
+      const clubId = req.params.clubId
+      const clubPosts = await clubPostsService.getClubPosts(clubId)
+      return res.send(clubPosts)
+    } catch (error) {
+      next(error)
+    }
+  }
   /**this function allows a user to create a book club, and assigns them as the 'creator' */
   async createClub(req, res, next) {
     try {
@@ -76,6 +87,7 @@ export class ClubsController extends BaseController {
       const clubId = req.params.clubId
       const userId = req.userInfo.id
       const club = await clubsService.removeClub(clubId, userId)
+      return res.send('Successful deletion of the club')
     } catch (error) {
       next(error)
     }
