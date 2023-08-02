@@ -4,6 +4,7 @@ import { BadRequest, Forbidden } from "../utils/Errors.js"
 class ClubPostsService {
   async getClubPosts(clubId) {
     const clubPosts = await dbContext.Posts.find({ clubId: clubId })
+      .populate('creator', 'name picture')
     return clubPosts
   }
   async createPost(postData) {

@@ -6,6 +6,7 @@ import { ClubMemberSchema } from "../models/ClubMember.js";
 import { ClubPostSchema } from "../models/ClubPost.js";
 import { ClubBookSchema } from '../models/ClubBook.js';
 import { UserBookSchema } from '../models/UserBook.js';
+import { PostCommentSchema } from "../models/PostComment.js";
 
 class DbContext {
   Values = mongoose.model('Value', ValueSchema);
@@ -15,6 +16,8 @@ class DbContext {
   Posts = mongoose.model('Post', ClubPostSchema);
   ClubBooks = mongoose.model('ClubBook', ClubBookSchema);
   UserBooks = mongoose.model('UserBook', UserBookSchema);
+
+  PostComments = mongoose.model('PostComment', PostCommentSchema)
 }
 
 export const dbContext = new DbContext()
