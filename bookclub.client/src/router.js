@@ -1,6 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { authGuard } from '@bcwdev/auth0provider-client'
-
 function loadPage(page) {
   return () => import(`./pages/${page}.vue`)
 }
@@ -34,9 +33,16 @@ const routes = [
 
   // FIXME - /:bookclubId parameter needs to be added
   {
-    path: '/bookclubdetails',
+    path: '/bookclubdetails/:clubId',
     name: 'Book Club Details',
-    component: loadPage('BookClubDetailsPage')
+    component: loadPage('BookClubDetailsPage'),
+    // children: [
+    //   {
+    //     path: 'clublist',
+    //     name: 'Club List',
+    //     component: 'Club List',
+    //   }
+    // ]
   },
   {
     path: '/account',
