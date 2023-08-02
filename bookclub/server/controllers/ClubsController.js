@@ -16,6 +16,7 @@ export class ClubsController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createClub)
       .put('/:clubId', this.updateClub)
+      .delete('/:clubId', this.removeClub)
   }
   /** This function gets/reads ALL of the clubs */
   async getClubs(req, res, next) {
@@ -57,11 +58,26 @@ export class ClubsController extends BaseController {
       next(error)
     }
   }
+  /**this allows the creator of the club to update things in the club, a PUT request */
   async updateClub(req, res, next) {
     try {
-
+      const clubId = req.params.clubId
+      const userId = req.userInfo.id
+      const clubData = req.body
+      const club = await clubsService.updateClub(clubId, userId, clubData)
+      return res.send(club)
     } catch (error) {
-
+      next(error)
+    }
+  }
+  /**this allows the club creator to DELETE the club. */
+  async removeClub(req, res, next) {
+    try {
+      const clubId = req.params.clubId
+      const userId = req.userInfo.id
+      const club = await clubsService.removeClub(clubId, userId)
+    } catch (error) {
+      next(error)
     }
   }
 }
