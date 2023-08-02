@@ -8,8 +8,9 @@ export class ClubPostsController extends BaseController {
     this.router
       //routes
       .use(Auth0Provider.getAuthorizedUserInfo)
-      .post('/:postId', this.createPost)
+      .post('', this.createPost)
       .put('/:postId', this.updatePost)
+      .delete('/:postId', this.removePost)
   }
   /**Function that allows a user to create a post on a specific club */
   async createPost(req, res, next) {
@@ -30,6 +31,18 @@ export class ClubPostsController extends BaseController {
       const postData = req.body
       const post = await clubPostsService.updatePost(postId, userId, postData)
       return res.send(post)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  /* Function for a user to remove their own post */
+  async removePost(req, res, next) {
+    try {
+      const postId = req.params.postId
+      const userId = req.userInfo.id
+      const post = await clubPostsService.removePost(postId, userId)
+      return res.send('You have deleted the post')
     } catch (error) {
       next(error)
     }
