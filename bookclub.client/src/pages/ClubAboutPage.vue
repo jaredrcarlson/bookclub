@@ -29,6 +29,7 @@
 import { computed, watchEffect } from 'vue';
 import { AppState } from '../AppState.js';
 import { useRoute } from 'vue-router';
+import { membersService } from '../services/MembersService.js';
 
 export default {
   setup(){
@@ -46,7 +47,11 @@ export default {
       selectedClub: computed(() => AppState.selectedClub),
 
       async becomeMember(){
+        const clubId = route.params.clubId
 
+        const memberData = {clubId: clubId}
+
+        await membersService.becomeMember(memberData)
       }
     }
   }

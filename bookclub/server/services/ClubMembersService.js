@@ -12,8 +12,11 @@ class ClubMembersService {
     if (!club) {
       throw new Forbidden("There is no such club.")
     }
+    if (memberData.creatorId == this.getClubMembers(club.id)) {
+      throw new BadRequest("You're already a member, silly")
+    }
     const member = await dbContext.ClubMembers.create(memberData)
-    await member.populate('creator', 'name picture')
+    await member.populate('profile', 'name picture')
     return member
   }
   async removeMember(memberId, userId) {
