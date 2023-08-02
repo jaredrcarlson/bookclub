@@ -14,24 +14,31 @@ class BooksService {
     // Function that takes in an index of a book in the AppState.books and sets it as the selectedBook
     // @function
     // @param {index} - index of a book in the AppState.books
-    async selectBook(index) {
+    selectBook(index) {
         AppState.selectedBook = AppState.books[index]
     }
 
     //Function Adds the selected book in the app state to the BooksToAdd List. Does not send any requests, and not to be confused with adding a book to a booklist.
     // @function
-    async addBookToList() {
+    addBookToList() {
         AppState.booksToAdd.push(AppState.selectedBook)
     }
 
     //Function removes the selected book from the App State BooksToAdd list. When provided an index, removes that indexed item out of the BooksToAdd list.
     // @function
-    async removeBookFromList(index = -1) {
+    removeBookFromList(index = -1) {
         if (index > -1) {
             AppState.booksToAdd.splice(index, 1)
             return
         }
         AppState.booksToAdd = AppState.booksToAdd.filter(book => book != AppState.selectedBook)
+    }
+
+    //Function sends a request to create a ClubBook to server
+    // @function
+    // @param {bookBody} - 
+    async createClubBook() {
+
     }
 }
 
