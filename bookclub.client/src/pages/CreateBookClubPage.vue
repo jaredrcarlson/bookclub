@@ -126,7 +126,7 @@ export default {
             },
             async createClub() {
                 try {
-                    await clubsService.createClub()
+                    const club = await clubsService.createClub(editable.value)
                     // for (book in booksToAdd){
     
                     // }
