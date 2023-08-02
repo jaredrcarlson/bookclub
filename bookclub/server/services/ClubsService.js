@@ -1,5 +1,5 @@
 import { dbContext } from "../db/DbContext.js"
-import { BadRequest } from "../utils/Errors.js"
+import { BadRequest, Forbidden } from "../utils/Errors.js"
 
 class ClubsService {
   async getClubs() {
@@ -18,6 +18,19 @@ class ClubsService {
     const club = await dbContext.Clubs.create(clubData)
     await club.populate('creator', 'name picture')
     return club
+  }
+  async updateClub(clubId, userId, clubData) {
+    const originalClub = await this.getClubById(clubId)
+    if (originalClub.creatorId.toString() != userId) {
+      throw new Forbidden(`You aren't the creator of ${originalClub.name}, you can't update it!`)
+    }
+    originalClub.name = clubData.name || originalClub.name
+    originalClub.description = clubData.description || originalClub.description
+    originalClub.coverImg = clubData.coverImg || originalClub.coverImg
+
+    let updatedClub = await originalClub.save()
+
+    return updatedClub
   }
 }
 export const clubsService = new ClubsService()

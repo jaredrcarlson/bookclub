@@ -59,9 +59,13 @@ export class ClubsController extends BaseController {
   }
   async updateClub(req, res, next) {
     try {
-
+      const clubId = req.params.clubId
+      const userId = req.userInfo.id
+      const clubData = req.body
+      const club = await clubsService.updateClub(clubId, userId, clubData)
+      return res.send(club)
     } catch (error) {
-
+      next(error)
     }
   }
 }
