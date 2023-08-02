@@ -6,7 +6,7 @@ import { logger } from "../utils/Logger"
 // @param {data} - Data taken in is an individual volume received from a Google Books API Search
 export class Book {
     constructor(data) {
-        this.gbid = data.id
+        this.gbId = data.id
         this.title = data.volumeInfo.title
         this.subtitle = data.volumeInfo.subtitle ? data.volumeInfo.subtitle : ""
         this.publishedDate = new Date(data.volumeInfo.publishedDate)

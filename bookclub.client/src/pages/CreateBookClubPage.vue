@@ -56,18 +56,18 @@
                         </div>
                     </div>
                     <div class="col-md-7 col-12 py-4">
-                        <form @submit.prevent="" class="d-flex flex-column">
+                        <form @submit.prevent="createClub" class="d-flex flex-column">
                             <div class="mb-3">
                                 <label for="clubName" class="form-label">Club Name</label>
-                                <input type="text" required minlength="2" maxlength="50" class="form-control" id="" aria-describedby="helpId" placeholder="Club Name">
+                                <input v-model="editable.name" type="text" required minlength="2" maxlength="50" class="form-control" id="" aria-describedby="helpId" placeholder="Club Name">
                             </div>
                             <div class="mb-3">
                                 <label for="clubImageURL" class="form-label">Club Cover Image</label>
-                                <input type="url" required minlength="3" maxlength="400" class="form-control" id="clubImageURL" aria-describedby="helpId" placeholder="Club Image URL">
+                                <input v-model="editable.coverImg" type="url" required minlength="3" maxlength="400" class="form-control" id="clubImageURL" aria-describedby="helpId" placeholder="Club Image URL">
                             </div>
                             <div class="mb-3">
                                 <label for="clubDescription" class="form-label">Club Description</label>
-                                <textarea type="text" maxlength="1000" class="form-control" id="clubDescription" aria-describedby="helpId" placeholder="Club Description"></textarea>
+                                <textarea v-model="editable.description" type="text" maxlength="1000" class="form-control" id="clubDescription" aria-describedby="helpId" placeholder="Club Description"></textarea>
                             </div>
                             <button class="ms-auto btn orange-btn">Create Club</button>
                         </form>
@@ -81,29 +81,67 @@
 <script>
 import { ref, computed } from 'vue';
 import { booksService } from '../services/BooksService'
+import { clubsService } from '../services/ClubsService'
 import { AppState } from '../AppState';
+import Pop from '../utils/Pop';
+import { logger } from '../utils/Logger';
 
 export default {
     setup() {
         
         const searchQuery = ref("")
+        const editable = ref({})
+        const booksToAdd = computed(() => AppState.booksToAdd)
         return {
             async searchBooks(){
-                booksService.searchBooks(searchQuery.value)
+                try {
+                    booksService.searchBooks(searchQuery.value)
+                } catch (error) {
+                    logger.log(error)
+                    Pop.error(error.message)
+                }
             },
             async selectBook(index){
-                booksService.selectBook(index)
+                try {
+                    booksService.selectBook(index)
+                } catch (error) {
+                    logger.log(error)
+                    Pop.error(error.message)
+                }
             },
             addBookToList(){
-                booksService.addBookToList()
+                try {
+                    booksService.addBookToList()
+                } catch (error) {
+                    logger.log(error)
+                    Pop.error(error.message)
+                }
             },
             removeBookFromList(index){
-                booksService.removeBookFromList(index)
+                try {
+                    booksService.removeBookFromList(index)
+                } catch (error) {
+                    logger.log(error)
+                    Pop.error(error.message)
+                }
+            },
+            async createClub() {
+                try {
+                    const club = await clubsService.createClub(editable.value)
+                    for (let i = 0; i < booksToAdd.value.length; i++) {
+                        const bookData = {...booksToAdd.value[i], author: booksToAdd.value[i].authors[0], clubId: club._id}
+                        booksService.createClubBook(bookData)
+                    }
+                } catch (error) {
+                    logger.log(error)
+                    Pop.error(error.message)
+                }
             },
             searchQuery,
+            editable,
             books : computed(() => AppState.books),
             selectedBook : computed(() => AppState.selectedBook),
-            booksToAdd: computed(() => AppState.booksToAdd)
+            booksToAdd
         }
     }
 }
