@@ -3,11 +3,15 @@ import { BadRequest, Forbidden } from "../utils/Errors.js"
 
 class ClubsService {
   async getClubs() {
-    const clubs = await dbContext.Clubs.find().populate('creator memberCount', 'name picture')
+    const clubs = await dbContext.Clubs.find()
+
+      .populate('creator', 'name picture')
+      .populate('memberCount')
     return clubs
   }
   async getClubById(clubId) {
-    const club = await dbContext.Clubs.findById(clubId).populate('creator memberCount', 'name picture')
+    const club = await dbContext.Clubs.findById(clubId)
+    club.populate('creator memberCount', 'name picture')
     if (!club) {
       throw new BadRequest(`There is no club with id of ${clubId}`)
     }
