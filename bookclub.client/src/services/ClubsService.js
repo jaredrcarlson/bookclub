@@ -18,6 +18,11 @@ class ClubsService {
 
     AppState.selectedClub = new Club(res.data)
   }
+
+  async createClub(clubData) {
+    const res = await api.post(`api/clubs`, clubData)
+    logger.log(`[CREATED CLUB]`, res.data)
+  }
 }
 
 export const clubsService = new ClubsService
