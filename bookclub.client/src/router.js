@@ -53,6 +53,11 @@ const routes = [
         component: loadPage('ClubAnnouncementPage'),
       },
       {
+        path: 'announcementdetails/:announcementId',
+        name: 'Announcement Details Page',
+        component: loadPage('AnnouncementDetailsPage'),
+      },
+      {
         path: 'clubdiscussion',
         name: 'Club Discussion Page',
         component: loadPage('ClubDiscussionPage'),
