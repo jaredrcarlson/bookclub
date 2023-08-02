@@ -26,6 +26,13 @@ const routes = [
     name: 'About Us',
     component: loadPage('AboutUsPage')
   },
+
+  // FIXME - /:bookclubId parameter needs to be added
+  {
+    path: '/bookclubdetails',
+    name: 'Book Club Details',
+    component: loadPage('BookClubDetailsPage')
+  },
   {
     path: '/account',
     name: 'Account',
