@@ -20,4 +20,6 @@ export const AppState = reactive({
 
   /** @type {import('./models/Book.js').Book} */
   selectedBook: null,
+
+  members: [],
 })

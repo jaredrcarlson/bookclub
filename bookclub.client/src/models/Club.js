@@ -7,5 +7,6 @@ export class Club {
     this.description = data.description
     this.createdAt = new Date(data.createdAt).toLocaleString()
     this.updatedAt = new Date(data.updatedAt).toLocaleString()
+    this.memberCount = data.memberCount
   }
 }
