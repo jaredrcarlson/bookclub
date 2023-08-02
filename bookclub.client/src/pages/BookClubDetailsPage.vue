@@ -1,13 +1,30 @@
 <template>
 <div class="container-fluid">
     <section class="row">
-      <div class="col-md-3 col-12">
+      <div class="col-md-3 col-12 d-flex flex-column">
         <div>
           <img class="img-fluid card-img" src="https://images.unsplash.com/photo-1454789548928-9efd52dc4031?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="card img">
         </div>
         <div class="dark-blue-bg rounded-bottom text-light fw-bold fs-4 text-center p-1">
           <p class="m-0">
             Sci-Fi Group
+          </p>
+        </div>
+        <div class="dark-blue-bg mt-3 rounded-top p-3 fs-5">
+          <p class="route-text" type="button">
+            <i class="mdi mdi-bookmark"></i> About us
+          </p>
+          <p class="route-text" type="button">
+            <i class="mdi mdi-flag-variant"></i> Announcements
+          </p>
+          <p class="route-text" type="button">
+            <i class="mdi mdi-format-list-bulleted"></i> Book List
+          </p>
+          <p class="route-text" type="button">
+            <i class="mdi mdi-forum"></i> Discussion Board
+          </p>
+          <p class="route-text" type="button">
+            <i class="mdi mdi-account-multiple"></i> Member List
           </p>
         </div>
       </div>
@@ -75,5 +92,13 @@ export default {
 .card-img{
   object-fit: cover;
   object-position: center;
+}
+
+.route-text{
+  color: #e9ecef;
+}
+
+.route-text:hover{
+  color: #FB5607;
 }
 </style>
