@@ -11,15 +11,17 @@
           </p>
         </div>
         <div class="dark-blue-bg mt-3 rounded-top p-3 fs-5">
-          <p class="route-text" type="button">
-            <i class="mdi mdi-bookmark"></i> About us
-          </p>
+          <router-link :to="{name:'Club List Page'}">
+            <p class="route-text" type="button">
+              <i class="mdi mdi-bookmark"></i> About us
+            </p>
+          </router-link>
           <p class="route-text" type="button">
             <i class="mdi mdi-flag-variant"></i> Announcements
           </p>
-          <p class="route-text" type="button">
-            <i class="mdi mdi-format-list-bulleted"></i> Book List
-          </p>
+            <p class="route-text" type="button">
+              <i class="mdi mdi-format-list-bulleted"></i> Book List
+            </p>
           <p class="route-text" type="button">
             <i class="mdi mdi-forum"></i> Discussion Board
           </p>
@@ -29,50 +31,9 @@
         </div>
       </div>
       <div class="col-md-9 col-12">
-        <div>
-          <p class="fs-1 fw-semibold mt-2">
-            Club's Booklist
-          </p>
-        </div>
-        <div class="table-responsive">
-          <table class="table table-hover">
-            <thead>
-              <tr>
-                <th scope="col" class="fw-light">Title</th>
-                <th scope="col" class="fw-light">Genre</th>
-                <th scope="col" class="fw-light">Progress</th>
-                <th scope="col" class="fw-light">Rating</th>
-              </tr>
-            </thead>
-            <tbody class="fw-semibold">
-              <!-- FIXME v-for all of the books in a list. Convert the table row into a card component. Add a router link on each row to go to that book's detail page. -->
-              <tr scope="row">
-                <td>
-                  <p class="d-flex flex-column">
-                    <span>
-                      Mistborn: The Final Empire
-                    </span>
-                    <span class="fw-normal">
-                      By Brandon Sanderson
-                    </span>
-                  </p>
-                </td>
-                <td>Fantasy</td>
-                <td>
-                  <p class="d-flex flex-column">
-                    <span>
-                      Completed
-                    </span>
-                    <span class="fw-light">
-                      completed 1/25/2010
-                    </span>
-                  </p>
-                </td>
-                <td>8/10</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <router-view>
+
+        </router-view>
       </div>
     </section>
   </div>
@@ -80,9 +41,28 @@
 
 
 <script>
+import { useRoute } from 'vue-router';
+import { clubsService } from '../services/ClubsService.js';
+import { watchEffect } from 'vue';
+
+
 export default {
   setup(){
-    return {}
+    const route = useRoute()
+
+    async function getClubById(){
+      const clubId = route.params.clubId
+
+      await clubsService.getClubById(clubId)
+    }
+
+    watchEffect(()=> {
+      getClubById(route.params.clubId)
+    })
+
+    return {
+      route,
+    }
   }
 }
 </script>
