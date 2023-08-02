@@ -18,6 +18,21 @@ class BooksService {
         AppState.selectedBook = AppState.books[index]
     }
 
+    //Function Adds the selected book in the app state to the BooksToAdd List. Does not send any requests, and not to be confused with adding a book to a booklist.
+    // @function
+    async addBookToList() {
+        AppState.booksToAdd.push(AppState.selectedBook)
+    }
+
+    //Function removes the selected book from the App State BooksToAdd list. When provided an index, removes that indexed item out of the BooksToAdd list.
+    // @function
+    async removeBookFromList(index = -1) {
+        if (index > -1) {
+            AppState.booksToAdd.splice(index, 1)
+            return
+        }
+        AppState.booksToAdd = AppState.booksToAdd.filter(book => book != AppState.selectedBook)
+    }
 }
 
 export const booksService = new BooksService()

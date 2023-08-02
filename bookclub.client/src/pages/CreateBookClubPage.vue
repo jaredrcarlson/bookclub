@@ -33,7 +33,8 @@
                         <p class="mb-0">Published {{selectedBook.publishedDate.toLocaleDateString()}}</p>
                         <!-- <p class="mb-0">Clubs that have read this book: 10</p>
                         <p class="mb-0">Clubs reading this book: 3</p> -->
-                        <button class="btn orange-btn ms-auto">Add To List</button>
+                        <button v-if="!booksToAdd.includes(selectedBook)" @click="addBookToList" class="btn orange-btn ms-auto">Add To List</button>
+                        <button v-else @click="removeBookFromList" class="btn orange-btn ms-auto">Remove From List</button>
                         </div>
                     </div>
                 </section>
@@ -46,10 +47,10 @@
                     <div class="col-md-5 col-12 px-4">
                         <h4 class="mb-2">Current Book List</h4>
                         <div class="list-section ghost-bg">
-                            <ul class="book-list">
-                                <li class="d-flex justify-content-between align-items-center">
-                                    <p>Really Long Novel by John Doe</p>
-                                    <i class="mdi mdi-trash-can-outline fs-3"></i>
+                            <ul v-if="booksToAdd.length > 0" class="book-list">
+                                <li v-for="(book, index) in booksToAdd" :key="book.gbid+book.title" class="d-flex justify-content-between align-items-center">
+                                    <p><span>{{ book.title }}  {{ book.subtitle}}</span> by  <span v-for="author in book.authors" :key="author">{{ author }}</span></p>
+                                    <i @click="removeBookFromList(index)" class="mdi mdi-trash-can-outline fs-3"></i>
                                 </li>
                             </ul>
                         </div>
@@ -79,7 +80,6 @@
 
 <script>
 import { ref, computed } from 'vue';
-import { googleBooksService } from '../services/GoogleBooksService'
 import { booksService } from '../services/BooksService'
 import { AppState } from '../AppState';
 
@@ -94,9 +94,16 @@ export default {
             async selectBook(index){
                 booksService.selectBook(index)
             },
+            addBookToList(){
+                booksService.addBookToList()
+            },
+            removeBookFromList(index){
+                booksService.removeBookFromList(index)
+            },
             searchQuery,
             books : computed(() => AppState.books),
-            selectedBook : computed(() => AppState.selectedBook)
+            selectedBook : computed(() => AppState.selectedBook),
+            booksToAdd: computed(() => AppState.booksToAdd)
         }
     }
 }
