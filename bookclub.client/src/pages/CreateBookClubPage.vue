@@ -56,7 +56,7 @@
                         </div>
                     </div>
                     <div class="col-md-7 col-12 py-4">
-                        <form @submit.prevent="" class="d-flex flex-column">
+                        <form @submit.prevent="createClub" class="d-flex flex-column">
                             <div class="mb-3">
                                 <label for="clubName" class="form-label">Club Name</label>
                                 <input v-model="editable.name" type="text" required minlength="2" maxlength="50" class="form-control" id="" aria-describedby="helpId" placeholder="Club Name">
@@ -91,6 +91,7 @@ export default {
         
         const searchQuery = ref("")
         const editable = ref({})
+        const booksToAdd = computed(() => AppState.booksToAdd)
         return {
             async searchBooks(){
                 try {
@@ -127,9 +128,10 @@ export default {
             async createClub() {
                 try {
                     const club = await clubsService.createClub(editable.value)
-                    // for (book in booksToAdd){
-    
-                    // }
+                    for (let i = 0; i < booksToAdd.value.length; i++) {
+                        const bookData = {...booksToAdd.value[i], author: booksToAdd.value[i].authors[0], clubId: club._id}
+                        booksService.createClubBook(bookData)
+                    }
                 } catch (error) {
                     logger.log(error)
                     Pop.error(error.message)
@@ -139,7 +141,7 @@ export default {
             editable,
             books : computed(() => AppState.books),
             selectedBook : computed(() => AppState.selectedBook),
-            booksToAdd: computed(() => AppState.booksToAdd)
+            booksToAdd
         }
     }
 }
