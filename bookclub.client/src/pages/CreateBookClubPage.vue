@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <section class="row">
+        <section class="row h-100">
             <div class="col-md-6 col-12">
                 <div class="px-5">
                     <form @submit.prevent="searchBooks">
@@ -16,7 +16,7 @@
                     </form>
                 </div>
             </div>
-            <div class="search-section col-md-6 col-12">
+            <div class="details-section col-md-6 col-12">
                 <section class="row h-100 py-5">
                     <div class="col-5">
                         <img class="img-fluid" src="https://books.google.com/books/publisher/content/images/frontcover/t_ZYYXZq4RgC?fife=w400-h600&source=gbs_api" alt="">
@@ -35,6 +35,41 @@
                         <p class="mb-0">Clubs reading this book: 3</p>
                         <button class="btn orange-btn ms-auto">Add To List</button>
                         </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-12 p-3 form-section text-white dark-blue-bg">
+                <section class="row">
+                    <div class="col-12 form-header flex-shrink-1">
+                        <h2>Create a Club</h2>
+                    </div>
+                    <div class="col-md-5 col-12 px-4">
+                        <h4 class="mb-2">Current Book List</h4>
+                        <div class="list-section ghost-bg">
+                            <ul class="book-list">
+                                <li class="d-flex justify-content-between align-items-center">
+                                    <p>Really Long Novel by John Doe</p>
+                                    <i class="mdi mdi-trash-can-outline fs-3"></i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-7 col-12 py-4">
+                        <form @submit.prevent="" class="d-flex flex-column">
+                            <div class="mb-3">
+                                <label for="clubName" class="form-label">Club Name</label>
+                                <input type="text" required minlength="2" maxlength="50" class="form-control" id="" aria-describedby="helpId" placeholder="Club Name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="clubImageURL" class="form-label">Club Cover Image</label>
+                                <input type="url" required minlength="3" maxlength="400" class="form-control" id="clubImageURL" aria-describedby="helpId" placeholder="Club Image URL">
+                            </div>
+                            <div class="mb-3">
+                                <label for="clubDescription" class="form-label">Club Description</label>
+                                <textarea type="text" maxlength="1000" class="form-control" id="clubDescription" aria-describedby="helpId" placeholder="Club Description"></textarea>
+                            </div>
+                            <button class="ms-auto btn orange-btn">Create Club</button>
+                        </form>
                     </div>
                 </section>
             </div>
@@ -67,8 +102,29 @@ export default {
     overflow-y: scroll;
 }
 
-.search-section {
+.details-section {
     height: 80dvh;
+}
+
+.form-section {
+    height: 75dvh;
+}
+
+.list-section {
+    height: 55dvh;
+    border-radius: 1.25rem;
+    padding: .75rem;
+}
+
+.book-list {
+    padding: 0;
+    list-style: none;
+    color: black;
+}
+
+textarea {
+    resize: none;
+    height: 25dvh;
 }
 
 </style>
