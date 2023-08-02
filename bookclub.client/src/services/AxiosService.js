@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import { baseURL } from '../env'
+import { GOOGLE_BOOKS_API_KEY } from '../../api_keys.js'
 import { logger } from '../utils/Logger.js'
 
 export const api = Axios.create({
@@ -8,6 +9,16 @@ export const api = Axios.create({
 })
 api.interceptors.request.use(config => config, handleAxiosError)
 api.interceptors.response.use(response => response, handleAxiosError)
+
+export const gbApi = Axios.create({
+  baseURL: 'https://www.googleapis.com/books/v1',
+  timeout: 8000,
+  params: {
+    key: GOOGLE_BOOKS_API_KEY
+  }
+})
+gbApi.interceptors.request.use(config => config, handleAxiosError)
+gbApi.interceptors.response.use(response => response, handleAxiosError)
 
 function handleAxiosError(error) {
   if (error.response) {

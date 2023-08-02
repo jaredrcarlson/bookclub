@@ -32,5 +32,12 @@ class ClubsService {
 
     return updatedClub
   }
+  async removeClub(clubId, userId) {
+    const clubToDelete = await this.getClubById(clubId)
+    if (clubToDelete.creatorId.toString() != userId) {
+      throw new Forbidden("You aren't the creator of this club, you can NOT delete it.")
+    }
+    await clubToDelete.remove()
+  }
 }
 export const clubsService = new ClubsService()
