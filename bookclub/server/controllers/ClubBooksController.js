@@ -7,11 +7,11 @@ export class ClubBooksController extends BaseController {
     super('api/clubBooks')
     this.router
       .get('', this.getClubBooks)
-      .get(':clubBookId', this.getClubBookById)
+      .get('/:clubBookId', this.getClubBookById)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createClubBook)
-      .put(':clubBookId', this.updateClubBook)
-      .delete(':clubBookId', this.deleteClubBook)
+      .put('/:clubBookId', this.updateClubBook)
+      .delete('/:clubBookId', this.deleteClubBook)
   }
 
   async createClubBook(req, res, next) {
