@@ -44,14 +44,14 @@
       <div class="col-12 mt-5">
         <section class="row">
 
-          <div class="col-6">
-            <p class="fs-6 fw-medium">
+          <div class="col-md-6 col-12">
+            <p class="fs-6 fw-medium ms-3">
               Bookclub List
             </p>
           </div>
 
-          <div class="col-6 d-flex justify-content-end">
-            <div class="me-3">
+          <div class="col-md-6 col-12 d-flex justify-content-end">
+            <div class="mx-3">
               <button class="btn orange-btn">
                 Create a Club
               </button>
@@ -59,9 +59,9 @@
 
             <div>
               <form>
-                <div class="d-flex">
+                <div class="d-flex me-3">
                   <label for="search"></label>
-                  <input type="text" name="search" id="search" placeholder="Search books..." class="form-control">
+                  <input type="text" name="search" id="search" placeholder="Search clubs..." class="form-control">
                   <button class="btn orange-btn" title="Submit" type="submit">
                     <i class="mdi mdi-magnify"></i>
                   </button>
@@ -79,24 +79,50 @@
     <section class="row ghost-bg">
 
       <!-- FIXME Turn this section into a v-for over a club card component -->
-      <div class="col-md-6 col-12 mb-3">
-        <div>
-          <img class="img-fluid card-img" src="https://images.unsplash.com/photo-1553434320-e9f5757140b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=627&q=80" alt="card img">
+      <div class="col-md-6 col-12 my-3">
+        <div class="mx-3">
+          <div>
+            <img class="img-fluid card-img" src="https://images.unsplash.com/photo-1553434320-e9f5757140b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=627&q=80" alt="card img">
+          </div>
+          <div class="dark-blue-bg p-3 text-light">
+            <p class="fs-5">
+              The Fantasy Book Club
+            </p>
+            <p>
+              Exploring new worlds and new lands! Always looking for new members!
+            </p>
+            <div class="d-flex justify-content-between">
+              <span>
+                25 club members
+              </span>
+              <button class="btn orange-btn">
+                Join Club
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="dark-blue-bg p-3 text-light">
-          <p class="fs-5">
-            The Fantasy Book Club
-          </p>
-          <p>
-            Exploring new worlds and new lands! Always looking for new members!
-          </p>
-          <div class="d-flex justify-content-between">
-            <span>
-              25 club members
-            </span>
-            <button class="btn orange-btn">
-              Join Club
-            </button>
+      </div>
+
+      <div class="col-md-6 col-12 my-3">
+        <div class="mx-3">
+          <div>
+            <img class="img-fluid card-img" src="https://images.unsplash.com/photo-1454789548928-9efd52dc4031?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="card img">
+          </div>
+          <div class="dark-blue-bg p-3 text-light">
+            <p class="fs-5">
+              Sci-Fi Group
+            </p>
+            <p>
+              Looking to the stars and beyond!
+            </p>
+            <div class="d-flex justify-content-between">
+              <span>
+                47 club members
+              </span>
+              <button class="btn orange-btn">
+                Join Club
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -122,7 +148,7 @@ export default {
 }
 
 .card-img{
-  height:50vh;
+  height:20vh;
   object-fit: cover;
   object-position: center;
 }
