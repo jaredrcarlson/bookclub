@@ -12,8 +12,8 @@ class ClubBooksService {
     return newClubBook
   }
 
-  async getClubBooks(clubId) {
-    const clubBooks = await dbContext.ClubBooks.find({ clubId })
+  async getClubBooks() {
+    const clubBooks = await dbContext.ClubBooks.find()
     return clubBooks
   }
 
@@ -23,6 +23,11 @@ class ClubBooksService {
       throw new BadRequest(`Club Book with ID: ${clubBookId} does not exist.`)
     }
     return clubBook
+  }
+
+  async getClubBooksByClubId(clubId) {
+    const clubBooks = await dbContext.ClubBooks.find({ clubId })
+    return clubBooks
   }
 
   async updateClubBook(userId, clubBookId, clubBookData) {
