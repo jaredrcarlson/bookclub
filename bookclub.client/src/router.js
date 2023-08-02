@@ -19,7 +19,7 @@ const routes = [
   {
     path: '/createbookclub',
     name: 'Create Book Club',
-    component: loadPage('CreateBookClub')
+    component: loadPage('CreateBookClubPage')
   },
   {
     path: '/books',
