@@ -49,9 +49,14 @@
 
 
 <script>
+import { computed } from 'vue';
+import { AppState } from '../AppState.js';
+
 export default {
   setup(){
-    return {}
+    return {
+      selectedClub: computed(() => AppState.selectedClub)
+    }
   }
 }
 </script>
