@@ -7,7 +7,7 @@
                         <div class="my-3">
                             <label for="searchBooks" class="fs-3 form-label">Add books to your club!</label>
                             <div class="d-flex me-5">
-                                <input v-model="searchQuery" type="text" id="searchBooks" minlength="2" maxlength="50" class="form-control" placeholder="Search books...">
+                                <input v-model="searchQuery" required type="text" id="searchBooks" minlength="2" maxlength="50" class="form-control" placeholder="Search books...">
                                 <button class="btn orange-btn">
                                     <i class="mdi mdi-magnify"></i>
                                 </button>
@@ -79,7 +79,7 @@
 
 <script>
 import { ref } from 'vue';
-import { logger } from '../utils/Logger';
+import { googleBooksService } from '../services/GoogleBooksService'
 
 export default {
     setup() {
@@ -87,7 +87,7 @@ export default {
         const searchQuery = ref("")
         return {
             async searchBooks(){
-                logger.log(searchQuery.value)
+                googleBooksService.search(searchQuery.value)
             },
             searchQuery
         }
@@ -114,6 +114,7 @@ export default {
     height: 55dvh;
     border-radius: 1.25rem;
     padding: .75rem;
+    overflow-y: scroll;
 }
 
 .book-list {
