@@ -1,17 +1,19 @@
 import { googleBooksService } from "../services/GoogleBooksService"
+import { logger } from "../utils/Logger"
 
 // Represents a single book taken from the Google Books API
-// @class
+// @constructor
 // @param {data} - Data taken in is an individual volume received from a Google Books API Search
 export class Book {
     constructor(data) {
         this.gbid = data.id
-        this.title = data.title
-        this.subtitle = data.subtitle
-        this.publishedDate = new Date(data.publishedDate)
-        this.description = data.description
-        this.authors = data.authors
-        this.imgUrlLarge = googleBooksService.createImageURL(data.id)
-        this.imgUrl = data.imagelinks.thumbnail
+        this.title = data.volumeInfo.title
+        this.subtitle = data.volumeInfo.subtitle ? data.volumeInfo.subtitle : ""
+        this.publishedDate = new Date(data.volumeInfo.publishedDate)
+        this.description = data.volumeInfo.description ? data.volumeInfo.description : ""
+        this.authors = data.volumeInfo.authors
+        this.pageCount = data.volumeInfo.pageCount
+        this.imgUrlLarge = data.volumeInfo.imageLinks ? googleBooksService.createImageURL(data.id) : `https://placehold.co/400x600?text=${this.title} ${this.subtitle}`
+        this.imgUrl = data.volumeInfo.imageLinks ? data.volumeInfo.imageLinks.thumbnail : `https://placehold.co/128x192?text=${this.title}`
     }
 }
