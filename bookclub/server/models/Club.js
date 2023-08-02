@@ -16,7 +16,7 @@ ClubSchema.virtual('creator', {
 })
 ClubSchema.virtual('memberCount', {
   localField: '_id',
-  foreignField: 'memberId',
+  foreignField: 'clubId',
   count: true,
   ref: 'ClubMember'
 })
