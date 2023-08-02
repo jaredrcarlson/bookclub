@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid" v-if="selectedClub">
+  <div class="container-fluid">
     <section class="row">
       <div class="col-12">
         <h1 class="m-3">
@@ -13,7 +13,7 @@
       </div>
     </section>
   </div>
-  <div class="container-fluid" v-else>
+  <div class="container-fluid">
     <section class="row">
       <div class="col-12">
         <h2 class="text-light m-4">
@@ -30,6 +30,7 @@ import { computed, watchEffect } from 'vue';
 import { AppState } from '../AppState.js';
 import { useRoute } from 'vue-router';
 import { membersService } from '../services/MembersService.js';
+import Pop from '../utils/Pop.js';
 
 export default {
   setup(){
@@ -47,11 +48,17 @@ export default {
       selectedClub: computed(() => AppState.selectedClub),
 
       async becomeMember(){
-        const clubId = route.params.clubId
+        try {
+          const clubId = route.params.clubId
 
-        const memberData = {clubId: clubId}
+          const memberData = {clubId: clubId}
 
-        await membersService.becomeMember(memberData)
+          await membersService.becomeMember(memberData)
+
+          Pop.success('You are now a member of this club!')
+        } catch (error) {
+          Pop.error(error.message)
+        }
       }
     }
   }

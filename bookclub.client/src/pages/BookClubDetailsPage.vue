@@ -68,6 +68,7 @@ import { clubsService } from '../services/ClubsService.js';
 import { membersService } from '../services/MembersService.js';
 import { computed, watchEffect } from 'vue';
 import { AppState } from '../AppState.js';
+import Pop from '../utils/Pop.js';
 
 
 export default {
@@ -75,15 +76,23 @@ export default {
     const route = useRoute()
 
     async function getClubById(){
-      const clubId = route.params.clubId
-
-      await clubsService.getClubById(clubId)
+      try {
+        const clubId = route.params.clubId
+  
+        await clubsService.getClubById(clubId)
+      } catch (error) {
+        Pop.error(error.message)
+      }
     }
 
     async function getMembersByClubId(){
-      const clubId = route.params.clubId
-
-      await membersService.getMembersByClubId(clubId)
+      try {
+        const clubId = route.params.clubId
+  
+        await membersService.getMembersByClubId(clubId)
+      } catch (error) {
+        Pop.error(error.message)
+      }
     }
 
     watchEffect(()=> {
