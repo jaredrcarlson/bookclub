@@ -65,6 +65,7 @@
 <script>
 import { useRoute } from 'vue-router';
 import { clubsService } from '../services/ClubsService.js';
+import { membersService } from '../services/MembersService.js';
 import { computed, watchEffect } from 'vue';
 import { AppState } from '../AppState.js';
 
@@ -79,8 +80,15 @@ export default {
       await clubsService.getClubById(clubId)
     }
 
+    async function getMembersByClubId(){
+      const clubId = route.params.clubId
+
+      await membersService.getMembersByClubId(clubId)
+    }
+
     watchEffect(()=> {
       getClubById(route.params.clubId)
+      getMembersByClubId()
     })
 
     return {
