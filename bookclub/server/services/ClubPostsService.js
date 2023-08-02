@@ -17,7 +17,7 @@ class ClubPostsService {
       throw new BadRequest(`There is no such post with the id of ${postId}`)
     }
     if (originalPost.creatorId.toString() != userId) {
-      throw new Forbidden(`You aren't the creator of the post titled ${originalPost.title}!`)
+      throw new Forbidden(`You aren't the creator of the post titled "${originalPost.title}"!`)
     }
     originalPost.body = postData.body || originalPost.body
     originalPost.title = postData.title || originalPost.title
@@ -26,6 +26,16 @@ class ClubPostsService {
     return updatedPost
   }
 
+  async removePost(postId, userId) {
+    const postToRemove = await dbContext.Posts.findById(postId)
+    if (!postToRemove) {
+      throw new BadRequest(`There is no such post with the id of ${postId}`)
+    }
+    if (postToRemove.creatorId.toString() != userId) {
+      throw new Forbidden("You can't delete a post you did not make!")
+    }
+    await postToRemove.remove()
+  }
 
 }
 
