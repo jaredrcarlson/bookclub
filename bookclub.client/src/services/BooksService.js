@@ -1,5 +1,7 @@
 import { AppState } from "../AppState"
 import { Book } from "../models/Book"
+import { logger } from "../utils/Logger"
+import { api } from "./AxiosService"
 import { googleBooksService } from "./GoogleBooksService"
 
 class BooksService {
@@ -36,9 +38,10 @@ class BooksService {
 
     //Function sends a request to create a ClubBook to server
     // @function
-    // @param {bookBody} - 
+    // @param {bookBody} - book data passed in order to create ClubBook
     async createClubBook() {
-
+        const res = api.post(`api/clubBooks`)
+        logger.log(`[CREATED CLUB BOOK]`, res.data)
     }
 }
 
