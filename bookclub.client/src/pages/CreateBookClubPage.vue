@@ -1,8 +1,8 @@
 <template>
     <div class="container-fluid">
         <section class="row h-100">
-            <div class="col-md-6 col-12">
-                <div class="px-5">
+            <div class="col-md-7 col-12">
+                <div class="px-2">
                     <form @submit.prevent="searchBooks">
                         <div class="my-3">
                             <label for="searchBooks" class="fs-3 form-label">Add books to your club!</label>
@@ -14,25 +14,25 @@
                             </div>
                         </div>
                     </form>
+                    <div v-if="books.length > 0" class="search-list d-flex flex-wrap">
+                        <img @click="selectBook(index)" v-for="(book, index) in books" class="m-1" :key="book.gbid" :src="book.imgUrl" alt="">
+                    </div>
                 </div>
             </div>
-            <div class="details-section col-md-6 col-12">
-                <section class="row h-100 py-5">
+            <div class="details-section col-md-5 col-12">
+                <section v-if="selectedBook" class="row h-100 py-5">
                     <div class="col-5">
-                        <img class="img-fluid" src="https://books.google.com/books/publisher/content/images/frontcover/t_ZYYXZq4RgC?fife=w400-h600&source=gbs_api" alt="">
+                        <img class="img-fluid" :src="selectedBook.imgUrlLarge" alt="">
                     </div>
                     <div class="col-7 h-100">
                         <div class="d-flex flex-column h-100">
-                            <h2>Mistborn: The Final Empire</h2>
-                            <h3>By Brandon Sanderson</h3>
-                            <p class="book-description">Now with over 10 million copies sold, The Mistborn Series has the thrills of a heist story, the twistiness of political intrigue, and the epic scale of a landmark fantasy saga. For a thousand years the ash fell and no flowers bloomed. For a thousand years the Skaa slaved in misery and lived in fear. For a thousand years the Lord Ruler, the "Sliver of Infinity," reigned with absolute power and ultimate terror, divinely invincible. Then, when hope was so long lost that not even its memory remained, a terribly scarred, heart-broken half-Skaa rediscovered it in the depths of the Lord Ruler's most hellish prison. Kelsier "snapped" and found in himself the powers of a Mistborn. A brilliant thief and natural leader, he turned his talents to the ultimate caper, with the Lord Ruler himself as the mark. Kelsier recruited the underworld's elite, the smartest and most trustworthy allomancers, each of whom shares one of his many powers, and all of whom relish a high-stakes challenge. 
-                                Only then does he reveal his ultimate dream, not just the greatest heist in history, but the downfall of the divine despot. But even with the best criminal crew ever assembled, Kel's plan looks more like the ultimate long shot, until luck brings a ragged girl named Vin into his life. Like him, she's a half-Skaa orphan, but she's lived a much harsher life. Vin has learned to expect betrayal from everyone she meets, and gotten it. She will have to learn to trust, if Kel is to help her master powers of which she never dreamed. This saga dares to ask a simple question: What if the hero of prophecy fails? Other Tor books by Brandon Sanderson The Cosmere The Stormlight Archive The Way of Kings Words of Radiance Edgedancer (Novella) Oathbringer The Mistborn trilogy Mistborn: The Final Empire The Well of Ascension The Hero 
-                                of Ages Mistborn: The Wax and Wayne series Alloy of Law Shadows of Self Bands of Mourning Collection Arcanum Unbounded Other Cosmere novels Elantris Warbreaker The Alcatraz vs. the Evil Librarians series Alcatraz vs. the Evil Librarians The Scrivener's Bones The Knights of Crystallia The Shattered Lens The Dark Talent The Rithmatist series The Rithmatist Other books by Brandon Sanderson The Reckoners Steelheart Firefight Calamity At the Publisher's request, this title is being sold without Digital Rights Management Software (DRM) applied.
-                            </p>
-                            <p class="mb-0">686 Pages</p>
-                        <p class="mb-0">Published 2010-04-01</p>
-                        <p class="mb-0">Clubs that have read this book: 10</p>
-                        <p class="mb-0">Clubs reading this book: 3</p>
+                            <h2>{{selectedBook.title}} {{ selectedBook.subtitle }}</h2>
+                            <h3>By <span v-for="author in selectedBook.authors" :key="author">{{ author }}</span></h3>
+                            <p class="book-description">{{ selectedBook.description }}</p>
+                            <p class="mb-0">{{ selectedBook.pageCount }} Pages</p>
+                        <p class="mb-0">Published {{selectedBook.publishedDate.toLocaleDateString()}}</p>
+                        <!-- <p class="mb-0">Clubs that have read this book: 10</p>
+                        <p class="mb-0">Clubs reading this book: 3</p> -->
                         <button class="btn orange-btn ms-auto">Add To List</button>
                         </div>
                     </div>
@@ -78,8 +78,10 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { googleBooksService } from '../services/GoogleBooksService'
+import { booksService } from '../services/BooksService'
+import { AppState } from '../AppState';
 
 export default {
     setup() {
@@ -87,9 +89,14 @@ export default {
         const searchQuery = ref("")
         return {
             async searchBooks(){
-                googleBooksService.search(searchQuery.value)
+                booksService.searchBooks(searchQuery.value)
             },
-            searchQuery
+            async selectBook(index){
+                booksService.selectBook(index)
+            },
+            searchQuery,
+            books : computed(() => AppState.books),
+            selectedBook : computed(() => AppState.selectedBook)
         }
     }
 }
@@ -121,6 +128,11 @@ export default {
     padding: 0;
     list-style: none;
     color: black;
+}
+
+.search-list {
+    height: 55dvh;
+    overflow-y: scroll;
 }
 
 textarea {

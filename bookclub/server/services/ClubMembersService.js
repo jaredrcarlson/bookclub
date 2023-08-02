@@ -1,5 +1,6 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
+import { clubsService } from "./ClubsService.js"
 
 class ClubMembersService {
   async getClubMembers(clubId) {
@@ -7,7 +8,12 @@ class ClubMembersService {
     return clubMembers
   }
   async becomeMember(memberData) {
+    const club = await clubsService.getClubById(memberData.clubId)
+    if (!club) {
+      throw new Forbidden("There is no such club.")
+    }
     const member = await dbContext.ClubMembers.create(memberData)
+    await member.populate('creator', 'name picture')
     return member
   }
   async removeMember(memberId, userId) {

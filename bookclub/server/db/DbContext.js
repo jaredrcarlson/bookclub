@@ -11,7 +11,7 @@ class DbContext {
   Values = mongoose.model('Value', ValueSchema);
   Account = mongoose.model('Account', AccountSchema);
   Clubs = mongoose.model('Club', ClubSchema);
-  ClubMembers = mongoose.model('Member', ClubMemberSchema);
+  ClubMembers = mongoose.model('ClubMember', ClubMemberSchema);
   Posts = mongoose.model('Post', ClubPostSchema);
   ClubBooks = mongoose.model('ClubBook', ClubBookSchema);
   UserBooks = mongoose.model('UserBook', UserBookSchema);
