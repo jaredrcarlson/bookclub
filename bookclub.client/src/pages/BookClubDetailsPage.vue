@@ -1,13 +1,13 @@
 <template>
-<div class="container-fluid">
+<div class="container-fluid" v-if="selectedClub">
     <section class="row">
-      <div class="col-md-3 col-12 d-flex flex-column">
+      <div class="col-md-4 col-12 d-flex flex-column">
         <div>
-          <img class="img-fluid card-img" src="https://images.unsplash.com/photo-1454789548928-9efd52dc4031?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" alt="card img">
+          <img class="img-fluid card-img" :src=selectedClub.coverImg alt="card img">
         </div>
         <div class="dark-blue-bg rounded-bottom text-light fw-bold fs-4 text-center p-1">
           <p class="m-0">
-            Sci-Fi Group
+            {{ selectedClub.name }}
           </p>
         </div>
         <div class="dark-blue-bg mt-3 rounded-top p-3 fs-5">
@@ -43,10 +43,19 @@
 
         </div>
       </div>
-      <div class="col-md-9 col-12">
+      <div class="col-md-8 col-12">
         <router-view>
 
         </router-view>
+      </div>
+    </section>
+  </div>
+  <div class="container-fluid" v-else>
+    <section class="row">
+      <div class="col-12">
+        <h2 class="text-light m-4">
+          Loading... <i class="mdi mdi-loading mdi-spin"></i>
+        </h2>
       </div>
     </section>
   </div>
@@ -56,7 +65,9 @@
 <script>
 import { useRoute } from 'vue-router';
 import { clubsService } from '../services/ClubsService.js';
-import { watchEffect } from 'vue';
+import { membersService } from '../services/MembersService.js';
+import { computed, watchEffect } from 'vue';
+import { AppState } from '../AppState.js';
 
 
 export default {
@@ -69,12 +80,20 @@ export default {
       await clubsService.getClubById(clubId)
     }
 
+    async function getMembersByClubId(){
+      const clubId = route.params.clubId
+
+      await membersService.getMembersByClubId(clubId)
+    }
+
     watchEffect(()=> {
       getClubById(route.params.clubId)
+      getMembersByClubId()
     })
 
     return {
       route,
+      selectedClub: computed(() => AppState.selectedClub)
     }
   }
 }
@@ -83,6 +102,7 @@ export default {
 
 <style lang="scss" scoped>
 .card-img{
+  height: 30vh;
   object-fit: cover;
   object-position: center;
 }

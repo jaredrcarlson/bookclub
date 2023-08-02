@@ -14,7 +14,7 @@
         <!-- FIXME - Add memberCount to model and to the following element -->
         <div class="d-flex justify-content-between">
           <span>
-            25 club members
+            <span>{{ clubProp.memberCount }}</span> club members
           </span>
           <button class="btn orange-btn">
             Join Club
@@ -34,7 +34,8 @@ export default {
     clubProp: {type: Club, required: true}
   },
   setup(){
-    return {}
+    return {
+    }
   }
 }
 </script>
