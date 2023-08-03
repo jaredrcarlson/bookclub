@@ -31,10 +31,10 @@
 <!-- //comments section -->
     <section v-for="clubPost in clubPosts" :key="clubPost?.id" class="row bg-white elevation-5 rounded">
       
-    
+      <router-link :to="{name: 'Discussion Details Page', params:{discussionId: 'discussion'}}">
     <section title="Go to this Post and its Comments" class="row align-items-center p-2 text-dark selectable ">
             <div class="col-md-2 col-12">
-              <img class="img-fluid avatar-img" :src="clubPost.creator.picture" :title="clubPost.creator.name" :alt="clubPost.creator.name">
+              <img class="img-fluid avatar-img" :src="clubPost?.creator?.picture" :title="clubPost.creator.name" :alt="clubPost.creator.name">
             </div>
             <div class="col-md-8 col-12">
               <p class="fw-bold fs-3">
@@ -59,7 +59,7 @@
               </p>
             </div>
           </section>
-
+          </router-link>
         </section>
   </div>
 </template>
@@ -106,7 +106,7 @@ export default {
         } catch (error) {
           Pop.error(error.message)
         }
-      }
+      },
     }
   }
 }

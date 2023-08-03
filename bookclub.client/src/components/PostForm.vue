@@ -16,18 +16,24 @@
 
 
 <script>
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import Pop from "../utils/Pop.js";
 import { clubPostsService } from "../services/ClubPostsService.js";
 import { Modal } from "bootstrap";
 import { router } from "../router.js";
 import { logger } from "../utils/Logger.js";
 import { useRoute } from "vue-router";
+import { AppState } from "../AppState.js";
 
 export default {
   setup(){
     const editable = ref({})
     const route = useRoute()
+
+
+    // watchEffect(() => {
+    //   editable.value = {...AppState.activeClubPost}
+    // })
     return {
       editable,
       handleSubmit(){
@@ -43,7 +49,7 @@ export default {
           const postData = editable.value
           postData.clubId = route.params.clubId
           // logger.log('I clicked submit')
-          const clubPost = await clubPostsService.createPost(postData)
+          await clubPostsService.createPost(postData)
           editable.value = {}
           Modal.getOrCreateInstance('#exampleModal').hide()
           // router.push({EVENTUALLY THIS WILL BRING UP POST W/DETAILS})
@@ -55,8 +61,8 @@ export default {
         try {
           const postData = editable.value
           postData.clubId = route.params.clubId
-          const editedPost = await clubPostsService.editPost(postData)
-          // editable.value = {}
+          await clubPostsService.editPost(postData)
+          editable.value = {}
           Modal.getOrCreateInstance('#exampleModal').hide()
         } catch (error) {
           Pop.error(error.message)

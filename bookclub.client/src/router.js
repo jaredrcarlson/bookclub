@@ -71,6 +71,11 @@ const routes = [
         component: loadPage('ClubDiscussionPage'),
       },
       {
+        path: 'discussiondetails/:discussionId',
+        name: 'Discussion Details Page',
+        component: loadPage('DiscussionDetailsPage'),
+      },
+      {
         path: 'clubmembers',
         name: 'Club Member Page',
         component: loadPage('ClubMemberPage'),
