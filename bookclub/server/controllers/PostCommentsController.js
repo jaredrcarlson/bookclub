@@ -34,7 +34,7 @@ export class PostCommentsController extends BaseController {
 
       const editedComment = await postCommentsService.editComment(commentData, commentId, userId)
 
-      res.send(editedComment)
+      return res.send(editedComment)
     } catch (error) {
       next(error)
     }
@@ -48,7 +48,7 @@ export class PostCommentsController extends BaseController {
 
       await postCommentsService.removeComment(commentId, userId)
 
-      res.send('You comment was deleted!')
+      return res.send('You comment was deleted!')
     } catch (error) {
       next(error)
     }
