@@ -11,10 +11,11 @@ class ClubsService {
   }
   async getClubById(clubId) {
     const club = await dbContext.Clubs.findById(clubId)
-    club.populate('creator memberCount', 'name picture')
     if (!club) {
       throw new BadRequest(`There is no club with id of ${clubId}`)
     }
+    await club.populate('creator', 'name picture')
+    await club.populate('memberCount')
     return club
   }
 

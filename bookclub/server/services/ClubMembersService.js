@@ -9,9 +9,6 @@ class ClubMembersService {
   }
   async becomeMember(memberData) {
     const club = await clubsService.getClubById(memberData.clubId)
-    if (!club) {
-      throw new Forbidden("There is no such club.")
-    }
     // if (memberData.creatorId == this.getClubMembers(club.creatorId)) {
     //   throw new BadRequest("You're already a member, silly")
     // } **TODO - see if we can get control over a member adding themselves only once

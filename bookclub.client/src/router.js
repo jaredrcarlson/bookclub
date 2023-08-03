@@ -26,6 +26,16 @@ const routes = [
     component: loadPage('BooksPage')
   },
   {
+    path: '/booksearch',
+    name: 'Book Search',
+    component: loadPage('BookSearchPage')
+  },
+  {
+    path: '/bookdetails/:gbId',
+    name: 'Book Details',
+    component: loadPage('BookDetailsPage')
+  },
+  {
     path: '/aboutus',
     name: 'About Us',
     component: loadPage('AboutUsPage')
