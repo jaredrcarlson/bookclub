@@ -21,6 +21,9 @@ export const AppState = reactive({
   /** @type {import('./models/Book.js').Book} */
   selectedBook: null,
 
+  /** @type {import('./models/Book.js').Book} */
+  detailsPageBook: null,
+
   members: [],
 
   /** @type {import('./models/ClubPost.js').ClubPost[]} */
