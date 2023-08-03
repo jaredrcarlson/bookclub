@@ -26,6 +26,7 @@ import { useRoute } from 'vue-router';
 import { membersService } from '../services/MembersService.js';
 import Pop from '../utils/Pop.js';
 import { logger } from '../utils/Logger.js';
+import { router } from '../router.js';
 
 export default {
   setup(){
@@ -71,6 +72,12 @@ export default {
 
       async leaveClub(){
         try {
+          const removeConfirm = await Pop.confirm('Are you sure you want to leave this club?')
+
+          if(!removeConfirm){
+            return
+          }
+
           loadingRef.value = true
 
           const memberToRemove = AppState.members.find(m => m.creatorId == AppState.account.id)
@@ -84,6 +91,8 @@ export default {
           Pop.success('You have left this club.')
 
           loadingRef.value = false
+
+          router.push({name: 'Home'})
         } catch (error) {
           Pop.error(error.message)
         }
