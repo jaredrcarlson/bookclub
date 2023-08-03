@@ -13,15 +13,6 @@
       </div>
     </section>
   </div>
-  <div class="container-fluid">
-    <section class="row">
-      <div class="col-12">
-        <h2 class="text-light m-4">
-          Loading... <i class="mdi mdi-loading mdi-spin"></i>
-        </h2>
-      </div>
-    </section>
-  </div>
 </template>
 
 
@@ -36,6 +27,7 @@ export default {
   setup(){
     const route = useRoute()
 
+
     watchEffect(() => {
       getClubMembers(route.params.clubabout)
     })
@@ -49,6 +41,7 @@ export default {
 
       async becomeMember(){
         try {
+
           const clubId = route.params.clubId
 
           const memberData = {clubId: clubId}
