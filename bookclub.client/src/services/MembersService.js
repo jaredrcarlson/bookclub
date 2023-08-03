@@ -16,6 +16,14 @@ class MembersService {
     const res = await api.post('api/members', memberData)
 
     logger.log('[BECAME A MEMBER]', res.data)
+
+    AppState.members.push(new Member(res.data))
+  }
+
+  async leaveClub(memberId) {
+    const res = await api.delete(`api/members/${memberId}`)
+
+    logger.log('[DELETED CLUB MEMBER]', res.data)
   }
 }
 

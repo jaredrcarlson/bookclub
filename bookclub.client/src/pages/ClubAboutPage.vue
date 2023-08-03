@@ -5,9 +5,12 @@
         <h1 class="m-3">
           About the Club
         </h1>
-        <div>
-          <button class="btn orange-btn" @click="becomeMember()">
-            Join Club
+        <div v-if="loadingRef == false">
+          <button class="btn orange-btn" @click="leaveClub()" title="Leave Club" v-if="inClub">
+            <i class="mdi mdi-account-minus"></i> Leave Club
+          </button>
+          <button class="btn orange-btn" @click="becomeMember()" title="Join Club" v-else>
+            <i class="mdi mdi-account-plus"></i> Join Club
           </button>
         </div>
       </div>
@@ -17,7 +20,7 @@
 
 
 <script>
-import { computed, watchEffect } from 'vue';
+import { computed, ref} from 'vue';
 import { AppState } from '../AppState.js';
 import { useRoute } from 'vue-router';
 import { membersService } from '../services/MembersService.js';
@@ -27,20 +30,20 @@ export default {
   setup(){
     const route = useRoute()
 
-
-    watchEffect(() => {
-      getClubMembers(route.params.clubabout)
-    })
-
-    async function getClubMembers(){
-
-    }
+    let loadingRef = ref(false)
 
     return {
       selectedClub: computed(() => AppState.selectedClub),
+      inClub: computed(() => {
+        return AppState.members.find(m => m.creatorId == AppState.account.id)
+      }),
+      loadingRef,
+      route,
 
       async becomeMember(){
         try {
+
+          loadingRef.value = true
 
           const clubId = route.params.clubId
 
@@ -49,6 +52,26 @@ export default {
           await membersService.becomeMember(memberData)
 
           Pop.success('You are now a member of this club!')
+
+          loadingRef.value = false
+        } catch (error) {
+          Pop.error(error.message)
+        }
+      },
+
+      async leaveClub(){
+        try {
+          loadingRef.value = true
+
+          const memberToRemove = AppState.members.find(m => m.creatorId == AppState.account.id)
+
+          const memberId = memberToRemove.creatorId
+
+          await membersService.leaveClub(memberId)
+
+          Pop.success('You have left this club.')
+
+          loadingRef.value = false
         } catch (error) {
           Pop.error(error.message)
         }

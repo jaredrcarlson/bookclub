@@ -12,6 +12,9 @@ export const AppState = reactive({
   /** @type {import('./models/Club.js').Club | null} */
   selectedClub: null,
 
+  /** @type {import('./models/Club.js').Club[]} */
+  myClubs: [],
+
   /** @type {import('./models/Book.js').Book[]} */
   books: [],
 
@@ -24,10 +27,13 @@ export const AppState = reactive({
   /** @type {import('./models/Book.js').Book} */
   detailsPageBook: null,
 
+  /** @type {import('./models/Member.js').Member[]} */
   members: [],
 
   /** @type {import('./models/ClubPost.js').ClubPost[]} */
   clubPosts: [],
+
   /** @type {import('./models/ClubPost.js').ClubPost} */
-  activeClubPost: null
+  activeClubPost: null,
+
 })
