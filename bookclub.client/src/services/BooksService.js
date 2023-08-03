@@ -39,9 +39,10 @@ class BooksService {
     //Function sends a request to create a ClubBook to server
     // @function
     // @param {bookBody} - book data passed in order to create ClubBook
-    async createClubBook() {
-        const res = api.post(`api/clubBooks`)
+    async createClubBook(bookData) {
+        const res = api.post(`api/clubBooks`, bookData)
         logger.log(`[CREATED CLUB BOOK]`, res.data)
+        return res.data
     }
 }
 

@@ -22,6 +22,7 @@ class ClubsService {
   async createClub(clubData) {
     const res = await api.post(`api/clubs`, clubData)
     logger.log(`[CREATED CLUB]`, res.data)
+    return res.data
   }
 }
 
