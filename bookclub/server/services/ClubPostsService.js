@@ -7,6 +7,13 @@ class ClubPostsService {
       .populate('creator', 'name picture')
     return clubPosts
   }
+
+  async getClubPostAnnouncements(clubId) {
+    const clubPosts = await dbContext.Posts.find({ clubId, isAnnouncement: true })
+      .populate('creator', 'name picture')
+    return clubPosts
+  }
+
   async createPost(postData) {
     const newPost = await dbContext.Posts.create(postData)
     await newPost.populate('creator commentCount', 'name picture')
