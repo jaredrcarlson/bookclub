@@ -12,6 +12,7 @@ class ClubPostsService {
   }
 
   async createPost(postData) {
+    // logger.log('Is it making it to the srvice?')
     const res = await api.post('api/posts', postData)
     logger.log('[DID I CREATE A POST?]', res.data)
     const clubPost = new ClubPost(res.data)
@@ -24,7 +25,8 @@ class ClubPostsService {
     logger.log('[DID I EDIT A POST?]', res.data)
     const clubPostIndex = AppState.clubPosts.findIndex(post => post.id == postData.id)
     const updatedPost = new ClubPost(res.data)
-    AppState.
+    AppState.activeClubPost = updatedPost
+    AppState.clubPosts.splice(clubPostIndex, 1, updatedPost)
   }
 
   async deletePost(postId) {
