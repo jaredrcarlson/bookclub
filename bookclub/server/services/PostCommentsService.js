@@ -1,6 +1,9 @@
 import { dbContext } from "../db/DbContext.js"
 
 class PostCommentsService {
+  removeComment(commentId, userId) {
+    throw new Error("Method not implemented.")
+  }
   async getPostComments(postId) {
     const postComments = await dbContext.PostComments.find({ postId: postId })
       .populate('creator', 'name picture')

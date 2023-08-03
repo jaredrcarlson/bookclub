@@ -10,7 +10,7 @@ export class PostCommentsController extends BaseController {
 
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createComment)
-
+      .delete('/:commentId', this.removeComment)
   }
   async createComment(req, res, next) {
     try {
@@ -18,6 +18,18 @@ export class PostCommentsController extends BaseController {
       commentData.creatorId = req.userInfo.id
       const comment = await postCommentsService.createComment(commentData)
       return res.send(comment)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async removeComment(req, res, next) {
+    try {
+      const commentId = req.body
+
+      const userId = req.userInfo.id
+
+      await postCommentsService.removeComment(commentId, userId)
     } catch (error) {
       next(error)
     }
