@@ -1,5 +1,6 @@
 import { AppState } from "../AppState.js"
 import { Club } from "../models/Club.js"
+import { Member } from "../models/Member.js"
 import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
 import { api } from "./AxiosService.js"
@@ -25,7 +26,7 @@ class ClubsService {
       const res = await api.get('account/clubs')
 
       logger.log('[GOT ACCOUNT CLUBS]', res.data)
-      AppState.myClubs = res.data.map(pojo => new Club(pojo))
+      AppState.myMemberships = res.data.map(pojo => new Member(pojo))
     } catch (error) {
       Pop.error(error.message)
     }
