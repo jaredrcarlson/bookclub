@@ -5,7 +5,7 @@
         <h1 class="m-3">
           About the Club
         </h1>
-        <div v-if="loadingRef == false">
+        <div v-if="loadingRef == false && account.id && Array.isArray(myMemberships)">
           <button class="btn orange-btn" @click="leaveClub()" title="Leave Club" v-if="inClub">
             <i class="mdi mdi-account-minus"></i> Leave Club
           </button>
@@ -20,11 +20,13 @@
 
 
 <script>
-import { computed, ref} from 'vue';
+import { computed, ref, watchEffect} from 'vue';
 import { AppState } from '../AppState.js';
 import { useRoute } from 'vue-router';
 import { membersService } from '../services/MembersService.js';
 import Pop from '../utils/Pop.js';
+import { logger } from '../utils/Logger.js';
+import { router } from '../router.js';
 
 export default {
   setup(){
@@ -32,11 +34,20 @@ export default {
 
     let loadingRef = ref(false)
 
+    watchEffect(() =>{
+
+    })
+
     return {
       selectedClub: computed(() => AppState.selectedClub),
       inClub: computed(() => {
-        return AppState.members.find(m => m.creatorId == AppState.account.id)
+        const foundClub = AppState.myMemberships.find(c => c.clubId == route.params.clubId)
+        logger.log(foundClub)
+        logger.log(AppState.myMemberships)
+        return foundClub
       }),
+      account: computed(() => AppState.account),
+      myMemberships: computed(() => AppState.myMemberships),
       loadingRef,
       route,
 
@@ -51,7 +62,7 @@ export default {
 
           await membersService.becomeMember(memberData)
 
-          Pop.success('You are now a member of this club!')
+          Pop.success('You are now a member of this club.')
 
           loadingRef.value = false
         } catch (error) {
@@ -61,17 +72,27 @@ export default {
 
       async leaveClub(){
         try {
+          const removeConfirm = await Pop.confirm('Are you sure you want to leave this club?')
+
+          if(!removeConfirm){
+            return
+          }
+
           loadingRef.value = true
 
           const memberToRemove = AppState.members.find(m => m.creatorId == AppState.account.id)
 
-          const memberId = memberToRemove.creatorId
+          const memberId = memberToRemove.id
+
+          logger.log(memberId)
 
           await membersService.leaveClub(memberId)
 
           Pop.success('You have left this club.')
 
           loadingRef.value = false
+
+          router.push({name: 'Home'})
         } catch (error) {
           Pop.error(error.message)
         }
