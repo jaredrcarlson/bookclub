@@ -9,6 +9,7 @@ import { UserBookSchema } from '../models/UserBook.js';
 import { PostCommentSchema } from "../models/PostComment.js";
 import { BookCommentSchema } from '../models/BookComment.js';
 import { BookReviewSchema } from '../models/BookReview';
+import { BookRatingSchema } from '../models/BookRating';
 
 class DbContext {
   Values = mongoose.model('Value', ValueSchema);
@@ -21,6 +22,7 @@ class DbContext {
   PostComments = mongoose.model('PostComment', PostCommentSchema);
   BookComments = mongoose.model('BookComment', BookCommentSchema);
   BookReviews = mongoose.model('BookReview', BookReviewSchema);
+  BookRatings = mongoose.model('BookRating', BookRatingSchema)
 }
 
 export const dbContext = new DbContext()

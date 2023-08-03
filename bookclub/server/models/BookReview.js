@@ -14,3 +14,5 @@ BookReviewSchema.virtual('creator', {
     justOne: true,
     ref: 'Account'
 })
+
+BookReviewSchema.index({ creatorId: 1, gbId: 1 }, { unique: true })
