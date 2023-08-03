@@ -13,6 +13,23 @@ class PostCommentsService {
     return newComment
   }
 
+  async editComment(commentData, commentId, userId) {
+    const originalComment = await dbContext.PostComments.findById(commentId)
+
+    if (!originalComment) {
+      throw new BadRequest('There is no comment with this id.')
+    }
+    if (originalComment.creatorId != userId) {
+      throw new Forbidden('You are not the creator of this comment. You may not edit a comment that you have not created.')
+    }
+
+    originalComment.body = commentData.body || originalComment.body
+
+    let editedComment = await originalComment.save()
+
+    return editedComment
+  }
+
   async removeComment(commentId, userId) {
     const commentToRemove = await dbContext.PostComments.findById(commentId)
 

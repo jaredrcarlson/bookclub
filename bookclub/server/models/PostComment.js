@@ -8,8 +8,8 @@ export const PostCommentSchema = new Schema({
 )
 
 PostCommentSchema.virtual('creator', {
-  localField: '_id',
-  foreignField: 'creatorId',
+  localField: 'creatorId',
+  foreignField: '_id',
   justOne: true,
   ref: 'Account'
 })
