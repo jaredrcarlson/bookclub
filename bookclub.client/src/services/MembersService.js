@@ -11,6 +11,12 @@ class MembersService {
 
     AppState.members = res.data.map(pojo => new Member(pojo))
   }
+
+  async becomeMember(memberData) {
+    const res = await api.post('api/members', memberData)
+
+    logger.log('[BECAME A MEMBER]', res.data)
+  }
 }
 
 export const membersService = new MembersService

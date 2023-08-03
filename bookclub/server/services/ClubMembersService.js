@@ -12,9 +12,9 @@ class ClubMembersService {
     if (!club) {
       throw new Forbidden("There is no such club.")
     }
-    if (memberData.creatorId == this.getClubMembers(club.id)) {
-      throw new BadRequest("You're already a member, silly")
-    }
+    // if (memberData.creatorId == this.getClubMembers(club.creatorId)) {
+    //   throw new BadRequest("You're already a member, silly")
+    // } **TODO - see if we can get control over a member adding themselves only once
     const member = await dbContext.ClubMembers.create(memberData)
     await member.populate('profile', 'name picture')
     return member

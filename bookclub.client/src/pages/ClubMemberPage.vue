@@ -2,9 +2,14 @@
   <div class="container-fluid">
     <section class="row">
       <div class="col-12">
-        <h1 class="m-3">
-          Club Members
-        </h1>
+        <p class="m-3 fs-1">
+          Member List
+        </p>
+      </div>
+    </section>
+    <section class="row justify-content-around">
+      <div class="col-md-5 col-12 dark-blue-bg my-2 rounded" v-for="member in members" :key="member.id">
+        <MemberCard :memberProp="member" />
       </div>
     </section>
   </div>
@@ -12,10 +17,17 @@
 
 
 <script>
+import { computed } from 'vue';
+import { AppState } from '../AppState.js';
+import MemberCard from '../components/MemberCard.vue';
+
 export default {
-  setup(){
-    return {}
-  }
+    setup() {
+        return {
+            members: computed(() => AppState.members)
+        };
+    },
+    components: { MemberCard }
 }
 </script>
 

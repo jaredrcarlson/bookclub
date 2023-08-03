@@ -1,5 +1,6 @@
 export class Member {
   constructor(data) {
+    this.id = data.id
     this.clubId = data.clubId
     this.createdAt = data.createdAt
     this.creatorId = data.creatorId

@@ -8,8 +8,8 @@ class UserBooksService {
     return newUserBook
   }
 
-  async getUserBooks(userId) {
-    const userBooks = await dbContext.UserBooks.find({ userId })
+  async getUserBooks() {
+    const userBooks = await dbContext.UserBooks.find()
     return userBooks
   }
 
@@ -19,6 +19,11 @@ class UserBooksService {
       throw new BadRequest(`Book with ID: ${userBookId} does not exist.`)
     }
     return userBook
+  }
+
+  async getUserBooksByUserId(userId) {
+    const userBooks = await dbContext.UserBooks.find({ userId })
+    return userBooks
   }
 
   async updateUserBook(userId, userBookId, userBookData) {
