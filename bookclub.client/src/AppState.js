@@ -22,4 +22,7 @@ export const AppState = reactive({
   selectedBook: null,
 
   members: [],
+
+  /** @type {import('./models/ClubPost.js').ClubPost[]} */
+  clubPosts: []
 })
