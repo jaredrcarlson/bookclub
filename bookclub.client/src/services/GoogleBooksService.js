@@ -14,14 +14,14 @@ class GoogleBooksService {
       }
     })
     const volumes = res.data.items
-    console.log('GOOGLE BOOKS SEARCH RESULTS: ', volumes)
+    // console.log('GOOGLE BOOKS SEARCH RESULTS: ', volumes)
     return volumes
   }
 
   async getVolumeById(volumeId) {
     const res = await gbApi.get(`volumes/${volumeId}`)
     const volume = res.data
-    console.log('GOOGLE BOOKS VOLUME BY ID:', volume)
+    // console.log('GOOGLE BOOKS VOLUME BY ID:', volume)
     return volume
   }
 }
