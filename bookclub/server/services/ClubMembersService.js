@@ -3,6 +3,10 @@ import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { clubsService } from "./ClubsService.js"
 
 class ClubMembersService {
+  async getUserClubs(userId) {
+    const clubs = await dbContext.ClubMembers.find({ creatorId: userId }).populate('club')
+    return clubs
+  }
   async getClubMembers(clubId) {
     const clubMembers = await dbContext.ClubMembers.find({ clubId: clubId }).populate('profile', 'name picture')
     return clubMembers

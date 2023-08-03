@@ -13,3 +13,10 @@ ClubMemberSchema.virtual('profile', {
   justOne: true,
   ref: 'Account'
 })
+
+ClubMemberSchema.virtual('club', {
+  localField: 'clubId',
+  foreignField: '_id',
+  justOne: true,
+  ref: 'Club'
+})
