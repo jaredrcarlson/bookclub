@@ -11,6 +11,22 @@ class ClubPostsService {
     AppState.clubPosts = clubPosts
   }
 
+  async createPost(postData) {
+    const res = await api.post('api/posts', postData)
+    logger.log('[DID I CREATE A POST?]', res.data)
+    const clubPost = new ClubPost(res.data)
+    AppState.clubPosts.unshift(postData)
+    return clubPost
+  }
+
+  async editPost(postData) {
+    const res = await api.put(`api/posts/${postData.id}`, postData)
+    logger.log('[DID I EDIT A POST?]', res.data)
+    const clubPostIndex = AppState.clubPosts.findIndex(post => post.id == postData.id)
+    const updatedPost = new ClubPost(res.data)
+    AppState.
+  }
+
   async deletePost(postId) {
     const res = await api.delete(`api/posts/${postId}`)
     logger.log('here is the res data for deleting...', res.data)
