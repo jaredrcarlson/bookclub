@@ -15,6 +15,7 @@ export class ClubsController extends BaseController {
       .get('/:clubId', this.getClubById)
       .get('/:clubId/members', this.getClubMembers)
       .get('/:clubId/posts', this.getClubPosts)
+      .get('/:clubId/announcements', this.getClubAnnouncements)
       .get('/:clubId/clubBooks', this.getClubBooks)
 
       .use(Auth0Provider.getAuthorizedUserInfo)
@@ -22,7 +23,18 @@ export class ClubsController extends BaseController {
       .put('/:clubId', this.updateClub)
       .delete('/:clubId', this.removeClub)
   }
+  async getClubAnnouncements(req, res, next) {
+    try {
+      const clubId = req.params.clubId
+      const announcements = await clubPostsService.getClubPostAnnouncements(clubId)
+      return res.send(announcements)
+    } catch (error) {
+      next(error)
+    }
+  }
+
   /** This function gets/reads ALL of the clubs */
+  // FIXME Gets all clubs, could become future problem if returning a very large number of clubs
   async getClubs(req, res, next) {
     try {
       const clubs = await clubsService.getClubs()
@@ -75,6 +87,8 @@ export class ClubsController extends BaseController {
       const clubData = req.body
       clubData.creatorId = req.userInfo.id
       const club = await clubsService.createClub(clubData)
+      // const memberBody = {clubId: club.id, }
+      const clubMember = await clubMembersService.becomeMember()
       return res.send(club)
     } catch (error) {
       next(error)

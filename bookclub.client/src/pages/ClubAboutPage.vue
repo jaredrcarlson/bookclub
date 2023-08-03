@@ -2,17 +2,45 @@
   <div class="container-fluid">
     <section class="row">
       <div class="col-12">
-        <h1 class="m-3">
-          About the Club
-        </h1>
-        <div v-if="loadingRef == false && account.id && Array.isArray(myMemberships)">
-          <button class="btn orange-btn" @click="leaveClub()" title="Leave Club" v-if="inClub">
-            <i class="mdi mdi-account-minus"></i> Leave Club
-          </button>
-          <button class="btn orange-btn" @click="becomeMember()" title="Join Club" v-else>
-            <i class="mdi mdi-account-plus"></i> Join Club
-          </button>
+        <div class="d-flex justify-content-between align-items-center">
+          <p class="m-3 fs-1">
+            About the Club
+          </p>
+          <div v-if="loadingRef == false && account.id && Array.isArray(myMemberships)">
+            <button class="btn orange-btn" @click="leaveClub()" title="Leave Club" v-if="inClub">
+              <i class="mdi mdi-account-minus"></i> Leave Club
+            </button>
+            <button class="btn orange-btn" @click="becomeMember()" title="Join Club" v-else>
+              <i class="mdi mdi-account-plus"></i> Join Club
+            </button>
+          </div>
         </div>
+      </div>
+    </section>
+    <section class="row">
+      <div class="col-12 dark-blue-bg rounded elevation-3 text-light">
+        <div class="p-3">
+          <p>
+            <span class="fw-semibold">Description: </span>{{ selectedClub.description }}
+          </p>
+          <p>
+            <span class="fw-semibold">Members: </span>{{ selectedClub.memberCount }}
+          </p>
+          <!-- FIXME Go into the clubs book list and find the one whose status is set to currently reading -->
+          <p>
+            <span class="fw-semibold">Currently Reading: </span>
+          </p>
+          <p class="fw-light">
+            <span class="pe-5">
+              Created at: {{ selectedClub.createdAt }}
+            </span>
+            <!-- FIXME Make sure that when the club is edited, its updatedAt is updated with the current applicable time -->
+            <span>
+              Updated at: {{ selectedClub.updatedAt }}
+            </span>
+          </p>
+        </div>
+
       </div>
     </section>
   </div>

@@ -4,7 +4,6 @@ import { BadRequest, Forbidden } from "../utils/Errors.js"
 class ClubsService {
   async getClubs() {
     const clubs = await dbContext.Clubs.find()
-
       .populate('creator', 'name picture')
       .populate('memberCount')
     return clubs
@@ -21,7 +20,8 @@ class ClubsService {
 
   async createClub(clubData) {
     const club = await dbContext.Clubs.create(clubData)
-    await club.populate('creator memberCount', 'name picture')
+    await club.populate('creator', 'name picture')
+    await club.populate('memberCount')
     return club
   }
   async updateClub(clubId, userId, clubData) {
