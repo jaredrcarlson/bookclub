@@ -12,7 +12,7 @@ class ClubPostsService {
   }
 
   async createPost(postData) {
-    // logger.log('Is it making it to the srvice?')
+    // logger.log('Is it making it to the service?')
     const res = await api.post('api/posts', postData)
     logger.log('[DID I CREATE A POST?]', res.data)
     const clubPost = new ClubPost(res.data)
@@ -23,17 +23,17 @@ class ClubPostsService {
   async editPost(postData) {
     const res = await api.put(`api/posts/${postData.id}`, postData)
     logger.log('[DID I EDIT A POST?]', res.data)
+    const post = new ClubPost(res.data)
     const clubPostIndex = AppState.clubPosts.findIndex(post => post.id == postData.id)
     const updatedPost = new ClubPost(res.data)
-    AppState.activeClubPost = updatedPost
     AppState.clubPosts.splice(clubPostIndex, 1, updatedPost)
   }
 
   async deletePost(postId) {
     const res = await api.delete(`api/posts/${postId}`)
-    logger.log('here is the res data for deleting...', res.data)
+    // logger.log('here is the res data for deleting...', res.data)
     AppState.clubPosts = AppState.clubPosts.filter(clubPost => clubPost.id != postId)
-    logger.log('did it delete my post?')
+    // logger.log('did it delete my post?')
   }
 }
 
