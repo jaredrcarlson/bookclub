@@ -1,4 +1,4 @@
-import mongoose, { mongo } from 'mongoose'
+import mongoose from 'mongoose'
 import { AccountSchema } from '../models/Account'
 import { ValueSchema } from '../models/Value'
 import { ClubSchema } from "../models/Club.js";
@@ -16,7 +16,6 @@ class DbContext {
   Posts = mongoose.model('Post', ClubPostSchema);
   ClubBooks = mongoose.model('ClubBook', ClubBookSchema);
   UserBooks = mongoose.model('UserBook', UserBookSchema);
-
   PostComments = mongoose.model('PostComment', PostCommentSchema)
 }
 
