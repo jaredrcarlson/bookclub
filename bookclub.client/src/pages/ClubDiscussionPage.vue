@@ -3,15 +3,36 @@
     <section class="row">
       <div class="col-12">
         <h1 class="m-3">
-          Club Discussions
+          Club Discussions <span class="ps-5"><button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn orange-btn">Make Post</button></span>
         </h1>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Make a Post...</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <PostForm/>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+        <!-- End Modal -->
       </div>
     </section>
 <!-- //comments section -->
     <section v-for="clubPost in clubPosts" :key="clubPost?.id" class="row bg-white elevation-5 rounded">
       
     
-    <section class="row align-items-center p-2 text-dark  ">
+    <section title="Go to this Post and its Comments" class="row align-items-center p-2 text-dark selectable ">
             <div class="col-md-2 col-12">
               <img class="img-fluid avatar-img" :src="clubPost.creator.picture" :title="clubPost.creator.name" :alt="clubPost.creator.name">
             </div>
@@ -19,9 +40,9 @@
               <p class="fw-bold fs-3">
                 {{clubPost.title}}
               </p>
-              <p class="fw-bold fs-5">
+              <!-- <p class="fw-bold fs-5">
                 {{clubPost.body}}
-              </p>
+              </p> -->
               <p>
                 <span class="pe-4">{{clubPost.creator.name}}</span><span>posted {{clubPost.createdAt}}</span>
               </p>
@@ -33,7 +54,7 @@
               <p v-if="clubPost.creatorId == account.id" @click="deletePost(clubPost.id)" class="fs-5 text-danger selectable">
                 <i title="Delete My Post" class="mdi mdi-delete"></i>
               </p>
-              <p v-if="clubPost.creatorId == account.id" @click="editPost(clubPost.id)" class="fs-5 text-warning selectable">
+              <p v-if="clubPost.creatorId == account.id" data-bs-toggle="modal" data-bs-target="#exampleModal"  class="fs-5 text-warning selectable">
                 <i title="Edit My Post" class="p-2 mdi mdi-pencil"></i>
               </p>
             </div>
@@ -54,7 +75,6 @@ import { logger } from "../utils/Logger.js";
 
 export default {
   setup(){
-    const editable = ref({})
     const route = useRoute()
 
     async function getClubPosts(){
@@ -72,6 +92,8 @@ export default {
       selectedClub: computed(() => AppState.selectedClub),
       clubPosts: computed(() => AppState.clubPosts),
       account: computed(() => AppState.account),
+
+
 
       async deletePost(postId){
         try {
