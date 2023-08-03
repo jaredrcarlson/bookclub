@@ -2,6 +2,8 @@ import { Auth0Provider } from '@bcwdev/auth0provider'
 import { accountService } from '../services/AccountService'
 import BaseController from '../utils/BaseController'
 import { userBooksService } from '../services/UserBooksService.js'
+import { clubsService } from '../services/ClubsService'
+import { clubMembersService } from '../services/ClubMembersService'
 
 export class AccountController extends BaseController {
   constructor() {
@@ -10,8 +12,10 @@ export class AccountController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .put('', this.editUserAccount)
       .get('', this.getUserAccount)
-      .get('', this.getUserBooks)
+      .get('/books', this.getUserBooks)
+      .get('/clubs', this.getUserClubs)
   }
+
 
   async getUserAccount(req, res, next) {
     try {
@@ -27,6 +31,16 @@ export class AccountController extends BaseController {
       const userId = req.userInfo.id
       const userBooks = await userBooksService.getUserBooksByUserId(userId)
       return res.send(userBooks)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getUserClubs(req, res, next) {
+    try {
+      const userId = req.userInfo.id
+      const userClubs = await clubMembersService.getUserClubs(userId)
+      return res.send(userClubs)
     } catch (error) {
       next(error)
     }
