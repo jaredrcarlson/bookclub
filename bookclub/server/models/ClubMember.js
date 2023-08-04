@@ -7,6 +7,8 @@ export const ClubMemberSchema = new Schema({
 }, { timestamps: true, toJSON: { virtuals: true } }
 )
 
+ClubMemberSchema.index({ clubId: 1, creatorId: 1 }, { unique: true })
+
 ClubMemberSchema.virtual('profile', {
   localField: 'creatorId',
   foreignField: '_id',

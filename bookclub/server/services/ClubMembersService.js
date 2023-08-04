@@ -1,6 +1,5 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
-import { clubsService } from "./ClubsService.js"
 
 class ClubMembersService {
   async getUserClubs(userId) {
@@ -12,10 +11,6 @@ class ClubMembersService {
     return clubMembers
   }
   async becomeMember(memberData) {
-    const club = await clubsService.getClubById(memberData.clubId)
-    // if (memberData.creatorId == this.getClubMembers(club.creatorId)) {
-    //   throw new BadRequest("You're already a member, silly")
-    // } **TODO - see if we can get control over a member adding themselves only once
     const member = await dbContext.ClubMembers.create(memberData)
     await member.populate('profile', 'name picture')
     return member
@@ -29,6 +24,7 @@ class ClubMembersService {
       throw new Forbidden('You can not delete a member other than yourself!')
     }
     await memberToDelete.remove()
+    return memberToDelete
   }
 
 }

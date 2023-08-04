@@ -46,9 +46,9 @@ export class PostCommentsController extends BaseController {
 
       const userId = req.userInfo.id
 
-      await postCommentsService.removeComment(commentId, userId)
+      const comment = await postCommentsService.removeComment(commentId, userId)
 
-      return res.send('You comment was deleted!')
+      return res.send(comment)
     } catch (error) {
       next(error)
     }

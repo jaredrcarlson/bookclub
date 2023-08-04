@@ -60,7 +60,7 @@ export class UserBooksController extends BaseController {
     try {
       const userId = req.userInfo.id
       const userBookId = req.params.userBookId
-      const result = await userBooksService.updateUserBook(userId, userBookId)
+      const result = await userBooksService.deleteUserBook(userId, userBookId)
       return res.send(result)
     } catch (error) {
       next(error)

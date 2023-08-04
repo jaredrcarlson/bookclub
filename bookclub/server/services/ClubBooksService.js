@@ -26,7 +26,7 @@ class ClubBooksService {
   }
 
   async getClubBooksByGbId(gbId) {
-    const clubBooks = await dbContext.ClubBooks.find({ gbId })
+    const clubBooks = await dbContext.ClubBooks.find({ gbId }).populate('club')
     return clubBooks
   }
 
@@ -58,7 +58,7 @@ class ClubBooksService {
       throw new Forbidden('This Club Book can only be removed by the Club Creator')
     }
     await clubBook.remove()
-    return `Club Book with ID: ${clubBookId} removed successfully.`
+    return clubBook
   }
 }
 

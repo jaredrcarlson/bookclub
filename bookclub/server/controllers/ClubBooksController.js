@@ -1,7 +1,6 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import BaseController from "../utils/BaseController.js";
 import { clubBooksService } from "../services/ClubBooksService.js";
-import { logger } from "../utils/Logger.js";
 
 export class ClubBooksController extends BaseController {
   constructor() {
@@ -73,7 +72,7 @@ export class ClubBooksController extends BaseController {
     try {
       const userId = req.userInfo.id
       const clubBookId = req.params.clubBookId
-      const result = await clubBooksService.updateClubBook(userId, clubBookId)
+      const result = await clubBooksService.deleteClubBook(userId, clubBookId)
       return res.send(result)
     } catch (error) {
       next(error)

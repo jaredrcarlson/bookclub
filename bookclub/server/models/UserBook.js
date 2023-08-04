@@ -8,3 +8,5 @@ export const UserBookSchema = new Schema({
   author: { type: String, required: true },
   status: { type: String, enum: ['planned', 'reading', 'finished'], required: true, default: 'planned' }
 }, { timestamps: true, toJSON: { virtuals: true } })
+
+UserBookSchema.index({ creatorId: 1, gbId: 1 }, { unique: true })
