@@ -9,7 +9,7 @@
           <div class="col-7 h-100">
             <div class="d-flex flex-column h-100">
               <div class="fs-2 fw-bold">{{book.title}} {{ book.subtitle }}</div>
-              <div class="fs-5">By <span v-for="author in book.authors" :key="author">{{ author }}</span></div>
+              <div class="fs-5">By <span>{{ book.authors.join(', ') }}</span></div>
               <div class="mt-2 d-flex justify-content-between">
                 <div>
                   <div class="text-center fw-bold me-1">
