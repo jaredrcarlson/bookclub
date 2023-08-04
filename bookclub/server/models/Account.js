@@ -4,11 +4,11 @@ const Schema = mongoose.Schema
 export const AccountSchema = new Schema(
   {
     subs: [{ type: String, unique: true }],
-    email: { type: String, lowercase: true, unique: true },
-    name: { type: String, required: true },
+    email: { type: String, lowercase: true, unique: true, maxlength: 100, minlength: 1 },
+    name: { type: String, required: true, maxlength: 100, minlength: 1 },
     picture: { type: String },
     // NOTE If you wish to add additional properties do so here
-    coverImg: { type: String }
+    coverImg: { type: String, maxlength: 700, minlength: 1 }
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )
