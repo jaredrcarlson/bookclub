@@ -11,6 +11,13 @@
           <div class="my-2">
             <button type="submit" class="btn orange-btn">Submit</button>
           </div>
+          <!-- <div class="form-check">
+            put conditional if person making post is a club creator or admin, then have this show....?
+            <input class="form-check-input" type="checkbox" value="" id="">
+            <label class="form-check-label" for="">
+              Make this Post an Announcement
+            </label>
+          </div> -->
         </form>
 </template>
 
@@ -26,7 +33,10 @@ import { useRoute } from "vue-router";
 import { AppState } from "../AppState.js";
 
 export default {
-  setup(){
+  props: { 
+    isAnnouncement: { type: Boolean, required: true }
+  },
+  setup(props){
     const editable = ref({})
     const route = useRoute()
 
@@ -47,6 +57,9 @@ export default {
       async createPost(){
         try {
           const postData = editable.value
+          if(props.isAnnouncement){
+            postData.isAnnouncement = true
+          }
           postData.clubId = route.params.clubId
           // logger.log('I clicked submit')
           await clubPostsService.createPost(postData)

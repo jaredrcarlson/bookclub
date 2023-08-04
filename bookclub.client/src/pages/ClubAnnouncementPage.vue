@@ -6,6 +6,11 @@
           Announcements
         </p>
       </div>
+      <div class="col-12">
+        <p class="m-3 fs-1">
+          <PostForm :isAnnouncement="true"/>
+        </p>
+      </div>
     </section>
     <section class="row">
       <!-- FIXME Make this into a v-for that pulls up all announcements with their title, creator, createdAt, and commentCount Put into a component. -->
@@ -37,10 +42,14 @@
 
 
 <script>
+import PostCard from "../components/PostCard.vue";
+import PostForm from "../components/PostForm.vue";
+
 export default {
-  setup(){
-    return {}
-  }
+    setup() {
+        return {};
+    },
+    components: { PostCard, PostForm }
 }
 </script>
 

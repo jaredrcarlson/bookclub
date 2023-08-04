@@ -29,7 +29,7 @@
     </ul>
   </div>
   <p class="fs-5 ">
-    <i title="See Comments on this Post" class="mdi mdi-message-reply"></i> <span>10</span>
+    <i title="See Comments on this Post" class="mdi mdi-message-reply"></i> <span>1</span>
   </p>
             </div>
           </section>

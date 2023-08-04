@@ -56,12 +56,12 @@
     <div class="row">
       <div class="col-12">
         <div class="dark-blue-bg p-2">
-          <div v-if="selectedTab == 'planned'" class="bg-dark">
-            <div v-if="!clubsPlanned.length">
-              <div class="p-2">There are no clubs planning to read this book.</div>
+          <div v-if="selectedTab == 'reading'" class="bg-dark">
+            <div v-if="!clubsReading.length">
+              <div class="p-2">There are no clubs currently reading this book.</div>
             </div>
-            <div v-else class="row">
-              <div v-for="club in clubsPlanned" :key="club.id" class="col-4">
+            <div class="row">
+              <div v-for="club in clubsReading" :key="club.id" class="col-4">
                 <div class="card m-2">
                   <div v-for="(value, key, index) in club" :key="index" class="px-2">
                     <small><span class="fw-bold">{{ key }}: </span>{{ value }}</small>
@@ -70,12 +70,12 @@
               </div>
             </div>
           </div>
-          <div v-else-if="selectedTab == 'reading'" class="bg-dark">
-            <div v-if="!clubsReading.length">
-              <div class="p-2">There are no clubs currently reading this book.</div>
+          <div v-else-if="selectedTab == 'planned'" class="bg-dark">
+            <div v-if="!clubsPlanned.length">
+              <div class="p-2">There are no clubs planning to read this book.</div>
             </div>
-            <div class="row">
-              <div v-for="club in clubsReading" :key="club.id" class="col-4">
+            <div v-else class="row">
+              <div v-for="club in clubsPlanned" :key="club.id" class="col-4">
                 <div class="card m-2">
                   <div v-for="(value, key, index) in club" :key="index" class="px-2">
                     <small><span class="fw-bold">{{ key }}: </span>{{ value }}</small>

@@ -26,11 +26,16 @@ class ClubPostsService {
   }
 
   async createPost(postData) {
-    // logger.log('Is it making it to the service?')
     const res = await api.post('api/posts', postData)
+    // logger.log('Is it making it to the service?')
     logger.log('[DID I CREATE A POST?]', res.data)
     const clubPost = new ClubPost(res.data)
-    AppState.clubPosts.unshift(postData)
+
+    if (postData.isAnnouncement == true) {
+      AppState.clubAnnouncements.unshift(postData)
+    } else {
+      AppState.clubPosts.unshift(postData)
+    }
     return clubPost
   }
 

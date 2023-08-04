@@ -8,6 +8,9 @@ export class ClubPost {
     this.createdAt = new Date(data.createdAt).toLocaleDateString()
     this.updatedAt = new Date(data.updatedAt).toLocaleDateString()
     this.creator = data.creator
+    this.isAnnouncement = data.isAnnouncement
+    this.commentCount = data.commentCount
+    this.membership = data.membership
   }
 }
 

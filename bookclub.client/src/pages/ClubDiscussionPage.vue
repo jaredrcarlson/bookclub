@@ -16,7 +16,7 @@
       </div>
       <div class="modal-body">
 
-        <PostForm/>
+        <PostForm :isAnnouncement="false"/>
 
       </div>
       <div class="modal-footer">
@@ -46,6 +46,7 @@ import Pop from "../utils/Pop.js";
 import { clubPostsService } from "../services/ClubPostsService.js"
 import { logger } from "../utils/Logger.js";
 import PostCard from "../components/PostCard.vue";
+import PostForm from "../components/PostForm.vue";
 
 export default {
     setup() {
@@ -82,7 +83,7 @@ export default {
             // },
         };
     },
-    components: { PostCard }
+    components: { PostCard, PostForm }
 }
 </script>
 
