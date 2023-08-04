@@ -37,7 +37,8 @@ export class ClubsController extends BaseController {
   // FIXME Gets all clubs, could become future problem if returning a very large number of clubs
   async getClubs(req, res, next) {
     try {
-      const clubs = await clubsService.getClubs()
+      const page = req.query.page || 0
+      const clubs = await clubsService.getClubs(page)
       return res.send(clubs)
     } catch (error) {
       next(error)
@@ -111,7 +112,7 @@ export class ClubsController extends BaseController {
       const clubId = req.params.clubId
       const userId = req.userInfo.id
       const club = await clubsService.removeClub(clubId, userId)
-      return res.send('Successful deletion of the club')
+      return res.send(club)
     } catch (error) {
       next(error)
     }

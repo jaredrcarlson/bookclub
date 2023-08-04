@@ -10,8 +10,8 @@ class ClubsService {
   async getAllClubs() {
     const res = await api.get('api/clubs')
 
-    logger.log('[GOT CLUBS]', res.data)
-    AppState.clubs = res.data.map(pojo => new Club(pojo))
+    logger.log('[GOT CLUBS]', res.data.clubs)
+    AppState.clubs = res.data.clubs.map(pojo => new Club(pojo))
   }
 
   async getClubById(clubId) {
