@@ -35,13 +35,14 @@ class ClubsService {
 
   async createClub(clubData) {
     const res = await api.post(`api/clubs`, clubData)
-    logger.log(`[CREATED CLUB]`, res.data)
+    // logger.log(`[CREATED CLUB]`, res.data)
     return res.data
   }
 
   async setBookDetailsPageClubs(gbId, status) {
     const clubBooks = await booksService.getClubBooksByGbId(gbId)
     const clubsData = clubBooks.filter((clubBook) => clubBook.status == status)
+    // console.log(`[GOT CLUBS BY BOOK STATUS: ${status}]`, clubsData)
     const clubs = clubsData.map(clubData => new Club(clubData))
     AppState.bookDetailsClubs[status] = clubs
   }

@@ -53,7 +53,7 @@ class BooksService {
 
   async getClubBooksByGbId(gbId) {
     const res = await api.get(`api/clubBooks?gbId=${gbId}`)
-    // logger.log('[GOT CLUB BOOKS BY GOOGLE BOOK ID]', res.data)
+    // logger.log(`[GOT CLUB BOOKS BY GB ID: ${gbId}]`, res.data)
     return res.data
   }
 }
