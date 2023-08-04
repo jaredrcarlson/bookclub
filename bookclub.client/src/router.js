@@ -61,7 +61,7 @@ const routes = [
         component: loadPage('ClubAnnouncementPage'),
       },
       {
-        path: 'announcementdetails/:announcementId',
+        path: 'announcementdetails/:postId',
         name: 'Announcement Details Page',
         component: loadPage('AnnouncementDetailsPage'),
       },
