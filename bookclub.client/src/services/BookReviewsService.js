@@ -12,7 +12,7 @@ class BookReviewsService {
   async createBookReview(bookReviewData) {
     const res = await api.post('api/bookReviews', bookReviewData)
     const newBookReview = new BookReview(res.data)
-    AppState.bookDetailsUserReviews.unshift(newBookReview)
+    AppState.bookDetailsPage.userReviews.unshift(newBookReview)
   }
 
 }

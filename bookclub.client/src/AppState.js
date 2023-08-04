@@ -24,17 +24,19 @@ export const AppState = reactive({
   /** @type {import('./models/Book.js').Book} */
   selectedBook: null,
 
-  /** @type {import('./models/Book.js').Book} */
-  bookDetailsBook: null,
-  bookDetailsClubs: {
-    /** @type {import('./models/Club.js').Club[]} */
-    planned: [],
-    /** @type {import('./models/Club.js').Club[]} */
-    reading: [],
-    /** @type {import('./models/Club.js').Club[]} */
-    finished: []
+  bookDetailsPage: {
+    /** @type {import('./models/Book.js').Book} */
+    book: null,
+    clubBooks: {
+      /** @type {import('./models/Club.js').Book[]} */
+      planned: [],
+      /** @type {import('./models/Club.js').Book[]} */
+      reading: [],
+      /** @type {import('./models/Club.js').Book[]} */
+      finished: []
+    },
+    userReviews: []
   },
-  bookDetailsUserReviews: [],
 
   /** @type {import('./models/Member.js').Member[]} */
   members: [],

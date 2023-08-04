@@ -10,8 +10,8 @@ class ClubsService {
   async getAllClubs() {
     const res = await api.get('api/clubs')
 
-    logger.log('[GOT CLUBS]', res.data)
-    AppState.clubs = res.data.map(pojo => new Club(pojo))
+    logger.log('[GOT CLUBS]', res.data.clubs)
+    AppState.clubs = res.data.clubs.map(pojo => new Club(pojo))
   }
 
   async getClubById(clubId) {
@@ -37,14 +37,6 @@ class ClubsService {
     const res = await api.post(`api/clubs`, clubData)
     // logger.log(`[CREATED CLUB]`, res.data)
     return res.data
-  }
-
-  async setBookDetailsPageClubs(gbId, status) {
-    const clubBooks = await booksService.getClubBooksByGbId(gbId)
-    const clubsData = clubBooks.filter((clubBook) => clubBook.status == status)
-    // console.log(`[GOT CLUBS BY BOOK STATUS: ${status}]`, clubsData)
-    const clubs = clubsData.map(clubData => new Club(clubData))
-    AppState.bookDetailsClubs[status] = clubs
   }
 }
 

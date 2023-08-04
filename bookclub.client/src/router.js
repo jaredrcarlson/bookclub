@@ -88,6 +88,12 @@ const routes = [
     name: 'Account',
     component: loadPage('AccountPage'),
     beforeEnter: authGuard
+  },
+  {
+    path: '/editaccount',
+    name: 'Edit Account Page',
+    component: loadPage('EditAccountPage'),
+    beforeEnter: authGuard
   }
 ]
 
