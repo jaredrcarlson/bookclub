@@ -1,23 +1,22 @@
 <template>
   <div class="container-fluid">
     <section class="row dark-blue-bg text-light">
-      <div class="col-12 text-center mt-5 mb-3">
-
+      <div class="col-12 text-center mt-5 mb-3 pb-5">
         <div class="mb-4">
-          <h3 class="fw-bold">
+          <h1 class="fw-bold">
             Find a <span class="orange-text">book club</span> right for you
-          </h3>
-          <h4>
+          </h1>
+          <h3>
             Discuss, rate, and enjoy the books you love with a community you create.
-          </h4>
+          </h3>
         </div>
 
         <div>
-          <button class="btn orange-btn m-2">
+          <button class="fs-3 btn orange-btn m-2">
             Find a Book Club
           </button>
           <router-link :to="{name: 'Create Book Club'}">
-            <button class="btn light-blue-btn m-2">
+            <button class="fs-3 btn light-blue-btn m-2">
               Make a Book Club
             </button>
           </router-link>
@@ -34,20 +33,19 @@
 
     </section>
 
-    <section class="row ghost-bg">
+    <!-- <section class="row ghost-bg">
       <div class="col-12 mt-5">
         <h6>
           NY Times Best Sellers
         </h6>
       </div>
-    </section>
+    </section> -->
 
     <section class="row ghost-bg">
       <div class="col-12 mt-5">
         <section class="row">
-
           <div class="col-md-6 col-12">
-            <p class="fs-6 fw-medium ms-3">
+            <p class="fs-3 fw-bold ms-3">
               Bookclub List
             </p>
           </div>
@@ -119,8 +117,12 @@ export default {
 
 <style scoped lang="scss">
 
+.hero-title {
+  font-size: 4.5rem;
+}
+
 .home-banner{
-  height: 30vh;
+  height: 45vh;
   object-fit: cover;
   object-position: center;
 }

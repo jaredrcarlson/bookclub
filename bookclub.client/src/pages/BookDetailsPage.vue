@@ -60,13 +60,9 @@
             <div v-if="!clubsReading.length">
               <div class="p-2">There are no clubs currently reading this book.</div>
             </div>
-            <div class="row">
+            <div class="row py-3">
               <div v-for="club in clubsReading" :key="club.id" class="col-4">
-                <div class="card m-2">
-                  <div v-for="(value, key, index) in club" :key="index" class="px-2">
-                    <small><span class="fw-bold">{{ key }}: </span>{{ value }}</small>
-                  </div>
-                </div>
+                <BookClubCard :clubProp="club" />
               </div>
             </div>
           </div>
@@ -76,11 +72,7 @@
             </div>
             <div v-else class="row">
               <div v-for="club in clubsPlanned" :key="club.id" class="col-4">
-                <div class="card m-2">
-                  <div v-for="(value, key, index) in club" :key="index" class="px-2">
-                    <small><span class="fw-bold">{{ key }}: </span>{{ value }}</small>
-                  </div>
-                </div>
+                <BookClubCard :clubProp="club" />
               </div>
             </div>
           </div>
@@ -90,11 +82,7 @@
             </div>
             <div v-else class="row">
               <div v-for="club in clubsFinished" :key="club.id" class="col-4">
-                <div class="card m-2">
-                  <div v-for="(value, key, index) in club" :key="index" class="px-2">
-                    <small><span class="fw-bold">{{ key }}: </span>{{ value }}</small>
-                  </div>
-                </div>
+                <BookClubCard :clubProp="club" />
               </div>
             </div>
           </div>
@@ -206,8 +194,10 @@ import { AppState } from '../AppState.js';
 import Pop from '../utils/Pop.js';
 import { bookReviewsService } from '../services/BookReviewsService.js';
 import { clubsService } from '../services/ClubsService.js';
+import BookClubCard from '../components/BookClubCard.vue';
 
 export default {
+  components: { BookClubCard },
   setup(){
     const route = useRoute()
     const selectedTab = ref('reading')

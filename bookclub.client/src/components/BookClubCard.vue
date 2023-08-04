@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="({name: 'Club About Page', params: {clubId: clubProp.id}})">
+  <router-link :to="`/bookclubdetails/${clubProp.id}/clubabout`">
     <div class="mx-3">
       <div>
         <img class="img-fluid card-img" :src=clubProp.coverImg alt="card img">
