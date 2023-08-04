@@ -27,6 +27,7 @@ export default {
 </script>
 <style lang="scss">
 @import "./assets/scss/main.scss";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Shadows+Into+Light&display=swap');
 
 :root{
   --main-height: calc(100vh - 32px - 64px);
@@ -34,6 +35,10 @@ export default {
 
 .navbar-font{
   font-family: 'Shadows Into Light', cursive;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
 }
 
 .ghost-bg{
@@ -50,7 +55,7 @@ export default {
 
 .orange-btn{
   background-color: #FB5607;
-  color: black;
+  color: white;
 }
 
 .orange-btn:hover{
@@ -68,7 +73,7 @@ export default {
 
 .light-blue-btn{
   background-color: #5084D2;
-  color: black;
+  color: white;
 }
 
 .light-blue-btn:hover{

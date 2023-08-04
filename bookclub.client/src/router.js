@@ -80,7 +80,6 @@ const routes = [
         name: 'Club Member Page',
         component: loadPage('ClubMemberPage'),
       },
-
     ]
   },
   {
@@ -94,7 +93,12 @@ const routes = [
     name: 'Edit Account Page',
     component: loadPage('EditAccountPage'),
     beforeEnter: authGuard
-  }
+  },
+  {
+    path: '/profile/:profileId',
+    name: 'Profile Page',
+    component: loadPage('ProfilePage')
+  },
 ]
 
 export const router = createRouter({

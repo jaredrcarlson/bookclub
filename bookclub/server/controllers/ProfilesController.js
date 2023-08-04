@@ -43,7 +43,7 @@ export class ProfilesController extends BaseController {
   async getProfileClubs(req, res, next) {
     try {
       const clubs = await clubMembersService.getUserClubs(req.params.id)
-      return clubs
+      return res.send(clubs)
     } catch (error) {
       next(error)
     }

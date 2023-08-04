@@ -6,6 +6,16 @@ export const AppState = reactive({
   /** @type {import('./models/Account.js').Account} */
   account: {},
 
+  /** @type {import('./models/Account.js').Account | null} */
+  profile: null,
+
+  /** @type {import('./models/Member.js').Member | null} */
+  profileMemberships: null,
+
+  profileBooks: null,
+
+  profileBadges: null,
+
   /** @type {import('./models/Club.js').Club[]} */
   clubs: [],
 
@@ -27,7 +37,7 @@ export const AppState = reactive({
   bookDetailsPage: {
     /** @type {import('./models/Book.js').Book} */
     book: null,
-    clubBooks: {
+    clubs: {
       /** @type {import('./models/Club.js').Book[]} */
       planned: [],
       /** @type {import('./models/Club.js').Book[]} */

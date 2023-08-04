@@ -1,20 +1,17 @@
 <template>
-  <div class="container-fluid">
+<div class="container-fluid" v-if="profile">
     <section class="row">
       <div class="col-12 p-0">
-        <img class="coverImg-style img-fluid" src="https://images.unsplash.com/photo-1551043047-1d2adf00f3fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" :alt=account.name>
+        <img class="coverImg-style img-fluid" src="https://images.unsplash.com/photo-1551043047-1d2adf00f3fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" :alt=profile.name>
       </div>
       <section class="col-12 mb-5">
         <div class="row">
           <div class="col-12 account-info-style align-items-center d-flex">
-            <img class="img-fluid account-img me-4" :src=account.picture :alt=account.name>
+            <img class="img-fluid account-img me-4" :src=profile.picture :alt=profile.name>
             <div class="fs-2 pt-5 d-flex align-items-center">
               <p class="pe-2 m-0">
-                {{ account.name }}
+                {{ profile.name }}
               </p>
-              <router-link :to="{name: 'Edit Account Page'}">
-                <i class="mdi mdi-pencil-box-outline fs-3 mt-md-2 mt-1 text-dark" type="button" title="Edit Account"></i>
-              </router-link>
             </div>
           </div>
         </div>
@@ -24,19 +21,18 @@
     <section class="row">
       <div class="col-12">
         <p class="m-3 fs-1">
-          My Clubs
+          Clubs
         </p>
       </div>
     </section>
 
-    <section class="row mb-4" v-if="Array.isArray(myMemberships) && account.id">
-      <div class="col-md-4 col-12 my-3" v-for="membership in myMemberships" :key="membership.id">
+    <section class="row mb-4" v-if="Array.isArray(profileMemberships)">
+      <div class="col-md-4 col-12 my-3" v-for="membership in profileMemberships" :key="membership.id">
           <div class="mx-3">
             <router-link :to="({name: 'Club About Page', params: {clubId: membership.club.id}})">
               <div>
                 <img class="img-fluid card-img" :src=membership.club.coverImg alt="card img">
               </div>
-            </router-link>
 
             <div class="dark-blue-bg p-3 text-light">
               <p class="fs-5">
@@ -45,13 +41,8 @@
               <p>
                 {{ membership.club.description }}
               </p>
-
-              <div v-if="loadingRef == false">
-                <button class="btn orange-btn" @click="leaveClub(membership.id)" title="Leave Club">
-                  <i class="mdi mdi-account-minus"></i> Leave Club
-                </button>
-              </div>
             </div>
+          </router-link>
           </div>
       </div>
     </section>
@@ -59,7 +50,7 @@
     <section class="row mb-4">
       <div class="col-12">
         <p class="m-3 fs-1">
-          My Booklist
+          Booklist
         </p>
       </div>
     </section>
@@ -73,7 +64,7 @@
     <section class="row mb-4">
       <div class="col-12">
         <p class="m-3 fs-1">
-          My Badges
+          Badges
         </p>
       </div>
     </section>
@@ -84,51 +75,58 @@
       </div>
     </section>
   </div>
+
 </template>
 
+
 <script>
-import { computed, ref } from 'vue';
-import { AppState } from '../AppState';
+import { computed, watchEffect } from 'vue';
+import { useRoute } from 'vue-router';
 import Pop from '../utils/Pop.js';
-import { logger } from '../utils/Logger.js';
-import { membersService } from '../services/MembersService.js';
+import { profilesService } from '../services/ProfilesService.js';
+import { AppState } from '../AppState.js';
+
 export default {
-  setup() {
-    let loadingRef = ref(false)
+  setup(){
+
+    const route = useRoute()
+
+    async function getProfile(){
+      try {
+        const profileId = route.params.profileId
+
+        await profilesService.getProfile(profileId)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
+    async function getProfileMemberships(){
+      try {
+        const profileId = route.params.profileId
+
+        await profilesService.getProfileMemberships(profileId)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
+    watchEffect(() => {
+      getProfile(route.params.profileId)
+      getProfileMemberships()
+    })
 
     return {
-      account: computed(() => AppState.account),
-      myMemberships: computed(() => AppState.myMemberships),
-      loadingRef,
-
-      async leaveClub(memberId){
-        try {
-          const removeConfirm = await Pop.confirm('Are you sure you want to leave this club?')
-
-          if(!removeConfirm){
-            return
-          }
-
-          loadingRef.value = true
-
-          logger.log(memberId)
-
-          await membersService.leaveClub(memberId)
-
-          Pop.success('You have left this club.')
-
-          loadingRef.value = false
-
-        } catch (error) {
-          Pop.error(error.message)
-        }
-      }
+      route,
+      profile: computed(() => AppState.profile),
+      profileMemberships: computed(() => AppState.profileMemberships)
     }
   }
 }
 </script>
 
-<style scoped>
+
+<style lang="scss" scoped>
 .coverImg-style{
   height: 20vh;
   width: 100%;

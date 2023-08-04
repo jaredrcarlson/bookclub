@@ -57,11 +57,11 @@
       <div class="col-12">
         <div class="dark-blue-bg p-2">
           <div v-if="selectedTab == 'reading'" class="bg-dark">
-            <div v-if="!clubBooksReading.length">
+            <div v-if="!clubsReading.length">
               <div class="p-2">There are no clubs currently reading this book.</div>
             </div>
             <div class="row">
-              <div v-for="club in clubBooksReading" :key="club.id" class="col-4">
+              <div v-for="club in clubsReading" :key="club.id" class="col-4">
                 <div class="card m-2">
                   <div v-for="(value, key, index) in club" :key="index" class="px-2">
                     <small><span class="fw-bold">{{ key }}: </span>{{ value }}</small>
@@ -71,11 +71,11 @@
             </div>
           </div>
           <div v-else-if="selectedTab == 'planned'" class="bg-dark">
-            <div v-if="!clubBooksPlanned.length">
+            <div v-if="!clubsPlanned.length">
               <div class="p-2">There are no clubs planning to read this book.</div>
             </div>
             <div v-else class="row">
-              <div v-for="club in clubBooksPlanned" :key="club.id" class="col-4">
+              <div v-for="club in clubsPlanned" :key="club.id" class="col-4">
                 <div class="card m-2">
                   <div v-for="(value, key, index) in club" :key="index" class="px-2">
                     <small><span class="fw-bold">{{ key }}: </span>{{ value }}</small>
@@ -85,11 +85,11 @@
             </div>
           </div>
           <div v-else-if="selectedTab == 'finished'" class="bg-dark">
-            <div v-if="!clubBooksFinished.length">
+            <div v-if="!clubsFinished.length">
               <div class="p-2">There are no clubs finished reading this book.</div>
             </div>
             <div v-else class="row">
-              <div v-for="club in clubBooksFinished" :key="club.id" class="col-4">
+              <div v-for="club in clubsFinished" :key="club.id" class="col-4">
                 <div class="card m-2">
                   <div v-for="(value, key, index) in club" :key="index" class="px-2">
                     <small><span class="fw-bold">{{ key }}: </span>{{ value }}</small>
@@ -205,6 +205,7 @@ import { computed, ref, watchEffect } from 'vue';
 import { AppState } from '../AppState.js';
 import Pop from '../utils/Pop.js';
 import { bookReviewsService } from '../services/BookReviewsService.js';
+import { clubsService } from '../services/ClubsService.js';
 
 export default {
   setup(){
@@ -222,7 +223,7 @@ export default {
 
     async function setClubs(gbId, status) {
       try {
-        await booksService.setBookDetailsPageClubBooks(gbId, status)
+        await clubsService.setBookDetailsPageClubs(gbId, status)
       } catch (error) {
         Pop.error(error.message)
       }
@@ -258,9 +259,9 @@ export default {
       reviewData,
       user: computed(() => AppState.account),
       book: computed(() => AppState.bookDetailsPage.book),
-      clubBooksPlanned: computed(() => AppState.bookDetailsPage.clubBooks.planned),
-      clubBooksReading: computed(() => AppState.bookDetailsPage.clubBooks.reading),
-      clubBooksFinished: computed(() => AppState.bookDetailsPage.clubBooks.finished),
+      clubsPlanned: computed(() => AppState.bookDetailsPage.clubs.planned),
+      clubsReading: computed(() => AppState.bookDetailsPage.clubs.reading),
+      clubsFinished: computed(() => AppState.bookDetailsPage.clubs.finished),
       userReviews: computed(() => AppState.bookDetailsPage.userReviews),
       createReview
     }
