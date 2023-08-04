@@ -17,7 +17,7 @@
             allowing for tracking and rating of books, global book clubs, interactive discussions, and tailored book recommendations.
           </p>
           <h2>Target Audience</h2>
-          <p>Jabb caters to passionate readers, busy professionals, global noamds, and anyone seeking an inclusive community to connect over shared literary interests.</p>
+          <p>Jabb caters to passionate readers, busy professionals, global nomads, and anyone seeking an inclusive community to connect over shared literary interests.</p>
           <h2>Technologies Used</h2>
           <ul>
             <li>Google Books API</li>
@@ -34,7 +34,7 @@
           </ul>
           <h2 class="text-center">Meet the Team!</h2>
             <section class="row">
-              <AboutTeamCard :name="'Rebecca Vandewater'"/>
+              <AboutTeamCard :name="'Rebecca VandeWater'"/>
               <AboutTeamCard :name="'Arrington Mata'"/>
               <AboutTeamCard :name="'Bailey Johnson'"/>
               <AboutTeamCard :name="'Jared Carlson'"/>

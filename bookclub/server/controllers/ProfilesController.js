@@ -8,7 +8,7 @@ export class ProfilesController extends BaseController {
     this.router
       .get('', this.getProfiles)
       .get('/:id', this.getProfile)
-      .get('/:id/books')
+      .get('/:id/books', this.getProfileBooks)
   }
 
   async getProfiles(req, res, next) {
