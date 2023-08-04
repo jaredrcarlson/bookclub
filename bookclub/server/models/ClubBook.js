@@ -8,3 +8,12 @@ export const ClubBookSchema = new Schema({
   author: { type: String, required: true },
   status: { type: String, enum: ['planned', 'reading', 'finished'], required: true, default: 'planned' }
 }, { timestamps: true, toJSON: { virtuals: true } })
+
+ClubBookSchema.virtual('club', {
+  localField: 'clubId',
+  foreignField: '_id',
+  justOne: true,
+  ref: 'Club'
+})
+
+ClubBookSchema.index({ clubId: 1, gbId: 1 }, { unique: true })

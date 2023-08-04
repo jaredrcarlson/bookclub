@@ -19,7 +19,7 @@
           
         </div>
       </div>
-      <p class="fs-3"><i class="mdi mdi-comment"></i> 32 Comments</p>
+      <p class="fs-3"><i class="mdi mdi-comment"></i> {{postComments.length  }} Comments</p>
     </section>
 
     <section class="row">
@@ -44,31 +44,18 @@
             </div>
             
             <div>
-              <p class="fs-5">HairyPotterFN</p>
+              <p class="fs-5">{{comment.creator.name}}</p>
               <p class=" mb-4">
                 Posted {{comment.createdAt}}
               </p>
               <p class="fs-5">{{comment.body}}</p>
             </div>
           </div>
-          <div title="More Options" class="text-end selectable"><i class="mdi mdi-circle"></i><i class="mdi mdi-circle"></i><i class="mdi mdi-circle"></i></div>
+          <div title="More Options" class="text-end selectable dots"><i class="mdi mdi-circle"></i><i class="mdi mdi-circle"></i><i class="mdi mdi-circle"></i></div>
         </div>
       </div>
 
-      <div class="col-12 dark-blue-bg rounded elevation-5 text-light p-3">
-        <div class="d-flex">
-          <div class="pe-4">
-            <img class="avatar-img" src="https://images.unsplash.com/photo-1516712109157-6a67f5d73fa1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8d2VpcmQlMjBkdWRlfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" alt="">
-          </div>
-          <div>
-            <p class="fs-5">HairyPotterFN</p>
-            <p class=" mb-4">
-              Posted July 31, 2079
-            </p>
-            <p class="fs-5">Yepper do does</p>
-          </div>
-        </div>
-      </div>
+    
 
     </section>
   </div>
@@ -126,5 +113,8 @@ export default {
   object-fit: cover;
   object-position: center;
   box-shadow: 2px 2px 6px whitesmoke;
+}
+.dots{
+  font-size: 2vh;
 }
 </style>
