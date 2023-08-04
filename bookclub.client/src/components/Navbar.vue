@@ -29,6 +29,11 @@
             Book Clubs
           </router-link>
         </li>
+        <li>
+          <router-link :to="{ name: 'Book Search' }" class="btn text-light selectable">
+            Book Search
+          </router-link>
+        </li>
       </ul>
       <!-- LOGIN COMPONENT HERE -->
       <Login />

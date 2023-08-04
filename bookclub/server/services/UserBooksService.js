@@ -47,7 +47,7 @@ class UserBooksService {
       throw new Forbidden('This Book can only be removed by the Book Creator')
     }
     await userBook.remove()
-    return `Book with ID: ${userBookId} removed successfully.`
+    return userBook
   }
 }
 

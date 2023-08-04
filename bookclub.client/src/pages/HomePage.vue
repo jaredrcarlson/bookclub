@@ -16,9 +16,11 @@
           <button class="btn orange-btn m-2">
             Find a Book Club
           </button>
-          <button class="btn light-blue-btn m-2">
-            Make a Book Club
-          </button>
+          <router-link :to="{name: 'Create Book Club'}">
+            <button class="btn light-blue-btn m-2">
+              Make a Book Club
+            </button>
+          </router-link>
         </div>
 
       </div>
@@ -52,9 +54,11 @@
 
           <div class="col-md-6 col-12 d-flex justify-content-end">
             <div class="mx-3">
-              <button class="btn orange-btn">
-                Create a Club
-              </button>
+              <router-link :to="{name: 'Create Book Club'}">
+                <button class="btn orange-btn">
+                  Create a Club
+                </button>
+              </router-link>
             </div>
 
             <div>

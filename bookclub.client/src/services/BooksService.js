@@ -45,10 +45,16 @@ class BooksService {
     return res.data
   }
 
-  async setDetailsPageBook(gbId) {
+  async setBookDetailsPageBook(gbId) {
     const volume = await googleBooksService.getVolumeById(gbId)
     const book = new Book(volume)
-    AppState.detailsPageBook = book
+    AppState.bookDetailsBook = book
+  }
+
+  async getClubBooksByGbId(gbId) {
+    const res = await api.get('api/clubBooks', { gbId: gbId })
+    // logger.log('[GOT CLUB BOOKS BY GOOGLE BOOK ID]', res.data)
+    return res.data
   }
 }
 

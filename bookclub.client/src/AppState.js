@@ -26,10 +26,14 @@ export const AppState = reactive({
 
   /** @type {import('./models/Book.js').Book} */
   bookDetailsBook: null,
-  /** @type {import('./models/Club.js').Club[]} */
-  bookDetailsClubsReading: [],
-  /** @type {import('./models/Club.js').Club[]} */
-  bookDetailsClubsFinished: [],
+  bookDetailsClubs: {
+    /** @type {import('./models/Club.js').Club[]} */
+    planned: [],
+    /** @type {import('./models/Club.js').Club[]} */
+    reading: [],
+    /** @type {import('./models/Club.js').Club[]} */
+    finished: []
+  },
   bookDetailsUserReviews: [],
 
   /** @type {import('./models/Member.js').Member[]} */
@@ -40,5 +44,8 @@ export const AppState = reactive({
 
   /** @type {import('./models/ClubPost.js').ClubPost} */
   activeClubPost: null,
+
+  /** @type {import('./models/PostComment.js').PostComment[]} */
+  postComments: []
 
 })

@@ -9,16 +9,25 @@ export class ClubPostsController extends BaseController {
     this.router
       //routes
       .get('/:postId/comments', this.getPostComments)
+      .get('/:postId', this.getPostById)
 
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createPost)
       .put('/:postId', this.updatePost)
       .delete('/:postId', this.removePost)
   }
+  async getPostById(req, res, next) {
+    try {
+      const postId = req.params.postId
+      const clubPost = await clubPostsService.getPostById(postId)
+      return res.send(clubPost)
+    } catch (error) {
+      next(error)
+    }
+  }
   async getPostComments(req, res, next) {
     try {
       const postId = req.params.postId
-
       const postComments = await postCommentsService.getPostComments(postId)
       return res.send(postComments)
     } catch (error) {
@@ -55,7 +64,7 @@ export class ClubPostsController extends BaseController {
       const postId = req.params.postId
       const userId = req.userInfo.id
       const post = await clubPostsService.removePost(postId, userId)
-      return res.send('You have deleted the post')
+      return res.send(post)
     } catch (error) {
       next(error)
     }

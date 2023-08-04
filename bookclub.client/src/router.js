@@ -71,7 +71,7 @@ const routes = [
         component: loadPage('ClubDiscussionPage'),
       },
       {
-        path: 'discussiondetails/:discussionId',
+        path: 'discussiondetails/:postId',
         name: 'Discussion Details Page',
         component: loadPage('DiscussionDetailsPage'),
       },
