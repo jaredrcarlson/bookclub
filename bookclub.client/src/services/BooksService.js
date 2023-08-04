@@ -52,7 +52,7 @@ class BooksService {
   }
 
   async getClubBooksByGbId(gbId) {
-    const res = await api.get('api/clubBooks', { gbId: gbId })
+    const res = await api.get(`api/clubBooks?gbId=${gbId}`)
     // logger.log('[GOT CLUB BOOKS BY GOOGLE BOOK ID]', res.data)
     return res.data
   }
