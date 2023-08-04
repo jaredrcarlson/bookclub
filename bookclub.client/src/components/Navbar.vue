@@ -26,7 +26,7 @@
           <ul class="dropdown-menu dropdown-menu-dark text-center py-3">
             <router-link :to="{ name: 'Book Search' }">
               <li class="dropdown-item px-4 mb-2">
-                Book Search
+                Search Books
               </li>
             </router-link>
             <li>
@@ -41,11 +41,16 @@
             Book Clubs
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-center py-3">
-            <li class="dropdown-item px-4 mb-2">
-              <router-link :to="{ name: 'Book Clubs' }">
-                Book Clubs
-              </router-link>
-            </li>
+            <router-link :to="{ name: 'Book Clubs' }">
+              <li class="dropdown-item px-4 mb-2">
+                Search Book Clubs
+              </li>
+            </router-link>
+            <router-link :to="{ name: 'Create Book Club' }">
+              <li class="dropdown-item px-4 mb-2">
+                Create Book Club
+              </li>
+            </router-link>
           </ul>
         </li>
         <!-- LOGIN COMPONENT HERE -->
