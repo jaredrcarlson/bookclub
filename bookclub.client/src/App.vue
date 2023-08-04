@@ -5,10 +5,6 @@
   <main>
     <router-view />
   </main>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Cinzel+Decorative&family=Concert+One&family=Forum&family=Indie+Flower&family=Kalam:wght@300&family=Kumar+One+Outline&family=Shadows+Into+Light&family=Shrikhand&family=Staatliches&display=swap" rel="stylesheet">
 </template>
 
 <script>

@@ -50,7 +50,7 @@ export default {
           announcements: computed(() => AppState.clubAnnouncements)
         };
     },
-    components: { PostCard, PostForm, AnnouncementCard }
+    components: {  PostForm, AnnouncementCard }
 }
 </script>
 

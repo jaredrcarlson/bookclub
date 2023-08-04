@@ -32,7 +32,7 @@
     <section class="row mb-4" v-if="Array.isArray(myMemberships) && account.id">
       <div class="col-md-4 col-12 my-3" v-for="membership in myMemberships" :key="membership.id">
           <div class="mx-3">
-            <router-link :to="(`bookclubdetails/${membership.club.id}/clubabout`)">
+            <router-link :to="({name: 'Club About Page', params: {clubId: membership.club.id}})">
               <div>
                 <img class="img-fluid card-img" :src=membership.club.coverImg alt="card img">
               </div>
