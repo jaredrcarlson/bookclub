@@ -1,3 +1,4 @@
+import { clubMembersService } from '../services/ClubMembersService.js'
 import { profileService } from '../services/ProfileService.js'
 import { userBooksService } from '../services/UserBooksService.js'
 import BaseController from '../utils/BaseController'
@@ -9,6 +10,7 @@ export class ProfilesController extends BaseController {
       .get('', this.getProfiles)
       .get('/:id', this.getProfile)
       .get('/:id/books', this.getProfileBooks)
+      .get('/:id/clubs', this.getProfileClubs)
   }
 
   async getProfiles(req, res, next) {
@@ -33,6 +35,15 @@ export class ProfilesController extends BaseController {
     try {
       const books = await userBooksService.getUserBooksByUserId(req.params.id)
       res.send(books)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getProfileClubs(req, res, next) {
+    try {
+      const clubs = await clubMembersService.getUserClubs(req.params.id)
+      return clubs
     } catch (error) {
       next(error)
     }
