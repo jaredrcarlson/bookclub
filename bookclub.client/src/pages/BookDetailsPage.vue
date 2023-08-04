@@ -164,6 +164,7 @@ export default {
     })
 
     return {
+      user: computed(() => AppState.account),
       book: computed(() => AppState.bookDetailsBook),
       clubsPlanned: computed(() => AppState.bookDetailsClubs.planned),
       clubsReading: computed(() => AppState.bookDetailsClubs.reading),
