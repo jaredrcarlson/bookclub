@@ -44,6 +44,7 @@ class BookCommentsService {
     }
 
     await commentToRemove.remove()
+    return commentToRemove
   }
 
 }
