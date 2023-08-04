@@ -6,6 +6,16 @@ export const AppState = reactive({
   /** @type {import('./models/Account.js').Account} */
   account: {},
 
+  /** @type {import('./models/Account.js').Account | null} */
+  profile: null,
+
+  /** @type {import('./models/Member.js').Member | null} */
+  profileMemberships: null,
+
+  profileBooks: null,
+
+  profileBadges: null,
+
   /** @type {import('./models/Club.js').Club[]} */
   clubs: [],
 
@@ -49,6 +59,6 @@ export const AppState = reactive({
   activeClubPost: null,
 
   /** @type {import('./models/PostComment.js').PostComment[]} */
-  postComments: []
+  postComments: [],
 
 })
