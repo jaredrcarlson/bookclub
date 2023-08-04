@@ -16,9 +16,11 @@
           <button class="btn orange-btn m-2">
             Find a Book Club
           </button>
-          <button class="btn light-blue-btn m-2">
-            Make a Book Club
-          </button>
+          <router-link :to="{name: 'Create Book Club'}">
+            <button class="btn light-blue-btn m-2">
+              Make a Book Club
+            </button>
+          </router-link>
         </div>
 
       </div>
