@@ -31,15 +31,16 @@
 <!-- //comments section -->
     <section v-for="clubPost in clubPosts" :key="clubPost?.id" class="row bg-white elevation-5 rounded">
       
-      <router-link :to="{name: 'Discussion Details Page', params:{discussionId: 'discussion'}}">
-    <section title="Go to this Post and its Comments" class="row align-items-center p-2 text-dark selectable ">
-            <div class="col-md-2 col-12">
-              <img class="img-fluid avatar-img" :src="clubPost?.creator?.picture" :title="clubPost.creator.name" :alt="clubPost.creator.name">
-            </div>
-            <div class="col-md-8 col-12">
-              <p class="fw-bold fs-3">
+      <section title="Go to this Post and its Comments" class="row align-items-center p-2 text-dark selectable ">
+        <div class="col-md-2 col-12">
+          <img class="img-fluid avatar-img" :src="clubPost?.creator?.picture" :title="clubPost.creator?.name" :alt="clubPost.creator?.name">
+        </div>
+        <div class="col-md-8 col-12">
+              <router-link :to="{name: 'Discussion Details Page', params:{postId: clubPost.id}}">
+              <p class="fw-bold fs-3 text-dark">
                 {{clubPost.title}}
               </p>
+            </router-link>
               <!-- <p class="fw-bold fs-5">
                 {{clubPost.body}}
               </p> -->
@@ -55,11 +56,11 @@
                 <i title="Delete My Post" class="mdi mdi-delete"></i>
               </p>
               <p v-if="clubPost.creatorId == account.id" data-bs-toggle="modal" data-bs-target="#exampleModal"  class="fs-5 text-warning selectable">
+                <!-- **FIXME - Edit function  -->
                 <i title="Edit My Post" class="p-2 mdi mdi-pencil"></i>
               </p>
             </div>
           </section>
-          </router-link>
         </section>
   </div>
 </template>
@@ -92,6 +93,7 @@ export default {
       selectedClub: computed(() => AppState.selectedClub),
       clubPosts: computed(() => AppState.clubPosts),
       account: computed(() => AppState.account),
+      activeClubPost: computed(() => AppState.activeClubPost) ,
 
 
 

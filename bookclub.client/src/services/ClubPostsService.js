@@ -1,5 +1,6 @@
 import { AppState } from "../AppState.js"
 import { ClubPost } from "../models/ClubPost.js"
+import { PostComment } from "../models/PostComment.js"
 import { logger } from "../utils/Logger.js"
 import { api } from "./AxiosService.js"
 
@@ -9,6 +10,19 @@ class ClubPostsService {
     logger.log('[ARE WE GETTING POSTS?]', res.data)
     const clubPosts = res.data.map(post => new ClubPost(post))
     AppState.clubPosts = clubPosts
+  }
+  async getPostById(postId) {
+
+    const res = await api.get(`api/posts/${postId}`)
+    logger.log('[AM I GRABBING THE RIGHT POST?]', res.data)
+    const clubPost = new ClubPost(res.data)
+    AppState.activeClubPost = clubPost
+  }
+  async getPostComments(postId) {
+    const res = await api.get(`api/posts/${postId}/comments`)
+    logger.log('[THE POST COMMENTS]', res.data)
+    const postComments = res.data.map(comment => new PostComment(comment))
+    AppState.postComments = postComments
   }
 
   async createPost(postData) {
@@ -25,8 +39,8 @@ class ClubPostsService {
     logger.log('[DID I EDIT A POST?]', res.data)
     const post = new ClubPost(res.data)
     const clubPostIndex = AppState.clubPosts.findIndex(post => post.id == postData.id)
-    const updatedPost = new ClubPost(res.data)
-    AppState.clubPosts.splice(clubPostIndex, 1, updatedPost)
+    // const updatedPost = new ClubPost(res.data)
+    AppState.clubPosts.splice(clubPostIndex, 1, post)
   }
 
   async deletePost(postId) {
