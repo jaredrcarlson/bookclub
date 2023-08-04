@@ -1,12 +1,32 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
+import { logger } from "../utils/Logger.js"
 
 class ClubsService {
-  async getClubs() {
+  async getClubs(page) {
+    const clubsData = {}
     const clubs = await dbContext.Clubs.find()
+      .sort({ name: 1 })
+      .skip(page * 10)
+      .limit(10)
       .populate('creator', 'name picture')
       .populate('memberCount')
-    return clubs
+
+    clubsData.clubs = clubs
+    clubsData.total = await dbContext.Clubs.countDocuments()
+    if (page * 10 < clubsData.total) {
+      clubsData.next = null
+    }
+    else {
+      clubsData.next = `http://localhost:3000/api/clubs?page=${parseInt(page) + 1}`
+    }
+    if (page - 1 >= 0) {
+      clubsData.prev = `http://localhost:3000/api/clubs?page=${parseInt(page) - 1}`
+    }
+    else {
+      clubsData.prev = null
+    }
+    return clubsData
   }
   async getClubById(clubId) {
     const club = await dbContext.Clubs.findById(clubId)

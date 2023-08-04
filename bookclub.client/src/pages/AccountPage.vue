@@ -8,7 +8,14 @@
         <div class="row">
           <div class="col-12 account-info-style align-items-center d-flex">
             <img class="img-fluid account-img me-4" :src=account.picture :alt=account.name>
-            <p class="fs-2 pt-5">{{ account.name }}</p>
+            <div class="fs-2 pt-5 d-flex align-items-center">
+              <p class="pe-2 m-0">
+                {{ account.name }}
+              </p>
+              <router-link :to="{name: 'Edit Account Page'}">
+                <i class="mdi mdi-pencil-box-outline fs-3 mt-md-2 mt-1 text-dark" type="button" title="Edit Account"></i>
+              </router-link>
+            </div>
           </div>
         </div>
       </section>
