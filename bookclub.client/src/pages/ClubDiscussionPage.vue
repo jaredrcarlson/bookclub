@@ -35,9 +35,9 @@
         <div class="col-md-2 col-12">
           <img class="img-fluid avatar-img" :src="clubPost?.creator?.picture" :title="clubPost.creator?.name" :alt="clubPost.creator?.name">
         </div>
-        <div class="col-md-8 col-12">
+        <div class=" col-md-8 col-12">
               <router-link :to="{name: 'Discussion Details Page', params:{postId: clubPost.id}}">
-              <p class="fw-bold fs-3 text-dark">
+              <p class="selectable fw-bold fs-3 text-dark">
                 {{clubPost.title}}
               </p>
             </router-link>
@@ -49,7 +49,7 @@
               </p>
             </div>
             <div class="col-md-2 col-12 d-flex justify-content-evenly">
-              <p class="fs-5 selectable">
+              <p class="fs-5 ">
                 <i title="See Comments on this Post" class="mdi mdi-message-reply"></i> <span>10</span>
               </p>
               <p v-if="clubPost.creatorId == account.id" @click="deletePost(clubPost.id)" class="fs-5 text-danger selectable">
@@ -103,7 +103,7 @@ export default {
           if(!wantsToDelete) {
             return
           }
-          logger.log('[DELETING COMMENT...]')
+          // logger.log('[DELETING POST...]')
           await clubPostsService.deletePost(postId)
         } catch (error) {
           Pop.error(error.message)
