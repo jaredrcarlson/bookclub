@@ -54,9 +54,11 @@
 
           <div class="col-md-6 col-12 d-flex justify-content-end">
             <div class="mx-3">
-              <button class="btn orange-btn">
-                Create a Club
-              </button>
+              <router-link :to="{name: 'Create Book Club'}">
+                <button class="btn orange-btn">
+                  Create a Club
+                </button>
+              </router-link>
             </div>
 
             <div>
