@@ -5,7 +5,7 @@
         <div class="d-flex justify-content-between">
           <form class="d-flex" @submit.prevent="search()">
             <input class="border-0 rounded-start bg-light form-control shadow-none" v-model="query" type="text" placeholder="Search">
-            <div @click="search()" class="btn-custom border-0 rounded-end d-flex align-items-center bg-light"><i class="mdi mdi-magnify fs-5 mx-3"></i></div>
+            <div @click="search()" class="selectable border-0 rounded-end d-flex align-items-center text-light orange-bg"><i class="mdi mdi-magnify fs-5 mx-3"></i></div>
           </form>
           <button class="btn btn-success">filter</button>
         </div>
@@ -25,7 +25,6 @@
 
 <script>
 import { computed, ref } from 'vue';
-import { googleBooksService } from '../services/GoogleBooksService.js';
 import { booksService } from '../services/BooksService.js';
 import { AppState } from '../AppState.js';
 
