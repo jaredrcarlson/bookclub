@@ -10,6 +10,7 @@ export class ClubMembersController extends BaseController {
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.becomeMember)
       .delete('/:memberId', this.removeMember)
+      .put('/:memberId', this.editMemberRole)
   }
 
   /* This is a function for a user to join a book club; this is a POST request to Create a member of a book club. */
@@ -30,6 +31,16 @@ export class ClubMembersController extends BaseController {
       const memberId = req.params.memberId
       const userId = req.userInfo.id
       const member = await clubMembersService.removeMember(memberId, userId)
+      return res.send(member)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async editMemberRole(req, res, next) {
+    try {
+      const userId = req.userInfo.id
+      const member = await clubMembersService.editMemberRole(req.body, userId, req.params.memberId)
       return res.send(member)
     } catch (error) {
       next(error)
