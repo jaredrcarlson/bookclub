@@ -22,3 +22,11 @@ ClubPostSchema.virtual('creator', {
   justOne: true,
   ref: 'Account'
 })
+
+ClubPostSchema.virtual('membership', {
+  ref: 'ClubMember',
+  localField: 'clubId',
+  foreignField: 'clubId',
+  match: membership => ({ creatorId: membership.creatorId }),
+  justOne: true
+})

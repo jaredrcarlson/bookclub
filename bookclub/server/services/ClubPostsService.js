@@ -14,6 +14,7 @@ class ClubPostsService {
     }
     await clubPost.populate('creator', 'name picture')
     await clubPost.populate('commentCount')
+    await clubPost.populate('membership')
     return clubPost
   }
 
