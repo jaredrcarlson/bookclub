@@ -25,6 +25,11 @@ class ClubBooksService {
     return clubBook
   }
 
+  async getClubBooksByGbId(gbId) {
+    const clubBooks = await dbContext.ClubBooks.find({ gbId })
+    return clubBooks
+  }
+
   async getClubBooksByClubId(clubId) {
     const clubBooks = await dbContext.ClubBooks.find({ clubId })
     return clubBooks

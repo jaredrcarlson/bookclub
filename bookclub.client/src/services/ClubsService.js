@@ -4,6 +4,7 @@ import { Member } from "../models/Member.js"
 import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
 import { api } from "./AxiosService.js"
+import { booksService } from "./BooksService.js"
 
 class ClubsService {
   async getAllClubs() {
@@ -36,6 +37,13 @@ class ClubsService {
     const res = await api.post(`api/clubs`, clubData)
     logger.log(`[CREATED CLUB]`, res.data)
     return res.data
+  }
+
+  async setBookDetailsPageClubs(gbId, status) {
+    const clubBooks = await booksService.getClubBooksByGbId(gbId)
+    const clubsData = clubBooks.filter((clubBook) => clubBook.status == status)
+    const clubs = clubsData.map(clubData => new Club(clubData))
+    AppState.bookDetailsClubs[status] = clubs
   }
 }
 
