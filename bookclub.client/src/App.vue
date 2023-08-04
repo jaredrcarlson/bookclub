@@ -81,4 +81,14 @@ body {
   color: #5084D2;
 }
 
+.soft-blue-btn{
+  background-color: #a6e1fa;
+  color: black;
+}
+
+.soft-blue-btn:hover{
+  border-color: #7abcd8;
+  color: #183a48;
+}
+
 </style>

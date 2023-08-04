@@ -24,6 +24,12 @@ class ClubPostsService {
     const postComments = res.data.map(comment => new PostComment(comment))
     AppState.postComments = postComments
   }
+  async getClubAnnouncements(clubId) {
+    const res = await api.get(`api/clubs/${clubId}/announcements`)
+    logger.log('[CLUB ANNOUNCEMENTS...]', res.data)
+    const announcements = res.data.map(announcement => new ClubPost(announcement))
+    AppState.clubAnnouncements = announcements
+  }
 
   async createPost(postData) {
     const res = await api.post('api/posts', postData)

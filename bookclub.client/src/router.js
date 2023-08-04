@@ -41,6 +41,11 @@ const routes = [
     component: loadPage('AboutUsPage')
   },
   {
+    path: '/profile/:profileId',
+    name: 'Profile Page',
+    component: loadPage('ProfilePage')
+  },
+  {
     path: '/bookclubdetails/:clubId',
     name: 'Book Club Details',
     component: loadPage('BookClubDetailsPage'),
@@ -80,7 +85,6 @@ const routes = [
         name: 'Club Member Page',
         component: loadPage('ClubMemberPage'),
       },
-
     ]
   },
   {
@@ -88,7 +92,13 @@ const routes = [
     name: 'Account',
     component: loadPage('AccountPage'),
     beforeEnter: authGuard
-  }
+  },
+  {
+    path: '/editaccount',
+    name: 'Edit Account Page',
+    component: loadPage('EditAccountPage'),
+    beforeEnter: authGuard
+  },
 ]
 
 export const router = createRouter({

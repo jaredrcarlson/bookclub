@@ -1,9 +1,10 @@
 <template>
+  <router-link :to="{name: 'Profile Page', params: {profileId: memberProp.profile.id}}">
     <div class="d-flex align-items-center text-light p-2 row">
       <!-- FIXME Make the profile image into a router link -->
-      <div class="pe-3 col-4">
-        <img class="img-fluid avatar-img" :src=memberProp.profile.picture :alt=memberProp.profile.name>
-      </div>
+        <div class="pe-3 col-4">
+          <img class="img-fluid avatar-img" :src=memberProp.profile.picture :alt=memberProp.profile.name>
+        </div>
       <div class="col-6">
         <p class="m-0">
           {{ memberProp.profile.name }}
@@ -15,6 +16,7 @@
         </p>
       </div>
     </div>
+  </router-link>
 </template>
 
 

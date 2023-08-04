@@ -14,27 +14,8 @@
     </section>
     <section class="row">
       <!-- FIXME Make this into a v-for that pulls up all announcements with their title, creator, createdAt, and commentCount Put into a component. -->
-      <div class="col-12 border border-black elevation-2 mb-3 rounded bg-light">
-        <router-link :to="{name: 'Announcement Details Page', params:{announcementId: 'announcement'}}">
-          <section class="row align-items-center p-2 text-dark">
-            <div class="col-md-2 col-12">
-              <img class="img-fluid avatar-img" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" alt="">
-            </div>
-            <div class="col-md-8 col-12">
-              <p class="fw-bold fs-3">
-                Reading Chapters 1-3 by Friday!
-              </p>
-              <p>
-                <span class="pe-4">BookDiver232</span><span>posted 12/16/2023</span>
-              </p>
-            </div>
-            <div class="col-md-2 col-12">
-              <p class="fs-5">
-                <i class="mdi mdi-message-reply"></i> <span>10</span>
-              </p>
-            </div>
-          </section>
-        </router-link>
+      <div v-for="announcement in announcements" :key="announcement.id" class="col-12 border border-black elevation-2 mb-3 rounded bg-light">
+        <AnnouncementCard :announcementProp="announcement"/>
       </div>
     </section>
   </div>
@@ -42,14 +23,34 @@
 
 
 <script>
+import { computed, watchEffect } from "vue";
 import PostCard from "../components/PostCard.vue";
 import PostForm from "../components/PostForm.vue";
+import { AppState } from "../AppState.js";
+import Pop from "../utils/Pop.js";
+import { useRoute } from "vue-router";
+import { clubPostsService } from "../services/ClubPostsService.js";
+import AnnouncementCard from "../components/AnnouncementCard.vue";
 
 export default {
     setup() {
-        return {};
+      const route = useRoute()
+      async function getClubAnnouncements(){
+        try {
+          const clubId = route.params.clubId
+          await clubPostsService.getClubAnnouncements(clubId)
+        } catch (error) {
+          Pop.error(error.message)
+        }
+      }
+      watchEffect(() => {
+        getClubAnnouncements();
+      })
+        return {
+          announcements: computed(() => AppState.clubAnnouncements)
+        };
     },
-    components: { PostCard, PostForm }
+    components: { PostCard, PostForm, AnnouncementCard }
 }
 </script>
 

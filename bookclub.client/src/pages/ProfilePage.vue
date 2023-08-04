@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+<div class="container-fluid">
     <section class="row">
       <div class="col-12 p-0">
         <img class="coverImg-style img-fluid" src="https://images.unsplash.com/photo-1551043047-1d2adf00f3fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" :alt=account.name>
@@ -12,9 +12,6 @@
               <p class="pe-2 m-0">
                 {{ account.name }}
               </p>
-              <router-link :to="{name: 'Edit Account Page'}">
-                <i class="mdi mdi-pencil-box-outline fs-3 mt-md-2 mt-1 text-dark" type="button" title="Edit Account"></i>
-              </router-link>
             </div>
           </div>
         </div>
@@ -24,7 +21,7 @@
     <section class="row">
       <div class="col-12">
         <p class="m-3 fs-1">
-          My Clubs
+          Clubs
         </p>
       </div>
     </section>
@@ -45,12 +42,6 @@
               <p>
                 {{ membership.club.description }}
               </p>
-
-              <div v-if="loadingRef == false">
-                <button class="btn orange-btn" @click="leaveClub(membership.id)" title="Leave Club">
-                  <i class="mdi mdi-account-minus"></i> Leave Club
-                </button>
-              </div>
             </div>
           </div>
       </div>
@@ -59,7 +50,7 @@
     <section class="row mb-4">
       <div class="col-12">
         <p class="m-3 fs-1">
-          My Booklist
+          Booklist
         </p>
       </div>
     </section>
@@ -73,7 +64,7 @@
     <section class="row mb-4">
       <div class="col-12">
         <p class="m-3 fs-1">
-          My Badges
+          Badges
         </p>
       </div>
     </section>
@@ -84,75 +75,48 @@
       </div>
     </section>
   </div>
+
 </template>
 
+
 <script>
-import { computed, ref } from 'vue';
-import { AppState } from '../AppState';
+import { watchEffect } from 'vue';
+import { useRoute } from 'vue-router';
 import Pop from '../utils/Pop.js';
-import { logger } from '../utils/Logger.js';
-import { membersService } from '../services/MembersService.js';
+import { profilesService } from '../services/ProfilesService.js';
+
 export default {
-  setup() {
-    let loadingRef = ref(false)
+  setup(){
+
+    const route = useRoute()
+
+    async function getProfile(){
+      try {
+        const profileId = route.params.profileId
+
+        await profilesService.getProfile(profileId)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
+    async function getProfileMemberships(){
+
+    }
+
+    watchEffect(() => {
+      getProfile(route.params.profileId)
+      getProfileMemberships()
+    })
 
     return {
-      account: computed(() => AppState.account),
-      myMemberships: computed(() => AppState.myMemberships),
-      loadingRef,
-
-      async leaveClub(memberId){
-        try {
-          const removeConfirm = await Pop.confirm('Are you sure you want to leave this club?')
-
-          if(!removeConfirm){
-            return
-          }
-
-          loadingRef.value = true
-
-          logger.log(memberId)
-
-          await membersService.leaveClub(memberId)
-
-          Pop.success('You have left this club.')
-
-          loadingRef.value = false
-
-        } catch (error) {
-          Pop.error(error.message)
-        }
-      }
+      route,
     }
   }
 }
 </script>
 
-<style scoped>
-.coverImg-style{
-  height: 20vh;
-  width: 100%;
-  object-fit: cover;
-  object-position: center;
-}
 
-.account-img{
-  height: 13vh;
-  width: 13vh;
-  border-radius: 50%;
-  object-fit: cover;
-  object-position: center;
-}
+<style lang="scss" scoped>
 
-.account-info-style{
-  top: -6.5vh;
-  margin-bottom: -6.5vh;
-  position: relative;
-}
-
-.card-img{
-  height:20vh;
-  object-fit: cover;
-  object-position: center;
-}
 </style>
