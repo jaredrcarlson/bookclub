@@ -19,11 +19,11 @@
   <button v-if="account?.id == commentProp?.creatorId" title="More Options" class="btn orange-text text-end btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
     <i class="mdi mdi-circle"></i><i class="mdi mdi-circle"></i><i class="mdi mdi-circle"></i>
   </button>
-  <ul  class="p-1 dropdown-menu">
-    <li @click="deleteComment(commentProp?.id)" class="selectable mb-1 p-1">
+  <ul  class="p- dropdown-menu">
+    <li @click="deleteComment(commentProp?.id)" class="selectable mb-1 p-2">
       Delete Comment <i class="mdi mdi-delete"></i>
     </li>
-    <li @click="editComment(commentProp?.id)" class="selectable mb-1 p-1">
+    <li @click="editComment(commentProp?.id)" class="selectable mb-1 p-2">
       Edit Comment <i class="mdi mdi-pencil"></i>
     </li>
   </ul>
