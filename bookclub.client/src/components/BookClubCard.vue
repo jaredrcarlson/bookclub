@@ -1,5 +1,4 @@
 <template>
-  <!-- (`bookclubdetails/${clubProp.id}/clubabout`) -->
   <router-link :to="`/bookclubdetails/${clubProp.id}/clubabout`">
     <div class="mx-3">
       <div>
