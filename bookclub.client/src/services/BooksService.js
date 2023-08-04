@@ -56,13 +56,6 @@ class BooksService {
     // logger.log(`[GOT CLUB BOOKS BY GB ID: ${gbId}]`, res.data)
     return res.data
   }
-
-  // async setBookDetailsPageClubBooks(gbId, status) {
-  //   const allClubBooks = await booksService.getClubBooksByGbId(gbId)
-  //   const statusClubBooks = allClubBooks.filter((clubBook) => clubBook.status == status)
-  //   console.log(`[GOT CLUB BOOKS BY STATUS: ${status}]`, statusClubBooks)
-  //   AppState.bookDetailsPage.clubBooks[status] = statusClubBooks
-  // }
 }
 
 export const booksService = new BooksService()

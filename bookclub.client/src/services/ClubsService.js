@@ -42,7 +42,7 @@ class ClubsService {
   async setBookDetailsPageClubs(gbId, status) {
     const allClubBooks = await booksService.getClubBooksByGbId(gbId)
     const statusClubBooks = allClubBooks.filter((clubBook) => clubBook.status == status)
-    console.log(`[GOT CLUB BOOKS BY STATUS: ${status}]`, statusClubBooks)
+    // console.log(`[GOT CLUB BOOKS BY STATUS: ${status}]`, statusClubBooks)
     AppState.bookDetailsPage.clubs[status] = statusClubBooks.map((clubBook) => new Club(clubBook.club))
   }
 }
