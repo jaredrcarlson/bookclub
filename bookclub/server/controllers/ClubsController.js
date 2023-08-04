@@ -87,8 +87,7 @@ export class ClubsController extends BaseController {
       const clubData = req.body
       clubData.creatorId = req.userInfo.id
       const club = await clubsService.createClub(clubData)
-      // const memberBody = {clubId: club.id, }
-      const clubMember = await clubMembersService.becomeMember()
+      await clubMembersService.becomeCreator(club.id, req.userInfo.id)
       return res.send(club)
     } catch (error) {
       next(error)

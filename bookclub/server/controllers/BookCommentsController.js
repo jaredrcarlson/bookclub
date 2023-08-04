@@ -71,9 +71,9 @@ export class BookCommentsController extends BaseController {
 
       const userId = req.userInfo.id
 
-      await bookCommentsService.removeComment(commentId, userId)
+      const comment = await bookCommentsService.removeComment(commentId, userId)
 
-      return res.send('Your book comment has been removed!')
+      return res.send(comment)
     } catch (error) {
       next(error)
     }

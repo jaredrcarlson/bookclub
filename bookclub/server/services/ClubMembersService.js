@@ -11,10 +11,16 @@ class ClubMembersService {
     return clubMembers
   }
   async becomeMember(memberData) {
+    memberData.role = 'member'
     const member = await dbContext.ClubMembers.create(memberData)
     await member.populate('profile', 'name picture')
     return member
   }
+
+  async becomeCreator(creatorId, clubId) {
+    await dbContext.ClubMembers.create({ clubId, creatorId, role: 'creator' })
+  }
+
   async removeMember(memberId, userId) {
     const memberToDelete = await dbContext.ClubMembers.findById(memberId)
     if (!memberToDelete) {
