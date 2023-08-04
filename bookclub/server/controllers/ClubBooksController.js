@@ -1,6 +1,7 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import BaseController from "../utils/BaseController.js";
 import { clubBooksService } from "../services/ClubBooksService.js";
+import { logger } from "../utils/Logger.js";
 
 export class ClubBooksController extends BaseController {
   constructor() {
@@ -8,6 +9,7 @@ export class ClubBooksController extends BaseController {
     this.router
       .get('', this.getClubBooks)
       .get('/:clubBookId', this.getClubBookById)
+      .get('/gb/:gbId', this.getClubBooksByGbId)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createClubBook)
       .put('/:clubBookId', this.updateClubBook)
@@ -39,6 +41,17 @@ export class ClubBooksController extends BaseController {
       const clubBookId = req.params.clubBookId
       const clubBook = await clubBooksService.getClubBookById(clubBookId)
       return res.send(clubBook)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getClubBooksByGbId(req, res, next) {
+    try {
+      const gbId = req.params.gbId
+      console.log('gbId', gbId)
+      const clubBooks = await clubBooksService.getClubBooksByGbId(gbId)
+      return res.send(clubBooks)
     } catch (error) {
       next(error)
     }
