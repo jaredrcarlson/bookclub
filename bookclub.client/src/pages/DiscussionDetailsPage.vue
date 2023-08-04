@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <PostCard :postProp="activeClubPost"/>
+    <PostDetailsCard :postProp="activeClubPost"/>
     <p class="fs-3"><i class="mdi mdi-comment"></i> {{postComments.length  }} Comments</p>
 <!-- //form to make comments -->
 <CommentsForm/>
@@ -26,7 +26,7 @@ import { AppState } from "../AppState.js";
 import { logger } from "../utils/Logger.js";
 import CommentsForm from "../components/CommentsForm.vue";
 import CommentCard from "../components/CommentCard.vue";
-import PostCard from "../components/PostCard.vue";
+import PostDetailsCard from "../components/PostDetailsCard.vue";
 
 export default {
     setup() {
@@ -66,7 +66,7 @@ export default {
 
         };
     },
-    components: { CommentsForm, CommentCard, PostCard }
+    components: { CommentsForm, CommentCard, PostDetailsCard }
 }
 </script>
 

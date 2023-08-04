@@ -30,38 +30,10 @@
     </section>
 <!-- //comments section -->
     <section v-for="clubPost in clubPosts" :key="clubPost?.id" class="row bg-white elevation-5 rounded">
+      <PostCard :postProp="clubPost"/>
+
       
-      <section title="Go to this Post and its Comments" class="row align-items-center p-2 text-dark selectable ">
-        <div class="col-md-2 col-12">
-          <img class="img-fluid avatar-img" :src="clubPost?.creator?.picture" :title="clubPost.creator?.name" :alt="clubPost.creator?.name">
-        </div>
-        <div class=" col-md-8 col-12">
-              <router-link :to="{name: 'Discussion Details Page', params:{postId: clubPost.id}}">
-              <p class="selectable fw-bold fs-3 text-dark">
-                {{clubPost.title}}
-              </p>
-            </router-link>
-              <!-- <p class="fw-bold fs-5">
-                {{clubPost.body}}
-              </p> -->
-              <p>
-                <span class="pe-4">{{clubPost.creator.name}}</span><span>posted {{clubPost.createdAt}}</span>
-              </p>
-            </div>
-            <div class="col-md-2 col-12 d-flex justify-content-evenly">
-              <p class="fs-5 ">
-                <i title="See Comments on this Post" class="mdi mdi-message-reply"></i> <span>10</span>
-              </p>
-              <p v-if="clubPost.creatorId == account.id" @click="deletePost(clubPost.id)" class="fs-5 text-danger selectable">
-                <i title="Delete My Post" class="mdi mdi-delete"></i>
-              </p>
-              <p v-if="clubPost.creatorId == account.id" data-bs-toggle="modal" data-bs-target="#exampleModal"  class="fs-5 text-warning selectable">
-                <!-- **FIXME - Edit function  -->
-                <i title="Edit My Post" class="p-2 mdi mdi-pencil"></i>
-              </p>
-            </div>
-          </section>
-        </section>
+   </section>
   </div>
 </template>
 
@@ -73,44 +45,44 @@ import { useRoute } from "vue-router";
 import Pop from "../utils/Pop.js";
 import { clubPostsService } from "../services/ClubPostsService.js"
 import { logger } from "../utils/Logger.js";
+import PostCard from "../components/PostCard.vue";
 
 export default {
-  setup(){
-    const route = useRoute()
-
-    async function getClubPosts(){
-      try {
-        const clubId = route.params.clubId
-        await clubPostsService.getClubPosts(clubId)
-      } catch (error) {
-        Pop.error(error.message)
-      }
-    }
-    watchEffect(() => {
-      getClubPosts()
-    })
-    return {
-      selectedClub: computed(() => AppState.selectedClub),
-      clubPosts: computed(() => AppState.clubPosts),
-      account: computed(() => AppState.account),
-      activeClubPost: computed(() => AppState.activeClubPost) ,
-
-
-
-      async deletePost(postId){
-        try {
-          const wantsToDelete = await Pop.confirm("Once it's gone, it's gone. Are you sure you want to delete?")
-          if(!wantsToDelete) {
-            return
-          }
-          // logger.log('[DELETING POST...]')
-          await clubPostsService.deletePost(postId)
-        } catch (error) {
-          Pop.error(error.message)
+    setup() {
+        const route = useRoute();
+        async function getClubPosts() {
+            try {
+                const clubId = route.params.clubId;
+                await clubPostsService.getClubPosts(clubId);
+            }
+            catch (error) {
+                Pop.error(error.message);
+            }
         }
-      },
-    }
-  }
+        watchEffect(() => {
+            getClubPosts();
+        });
+        return {
+            selectedClub: computed(() => AppState.selectedClub),
+            clubPosts: computed(() => AppState.clubPosts),
+            account: computed(() => AppState.account),
+            activeClubPost: computed(() => AppState.activeClubPost),
+            // async deletePost(postId) {
+            //     try {
+            //         const wantsToDelete = await Pop.confirm("Once it's gone, it's gone. Are you sure you want to delete?");
+            //         if (!wantsToDelete) {
+            //             return;
+            //         }
+            //         logger.log('[DELETING POST...]');
+            //         await clubPostsService.deletePost(postId);
+            //     }
+            //     catch (error) {
+            //         Pop.error(error.message);
+            //     }
+            // },
+        };
+    },
+    components: { PostCard }
 }
 </script>
 
