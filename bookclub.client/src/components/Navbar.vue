@@ -1,10 +1,10 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark dark-blue-bg px-3">
+  <nav class="navbar navbar-expand-lg navbar-dark dark-blue-bg">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
         <h1>
           <i class="mdi mdi-book-open-page-variant-outline"></i>
-          <span class="navbar-font"> Jabb</span>
+          <span class="navbar-font ms-3">Jabb</span>
         </h1>
       </div>
     </router-link>
@@ -13,30 +13,49 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto text-end">
+      <ul class="navbar-nav ms-auto text-end align-items-center">
         <li>
           <router-link :to="{ name: 'About Us' }" class="btn text-light selectable">
             About Us
           </router-link>
         </li>
-        <li>
-          <router-link :to="{ name: 'Books' }" class="btn text-light selectable">
+        <li class="nav-item dropdown mx-2">
+          <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
             Books
-          </router-link>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark text-center py-3">
+            <router-link :to="{ name: 'Book Search' }">
+              <li class="dropdown-item px-4 mb-2">
+                Search Books
+              </li>
+            </router-link>
+            <li>
+              <!-- <router-link :to="{ name: 'Books' }" class="btn text-light selectable"> -->
+                Your Book List (To Do)
+              <!-- </router-link> -->
+            </li>
+          </ul>
         </li>
-        <li>
-          <router-link :to="{ name: 'Book Clubs' }" class="btn text-light selectable">
+        <li class="nav-item dropdown me-2">
+          <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
             Book Clubs
-          </router-link>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark text-center py-3">
+            <router-link :to="{ name: 'Book Clubs' }">
+              <li class="dropdown-item px-4 mb-2">
+                Search Book Clubs
+              </li>
+            </router-link>
+            <router-link :to="{ name: 'Create Book Club' }">
+              <li class="dropdown-item px-4 mb-2">
+                Create Book Club
+              </li>
+            </router-link>
+          </ul>
         </li>
-        <li>
-          <router-link :to="{ name: 'Book Search' }" class="btn text-light selectable">
-            Book Search
-          </router-link>
-        </li>
+        <!-- LOGIN COMPONENT HERE -->
+        <Login />
       </ul>
-      <!-- LOGIN COMPONENT HERE -->
-      <Login />
     </div>
   </nav>
 </template>
@@ -56,14 +75,23 @@ a:hover {
   text-decoration: none;
 }
 
-.nav-link {
-  text-transform: uppercase;
-}
-
 .navbar-nav .router-link-exact-active {
   border-bottom: 2px solid var(--bs-success);
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+
+.navbar li, .navbar a{
+  font-size: 1.5rem;
+}
+
+nav {
+  padding: 3rem 2.5rem;
+}
+
+h1 i, h1 span {
+  font-size: 3.5rem;
 }
 
 @media screen and (min-width: 768px) {
