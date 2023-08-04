@@ -11,7 +11,6 @@
         <p>
           {{ clubProp.description }}
         </p>
-        <!-- FIXME - Add memberCount to model and to the following element -->
         <div class="d-flex justify-content-between">
           <span>
             <span>{{ clubProp.memberCount }}</span> club members

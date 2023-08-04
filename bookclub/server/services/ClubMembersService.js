@@ -38,6 +38,7 @@ class ClubMembersService {
     memberData.role = 'member'
     const member = await dbContext.ClubMembers.create(memberData)
     await member.populate('profile', 'name picture')
+    await member.populate({ path: 'club', populate: { path: 'creator memberCount' } })
     return member
   }
 
