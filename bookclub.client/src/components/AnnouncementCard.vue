@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{name: 'Announcement Details Page', params:{announcementId: 'announcement'}}">
+  <router-link :to="{name: 'Announcement Details Page', params:{postId: announcementProp.id}}">
           <section class="row align-items-center p-2 text-dark">
             <div class="col-md-2 col-12">
               <img class="img-fluid avatar-img" :src="announcementProp.creator?.picture" :alt="announcementProp.creator?.name">

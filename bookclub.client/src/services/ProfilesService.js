@@ -1,5 +1,6 @@
 import { AppState } from "../AppState.js"
-import { Account } from "../models/Account.js"
+import { Member } from "../models/Member.js"
+import { Profile } from "../models/Profile.js"
 import { logger } from "../utils/Logger.js"
 import { api } from "./AxiosService.js"
 
@@ -10,9 +11,15 @@ class ProfilesService {
 
     logger.log('[GOT PROFILE]', res.data)
 
-    AppState.profile = new Account(res.data)
+    AppState.profile = new Profile(res.data)
   }
 
+  async getProfileMemberships(profileId) {
+    const res = await api.get(`api/profiles/${profileId}/clubs`)
+
+    logger.log('[GOT PROFILE MEMBERSHIPS]', res.data)
+    AppState.profileMemberships = res.data.map(pojo => new Member(pojo))
+  }
 
 }
 

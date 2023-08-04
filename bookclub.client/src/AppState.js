@@ -37,7 +37,7 @@ export const AppState = reactive({
   bookDetailsPage: {
     /** @type {import('./models/Book.js').Book} */
     book: null,
-    clubBooks: {
+    clubs: {
       /** @type {import('./models/Club.js').Book[]} */
       planned: [],
       /** @type {import('./models/Club.js').Book[]} */
@@ -57,6 +57,7 @@ export const AppState = reactive({
 
   /** @type {import('./models/ClubPost.js').ClubPost} */
   activeClubPost: null,
+  activeClubAnnouncement: null,
 
   /** @type {import('./models/PostComment.js').PostComment[]} */
   postComments: [],
