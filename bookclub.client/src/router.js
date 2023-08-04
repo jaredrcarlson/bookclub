@@ -41,11 +41,6 @@ const routes = [
     component: loadPage('AboutUsPage')
   },
   {
-    path: '/profile/:profileId',
-    name: 'Profile Page',
-    component: loadPage('ProfilePage')
-  },
-  {
     path: '/bookclubdetails/:clubId',
     name: 'Book Club Details',
     component: loadPage('BookClubDetailsPage'),
@@ -98,6 +93,11 @@ const routes = [
     name: 'Edit Account Page',
     component: loadPage('EditAccountPage'),
     beforeEnter: authGuard
+  },
+  {
+    path: '/profile/:profileId',
+    name: 'Profile Page',
+    component: loadPage('ProfilePage')
   },
 ]
 
