@@ -57,13 +57,12 @@ class BooksService {
     return res.data
   }
 
-  async setBookDetailsPageClubBooks(gbId, status) {
-    const allClubBooks = await booksService.getClubBooksByGbId(gbId)
-    const statusClubBooks = allClubBooks.filter((clubBook) => clubBook.status == status)
-    console.log(`[GOT CLUBS BY BOOK STATUS: ${status}]`, statusClubBooks)
-    const clubBooks = statusClubBooks.map(data => new Book(data))
-    AppState.bookDetailsPage.clubBooks[status] = clubBooks
-  }
+  // async setBookDetailsPageClubBooks(gbId, status) {
+  //   const allClubBooks = await booksService.getClubBooksByGbId(gbId)
+  //   const statusClubBooks = allClubBooks.filter((clubBook) => clubBook.status == status)
+  //   console.log(`[GOT CLUB BOOKS BY STATUS: ${status}]`, statusClubBooks)
+  //   AppState.bookDetailsPage.clubBooks[status] = statusClubBooks
+  // }
 }
 
 export const booksService = new BooksService()
