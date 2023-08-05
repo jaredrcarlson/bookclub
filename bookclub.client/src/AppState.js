@@ -45,7 +45,8 @@ export const AppState = reactive({
       /** @type {import('./models/Club.js').Book[]} */
       finished: []
     },
-    userReviews: []
+    userReviews: [],
+    userReviewedStatus: true
   },
 
   /** @type {import('./models/Member.js').Member[]} */
