@@ -8,6 +8,7 @@ export class ClubMembersController extends BaseController {
     this.router
       //routes
       .use(Auth0Provider.getAuthorizedUserInfo)
+      .get('', this.getUserClubMemberships)
       .post('', this.becomeMember)
       .delete('/:memberId', this.removeMember)
       .put('/:memberId', this.editMemberRole)
