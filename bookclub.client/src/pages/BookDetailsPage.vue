@@ -60,7 +60,7 @@
             <div v-if="!clubsReading.length">
               <div class="p-2">There are no clubs currently reading this book.</div>
             </div>
-            <div class="row py-3">
+            <div class="row">
               <div v-for="club in clubsReading" :key="club.id" class="col-4">
                 <BookClubCard :clubProp="club" />
               </div>
@@ -86,96 +86,104 @@
               </div>
             </div>
           </div>
-          <div v-else class="bg-dark">
-            <div class="px-3 py-2">
-              <button class="btn orange-btn" type="button" data-bs-toggle="collapse" data-bs-target="#bookReviewForm" aria-expanded="false" aria-controls="bookReviewForm">
-                Add Review
-              </button>
-            </div>             
-            <div class="collapse" id="bookReviewForm">
-              <div class="card mx-3">
-                <div class="card-body">
-                  <form @submit.prevent="createReview()">
-                    <div class="row mb-3">
-                      <div class="col-3 d-flex align-items-center">
-                        <img class="user-img" :src="user.picture" :alt="user.name" :title="user.name">
-                        <div class="ms-2 fw-bold">{{ user.name }}</div>
+          <div v-else-if="selectedTab == 'reviews'" class="bg-dark">
+            <div v-if="!userReviewedStatus.reviewed">
+              <div class="px-3 py-2">
+                <button class="btn orange-btn" type="button" data-bs-toggle="collapse" data-bs-target="#bookReviewForm" aria-expanded="false" aria-controls="bookReviewForm">
+                  Add Review
+                </button>
+              </div>             
+              <div class="collapse" id="bookReviewForm">
+                <div class="card mx-3">
+                  <div class="card-body">
+                    <form @submit.prevent="createReview()">
+                      <div class="row mb-3">
+                        <div class="col-3 d-flex align-items-center">
+                          <img class="user-img" :src="user.picture" :alt="user.name" :title="user.name">
+                          <div class="ms-2 fw-bold">{{ user.name }}</div>
+                        </div>
+                        <div class="col-6">
+                        </div>
+                        <div class="col-2">
+                          <div class="my-0 ps-2 form-text">Recommendation</div>
+                          <select v-model="reviewData.rating" class="form-select" aria-label="Rating" required>
+                            <option value="Recommended">Recommend</option>
+                            <option value="Mixed Feelings">Mixed Feelings</option>
+                            <option value="Not Recommended">Not Recommended</option>
+                          </select>
+                        </div>
+                        <div class="col-1"></div>
                       </div>
-                      <div class="col-6">
-                      </div>
-                      <div class="col-2">
-                        <div class="my-0 ps-2 form-text">Recommendation</div>
-                        <select v-model="reviewData.rating" class="form-select" aria-label="Rating" required>
-                          <option value="Recommended">Recommend</option>
-                          <option value="Mixed Feelings">Mixed Feelings</option>
-                          <option value="Not Recommended">Not Recommended</option>
-                        </select>
-                      </div>
-                      <div class="col-1"></div>
-                    </div>
-                    <div class="row">
-                      <div class="col-11">
-                        <textarea v-model="reviewData.content" class="mb-2 pb-2 form-control" rows="3" placeholder="add review..." required></textarea>
-                      </div>
-                      <div class="col-1">
-                        <div class="pt-2 btn-custom">
-                          <button type="submit" class="btn orange-btn"><i class="mdi mdi-send-circle-outline fs-1"></i></button>
+                      <div class="row">
+                        <div class="col-11">
+                          <textarea v-model="reviewData.content" class="mb-2 pb-2 form-control" rows="3" placeholder="add review..." required></textarea>
+                        </div>
+                        <div class="col-1">
+                          <div class="pt-2 btn-custom">
+                            <button type="submit" class="btn orange-btn"><i class="mdi mdi-send-circle-outline fs-1"></i></button>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </form>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
             <div v-if="!userReviews.length">
               <div class="p-2">There are no reviews for this book.</div>
             </div>
-            <div v-else>
-              <div v-for="(review, index) in userReviews" :key="index" class="col-12">
-                    <div class="card mx-3">
-                      <div class="card-body dark-blue-bg text-light">
-                          <div class="row mb-3">
-                            <div class="col-3 d-flex align-items-center">
-                              <img class="user-img" :src="review.creator?.picture" :alt="review.creator?.name" :title="review.creator?.name">
-                              <div class="ms-2">
-                                <div class="fw-bold">Creator: {{ review.creator?.name }}</div>
-                                <small class="">Posted {{ review.createdAt.toLocaleDateString('en-us', { year:"numeric", month:"short", day:"numeric"}) }}</small>
-                              </div>
-                            </div>
-                            <div class="col-6">
-                            </div>
-                            <div class="col-3">
-                              <div v-if="review.rating == 'Recommended'">
-                                <div class="d-flex align-items-center justify-content-center text-light bg-primary rounded">
-                                  <i class="mdi mdi-star fs-4"></i>
-                                  <div class="ms-1">{{ review.rating }}</div>
-                                </div>
-                              </div>
-                              <div v-else-if="review.rating == 'Mixed Feelings'">
-                                <div class="d-flex align-items-center justify-content-center text-light bg-secondary rounded">
-                                  <i class="mdi mdi-star-half-full fs-4"></i>
-                                  <div class="ms-1">{{ review.rating }}</div>
-                                </div>
-                              </div>
-                              <div v-else-if="review.rating == 'Not Recommended'">
-                                <div class="d-flex align-items-center justify-content-center text-dark bg-danger rounded">
-                                  <i class="mdi mdi-star-outline fs-4"></i>
-                                  <div class="ms-1">{{ review.rating }}</div>
-                                </div>
-                              </div>
-                            </div>
-                            
+            <div v-else class="pt-2">
+              <div v-for="(review, index) in userReviews" :key="index" class="col-12 pb-2">
+                <div class="mx-3 rounded dark-blue-bg">
+                  <div class="p-3 text-light">
+                      <div class="row mb-3">
+                        <div class="col-3 d-flex align-items-center">
+                          <img class="user-img" :src="review.creator.picture" :alt="review.creator.name" :title="review.creator.name">
+                          <div class="ms-2">
+                            <div class="fw-bold">{{ review.creator.name }}</div>
+                            <small class="text-secondary">Posted {{ review.createdAt.toLocaleDateString('en-us', { year:"numeric", month:"short", day:"numeric"}) }}</small>
                           </div>
-                          <div class="row">
-                            <div class="col-12">
-                              <div class="px-2">
-                                {{ review.content }}
-                              </div>
+                        </div>
+                        <div class="col-6 d-flex align-items-center justify-content-end">
+                          <div v-if="user.id == review.creatorId">
+                            <div class="">
+                              <button class="btn btn-sm orange-btn" @click="deleteReview(review.id)">Delete</button>
                             </div>
-                            
                           </div>
+                        </div>
+                        <div class="col-3 d-flex align-items-center justify-content-end">
+                          <div v-if="review.rating == 'Recommended'">
+                            <div class="px-2 d-flex align-items-center justify-content-center text-light light-blue-bg rounded">
+                              <i class="mdi mdi-star fs-4"></i>
+                              <div class="ms-1 pt-1">{{ review.rating }}</div>
+                            </div>
+                          </div>
+                          <div v-else-if="review.rating == 'Mixed Feelings'">
+                            <div class="px-2 d-flex align-items-center justify-content-center text-light bg-secondary rounded">
+                              <i class="mdi mdi-star-half-full fs-4"></i>
+                              <div class="ms-1 pt-1">{{ review.rating }}</div>
+                            </div>
+                          </div>
+                          <div v-else-if="review.rating == 'Not Recommended'">
+                            <div class="px-2 d-flex align-items-center justify-content-center text-dark bg-danger rounded">
+                              <i class="mdi mdi-star-outline fs-4"></i>
+                              <div class="ms-1 pt-1">{{ review.rating }}</div>
+                            </div>
+                          </div>
+                          
+                        </div>
+                        
                       </div>
-                    </div>
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="px-2">
+                            {{ review.content }}
+                          </div>
+                        </div>
+                        
+                      </div>
+                  </div>
+                </div>
 
               </div>
             </div>
@@ -202,6 +210,7 @@ export default {
     const route = useRoute()
     const selectedTab = ref('reading')
     const reviewData = ref({gbId: route.params.gbId})
+    const userReviewedStatus = ref({reviewed: true})
     
     async function setBook(gbId) {
       try {
@@ -218,7 +227,7 @@ export default {
         Pop.error(error.message)
       }
     }
-    
+
     async function setReviews(gbId) {
       try {
         await bookReviewsService.setBookDetailsPageReviews(gbId)
@@ -226,7 +235,19 @@ export default {
         Pop.error(error.message)
       }
     }
-
+    
+    async function setUserReviewedStatus(user, userReviews) {
+      const gbId = route.params.gbId
+      try {
+        if(user.id) {
+          const userReview = userReviews.filter(review => review.gbId == gbId && review.creatorId == user.id)
+          userReviewedStatus.value.reviewed = userReview.length ? true : false
+        }
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+    
     async function createReview() {
       try {
         await bookReviewsService.createBookReview(reviewData.value)
@@ -235,13 +256,28 @@ export default {
         Pop.error(error.message)
       }
     }
+    
+    async function deleteReview(reviewId) {
+      try {
+        await bookReviewsService.deleteBookReview(reviewId)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
 
     watchEffect(() => {
-      setBook(route.params.gbId)
-      setClubs(route.params.gbId, 'planned')
-      setClubs(route.params.gbId, 'reading')
-      setClubs(route.params.gbId, 'finished')
-      setReviews(route.params.gbId)
+      const gbId = route.params.gbId
+      setBook(gbId)
+      setClubs(gbId, 'planned')
+      setClubs(gbId, 'reading')
+      setClubs(gbId, 'finished')
+      setReviews(gbId)
+    })
+    
+    watchEffect(() => {
+      const user = AppState.account
+      const userReviews = AppState.bookDetailsPage.userReviews
+      setUserReviewedStatus(user, userReviews)
     })
 
     return {
@@ -253,7 +289,9 @@ export default {
       clubsReading: computed(() => AppState.bookDetailsPage.clubs.reading),
       clubsFinished: computed(() => AppState.bookDetailsPage.clubs.finished),
       userReviews: computed(() => AppState.bookDetailsPage.userReviews),
-      createReview
+      userReviewedStatus,
+      createReview,
+      deleteReview
     }
   }
 }
@@ -262,8 +300,8 @@ export default {
 
 <style lang="scss" scoped>
 .user-img {
-  height: 6vh;
-  width: 6vh;
+  height: 8vh;
+  width: 8vh;
   // border-style: solid;
   // border-width: 2px;
   border-radius: 50%;
