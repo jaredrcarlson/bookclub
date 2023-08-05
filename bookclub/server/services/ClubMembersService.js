@@ -24,7 +24,7 @@ class ClubMembersService {
     return clubs
   }
   async getClubMembers(clubId) {
-    const clubMembers = await dbContext.ClubMembers.find({ clubId: clubId }).populate('profile', 'name picture').populate('club', 'name')
+    const clubMembers = await dbContext.ClubMembers.find({ clubId: clubId }).populate('profile', 'name picture')
     return clubMembers
   }
   async getClubMemberById(memberId) {
