@@ -51,8 +51,13 @@ export class ClubMembersController extends BaseController {
   async getUserClubMemberships(req, res, next) {
     try {
       const userId = req.userInfo.id
-      const memberships = await clubMembersService.getUserClubs(userId)
-      return res.send(memberships)
+      const allUserMemberships = await clubMembersService.getUserClubs(userId)
+      const role = req.query.role
+      if (role) {
+        const roleMemberships = allUserMemberships.filter(membership => membership.role == role)
+        return res.send(roleMemberships)
+      }
+      return res.send(allUserMemberships)
     } catch (error) {
       next(error)
     }
