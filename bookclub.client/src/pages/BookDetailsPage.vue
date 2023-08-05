@@ -299,6 +299,7 @@ export default {
       clubsPlanned: computed(() => AppState.bookDetailsPage.clubs.planned),
       clubsReading: computed(() => AppState.bookDetailsPage.clubs.reading),
       clubsFinished: computed(() => AppState.bookDetailsPage.clubs.finished),
+      // userBooks: computed(() => AppState.bookDetailsPage.userBooks),
       userClubs: computed(() => AppState.bookDetailsPage.userClubs),
       userCreatorAdminClubs: computed(() => AppState.bookDetailsPage.userCreatorAdminClubs),
       userReviews: computed(() => AppState.bookDetailsPage.userReviews),
