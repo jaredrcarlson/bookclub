@@ -5,28 +5,25 @@ import { logger } from "../utils/Logger.js"
 import Pop from "../utils/Pop.js"
 import { api } from "./AxiosService.js"
 import { booksService } from "./BooksService.js"
+import { membersService } from "./MembersService.js"
 
 class ClubsService {
   async getAllClubs() {
     const res = await api.get('api/clubs')
-
-    logger.log('[GOT CLUBS]', res.data.clubs)
+    // logger.log('[GOT CLUBS]', res.data.clubs)
     AppState.clubs = res.data.clubs.map(pojo => new Club(pojo))
   }
 
   async getClubById(clubId) {
     const res = await api.get(`api/clubs/${clubId}`)
-
-    logger.log('[GOT CLUB BY ID]', res.data)
-
+    // logger.log('[GOT CLUB BY ID]', res.data)
     AppState.selectedClub = new Club(res.data)
   }
 
   async getMyClubs() {
     try {
       const res = await api.get('account/clubs')
-
-      logger.log('[GOT ACCOUNT CLUBS]', res.data)
+      // logger.log('[GOT ACCOUNT CLUBS]', res.data)
       AppState.myMemberships = res.data.map(pojo => new Member(pojo))
     } catch (error) {
       Pop.error(error.message)
@@ -44,6 +41,15 @@ class ClubsService {
     const statusClubBooks = allClubBooks.filter((clubBook) => clubBook.status == status)
     // console.log(`[GOT CLUB BOOKS BY STATUS: ${status}]`, statusClubBooks)
     AppState.bookDetailsPage.clubs[status] = statusClubBooks.map((clubBook) => new Club(clubBook.club))
+  }
+
+  async setBookDetailsPageUserClubs() {
+    const allClubMemberships = await membersService.getMembershipsByUserId()
+    AppState.bookDetailsPage.userClubs = allClubMemberships.map((membership) => new Club(membership.club))
+    // logger.log('[GOT USER CLUB MEMBERSHIPS]', allClubMemberships)
+    const creatorAdminMemberships = allClubMemberships.filter(membership => membership.role == 'creator' || membership.role == 'admin')
+    // logger.log('[GOT USER CREATOR/ADMIN MEMBERSHIPS]', creatorAdminMemberships)
+    AppState.bookDetailsPage.userCreatorAdminClubs = creatorAdminMemberships.map((membership) => new Club(membership.club))
   }
 }
 

@@ -228,6 +228,14 @@ export default {
       }
     }
 
+    async function setUserClubs(user) {
+      try {
+        await clubsService.setBookDetailsPageUserClubs(user.id)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
     async function setReviews(gbId) {
       try {
         await bookReviewsService.setBookDetailsPageReviews(gbId)
@@ -247,7 +255,7 @@ export default {
         Pop.error(error.message)
       }
     }
-    
+
     async function createReview() {
       try {
         await bookReviewsService.createBookReview(reviewData.value)
@@ -277,7 +285,10 @@ export default {
     watchEffect(() => {
       const user = AppState.account
       const userReviews = AppState.bookDetailsPage.userReviews
-      setUserReviewedStatus(user, userReviews)
+      if(user.id) {
+        setUserReviewedStatus(user, userReviews)
+        setUserClubs(user)
+      }
     })
 
     return {
@@ -288,6 +299,8 @@ export default {
       clubsPlanned: computed(() => AppState.bookDetailsPage.clubs.planned),
       clubsReading: computed(() => AppState.bookDetailsPage.clubs.reading),
       clubsFinished: computed(() => AppState.bookDetailsPage.clubs.finished),
+      userClubs: computed(() => AppState.bookDetailsPage.userClubs),
+      userCreatorAdminClubs: computed(() => AppState.bookDetailsPage.userCreatorAdminClubs),
       userReviews: computed(() => AppState.bookDetailsPage.userReviews),
       userReviewedStatus,
       createReview,
