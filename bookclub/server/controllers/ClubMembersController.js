@@ -47,4 +47,14 @@ export class ClubMembersController extends BaseController {
     }
   }
 
+  async getUserClubMemberships(req, res, next) {
+    try {
+      const userId = req.userInfo.id
+      const memberships = await clubMembersService.getUserClubs(userId)
+      return res.send(memberships)
+    } catch (error) {
+      next(error)
+    }
+  }
+
 }
