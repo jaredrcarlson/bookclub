@@ -17,6 +17,7 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { postCommentsService } from "../services/PostCommentsService.js";
 import Pop from "../utils/Pop.js";
+import { logger } from "../utils/Logger.js";
 
 export default {
   setup(){
@@ -43,12 +44,15 @@ export default {
           Pop.error(error.message)
         }
       },
-                  // async editComment(){
-            //   try {
-            //   } catch (error) {
-            //     Pop.error(error.message)
-            //   }
-            // }
+            async editComment(){
+              try {
+                const commentData = editable.value
+                logger('editing a comment?')
+                await postCommentsService.editComment(commentData)
+              } catch (error) {
+                Pop.error(error.message)
+              }
+            }
     }
   }
 }

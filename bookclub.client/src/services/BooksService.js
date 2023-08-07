@@ -81,6 +81,13 @@ class BooksService {
     // logger.log(`[GOT CLUB BOOKS BY GB ID: ${gbId}]`, res.data)
     return res.data
   }
+
+  async getBooksByClubId(clubId) {
+    const res = await api.get(`api/clubs/${clubId}/clubBooks`)
+
+    logger.log('[GOT CLUB BOOKS]', res.data)
+    AppState.books = res.data.map(pojo => new Book(pojo))
+  }
 }
 
 export const booksService = new BooksService()

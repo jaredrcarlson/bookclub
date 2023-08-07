@@ -71,6 +71,7 @@ export const AppState = reactive({
 
   /** @type {import('./models/PostComment.js').PostComment[]} */
   postComments: [],
+  activeComment: null,
 
   nextPage: null,
   prevPage: null
