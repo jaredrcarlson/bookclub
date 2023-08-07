@@ -20,7 +20,7 @@
                 </div>
                 
                 <div v-if="user.id">
-                    <div v-if="bookExistsInUserBookList.exists" class="d-flex justify-content-around">
+                    <div v-if="bookExistsInUserBookList" class="d-flex justify-content-around">
                       <div class="text-center fw-bold">
                         <div class="text-light light-blue-bg rounded px-2">Your Rating</div>
                         <div>[POPULATE]</div>
@@ -252,7 +252,7 @@ export default {
     const userCreatorAdminClubs = ref(AppState.bookDetailsPage.userCreatorAdminClubs)
     const userReviews = ref(AppState.bookDetailsPage.userReviews)
 
-    const bookExistsInUserBookList = ref({exists: true})
+    const bookExistsInUserBookList = ref(true)
 
     const clubsPlanned = ref(AppState.bookDetailsPage.clubs.planned)
     const clubsReading = ref(AppState.bookDetailsPage.clubs.reading)
@@ -260,7 +260,7 @@ export default {
 
     const selectedTab = ref('reading')
     const reviewData = ref({gbId: gbId})
-    const userReviewedStatus = ref({reviewed: true})
+    const userReviewedStatus = ref(true)
     const addBookToListsOptions = ref({})
     
     async function setBook() {
@@ -309,7 +309,7 @@ export default {
       try {
         if(user.value.id) {
           const userReview = userReviews.value.filter(review => review.gbId == gbId && review.creatorId == user.value.id)
-          userReviewedStatus.value.reviewed = userReview.length ? true : false
+          userReviewedStatus.value = userReview.length ? true : false
         }
         console.log('set user reviewed status', userReviewedStatus.value)
       } catch (error) {
@@ -344,7 +344,7 @@ export default {
     async function setAddBookToListsOptions() {
       addBookToListsOptions.value['My'] = {
         bookListType: 'user',
-        existsInBookList: bookExistsInUserBookList.value.exists,
+        existsInBookList: bookExistsInUserBookList.value,
         selected: false
       }
       
@@ -370,8 +370,8 @@ export default {
 
     function setBookExistsInUserBookList() {
       const bookFound = userBooks.value.find((book) => book.gbId == gbId)
-      bookExistsInUserBookList.value.exists = bookFound ? true : false
-      console.log('set book exists in user book list status', bookExistsInUserBookList.value.exists)
+      bookExistsInUserBookList.value = bookFound ? true : false
+      console.log('set book exists in user book list status', bookExistsInUserBookList.value)
     }
     
     async function bookExistsInClubBookList(clubId) {
