@@ -14,22 +14,42 @@
                 <div>
                   <div class="text-center fw-bold me-1">
                     <div class="text-light light-blue-bg rounded px-2">Score</div>
-                    <div>8.3/10</div>
-                    <small class="text-muted">150 Users</small>
+                    <div>[POPULATE]</div>
+                    <small class="text-muted">[POPULATE] Users</small>
                   </div>
                 </div>
-                <div class="d-flex justify-content-around">
-                  <div class="text-center fw-bold">
-                    <div class="text-light light-blue-bg rounded px-2">Your Rating</div>
-                    <div>Not Rated</div>
+                
+                <div v-if="user.id">
+                                    
+                  <div class="d-flex justify-content-around">
+                    
+                    <div v-if="bookExistsInUserBookList()">
+                      <div class="text-center fw-bold">
+                        <div class="text-light light-blue-bg rounded px-2">Your Rating</div>
+                        <div>[POPULATE]</div>
+                      </div>
+                      
+                      <div class="text-center fw-bold mx-2">
+                        <div class="text-light light-blue-bg rounded px-2">Progress</div>
+                        <div>[POPULATE]</div>
+                      </div>
+
+                      <div>
+                        <button @click="removeFromUserBookList()" type="button" class="btn btn-danger">
+                          Remove Book
+                        </button>  
+                      </div>
+                    </div>
+                    
+                    <div v-else>
+                      <button @click="setAddBookToListsOptions()" type="button" class="btn orange-btn" data-bs-toggle="modal" data-bs-target="#addBookToLists">
+                        Add To List
+                      </button>
+                    </div>
+                  
                   </div>
-                  <div class="text-center fw-bold mx-2">
-                    <div class="text-light light-blue-bg rounded px-2">Progress</div>
-                    <div>Reading</div>
-                  </div>
-                  <div>
-                    <button class="btn orange-btn">Add To List</button>
-                  </div>
+                  
+
                 </div>
               </div> 
               <div class="mt-2 fs-5">Description</div>
@@ -192,6 +212,28 @@
       </div>
     </div>
   </div>
+  <Modal :id="'addBookToLists'">
+    <template v-slot:header>
+      <div class="fw-bold fs-5">Add Book To Lists</div>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </template>
+    <template v-slot:body>
+      <div v-for="(optionValue, optionName, i) in addBookToListsOptions" :key="i" class="form-check">
+        <div v-if="addBookToListsOptions[optionName].existsInBookList">
+          <input :id="optionName" type="checkbox" class="form-check-input" checked disabled>
+          <label :for="optionName" class="form-check-label">{{ optionName }} Books</label>
+        </div>
+        <div v-else>
+          <input :id="optionName" v-model="addBookToListsOptions[optionName].selected" type="checkbox" class="form-check-input">
+          <label :for="optionName" class="form-check-label">{{ optionName }} Books</label>
+        </div>
+      </div>
+    </template>
+    <template v-slot:footer>
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+      <button @click="addBookToLists()" type="button" class="btn btn-primary">Submit</button>
+    </template>
+  </Modal>
 </template>
 
 <script>
@@ -203,18 +245,28 @@ import Pop from '../utils/Pop.js';
 import { bookReviewsService } from '../services/BookReviewsService.js';
 import { clubsService } from '../services/ClubsService.js';
 import BookClubCard from '../components/BookClubCard.vue';
+import Modal from '../components/Modal.vue';
 
 export default {
-  components: { BookClubCard },
+  components: { BookClubCard, Modal },
   setup(){
     const route = useRoute()
     const selectedTab = ref('reading')
     const reviewData = ref({gbId: route.params.gbId})
     const userReviewedStatus = ref({reviewed: true})
+    const addBookToListsOptions = ref({})
     
     async function setBook(gbId) {
       try {
         await booksService.setBookDetailsPageBook(gbId)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
+    async function setUserBooks() {
+      try {
+        await booksService.setBookDetailsPageUserBooks()
       } catch (error) {
         Pop.error(error.message)
       }
@@ -255,6 +307,69 @@ export default {
         Pop.error(error.message)
       }
     }
+    
+    async function addBookToLists() {
+      for (const [name, option] of Object.entries(addBookToListsOptions.value)) {
+        if (option.selected) {
+          try {
+            const bookData = AppState.bookDetailsPage.book
+            switch (option.bookListType) {
+              case 'user': 
+                await booksService.createUserBook(bookData)
+              break;
+              case 'club':
+                bookData.clubId = option.clubId
+                await booksService.createClubBook(bookData)
+              break;
+            }
+          } catch (error) {
+            Pop.error(error.message)            
+          }
+        }
+      }
+    }
+
+    function setAddBookToListsOptions() {
+      addBookToListsOptions.value['My'] = {
+        bookListType: 'user',
+        existsInBookList: bookExistsInUserBookList(),
+        selected: false
+      }
+      
+      AppState.bookDetailsPage.userCreatorAdminClubs.forEach(async(club) => {
+        addBookToListsOptions.value[club.name] = {
+          bookListType: 'club',
+          clubId: club.id,
+          existsInBookList: await bookExistsInClubBookList(club.id),
+          selected: false
+        }
+      })
+      
+      // FIXME remove after testing
+      AppState.bookDetailsPage.userClubs.forEach(async(club) => {
+        addBookToListsOptions.value[club.name] = {
+          bookListType: 'club',
+          clubId: club.id,
+          existsInBookList: await bookExistsInClubBookList(club.id),
+          selected: false
+        }
+      })
+    }
+
+    function bookExistsInUserBookList() {
+      const book = AppState.bookDetailsPage.userBooks.find(book => book.gbId == route.params.gbId)
+      return book ? true : false
+    }
+    
+    async function bookExistsInClubBookList(clubId) {
+      const res = await booksService.getClubBooksByGbId(route.params.gbId)
+      const clubBooks = res.data
+      if (!clubBooks) {
+        return false
+      }
+      const book = clubBooks.find(book => book.clubId == clubId)
+      return book ? true : false
+    }
 
     async function createReview() {
       try {
@@ -288,6 +403,7 @@ export default {
       if(user.id) {
         setUserReviewedStatus(user, userReviews)
         setUserClubs(user)
+        setUserBooks()
       }
     })
 
@@ -299,11 +415,15 @@ export default {
       clubsPlanned: computed(() => AppState.bookDetailsPage.clubs.planned),
       clubsReading: computed(() => AppState.bookDetailsPage.clubs.reading),
       clubsFinished: computed(() => AppState.bookDetailsPage.clubs.finished),
-      // userBooks: computed(() => AppState.bookDetailsPage.userBooks),
+      userBooks: computed(() => AppState.bookDetailsPage.userBooks),
       userClubs: computed(() => AppState.bookDetailsPage.userClubs),
       userCreatorAdminClubs: computed(() => AppState.bookDetailsPage.userCreatorAdminClubs),
       userReviews: computed(() => AppState.bookDetailsPage.userReviews),
       userReviewedStatus,
+      addBookToListsOptions,
+      bookExistsInUserBookList,
+      setAddBookToListsOptions,
+      addBookToLists,
       createReview,
       deleteReview
     }
