@@ -7,7 +7,7 @@
             </div>
             
             <div>
-              <p class="fs-5">{{commentProp?.creator?.name}}</p>
+              <p class="fs-5">{{commentProp?.creator?.name}}, </p>
               <p class=" mb-4">
                 Posted {{commentProp?.createdAt}}
               </p>

@@ -11,8 +11,8 @@
               </p>
             </router-link>
               <p>
-                {{ postProp }}
-                <span class="pe-4"> {{ postProp?.membership?.role.toUpperCase() }} {{postProp?.creator?.name}}</span><span>posted {{postProp?.createdAt}}</span>
+                
+                <span class="pe-4"><i class="mdi mdi-star orange-text"></i> {{ postProp?.membership?.role.toUpperCase() }} {{postProp?.creator?.name}}</span><span>posted {{postProp?.createdAt}}</span>
               </p>
             </div>
             <div class="col-md-2 col-12  justify-content-evenly">
@@ -31,7 +31,7 @@
     </ul>
   </div>
   <p class="fs-5 ">
-    <i title="See Comments on this Post" class="mdi mdi-message-reply"></i> <span>1</span>
+    <i title="See Comments on this Post" class="mdi mdi-message-reply"></i> <span>{{ postProp.commentCount }}</span>
   </p>
             </div>
           </section>

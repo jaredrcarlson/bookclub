@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <PostDetailsCard :postProp="activeClubPost" />
-    <p class="fs-3"><i class="mdi mdi-comment"></i> Comments</p>
+    <p class="fs-3"><i class="mdi mdi-comment"></i> {{comments.length}} Comments</p>
 <!-- //form to make comments -->
 <CommentsForm/>
 

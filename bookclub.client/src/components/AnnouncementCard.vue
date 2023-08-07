@@ -31,7 +31,7 @@
     </ul>
   </div>
               <p class="fs-5">
-                <i class="mdi mdi-message-reply"></i> <span>{{announcementProp.commentCount}}10</span>
+                <i class="mdi mdi-message-reply"></i> <span>{{announcementProp.commentCount}}</span>
               </p>
             </div>
             
