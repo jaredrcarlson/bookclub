@@ -1,6 +1,8 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import BaseController from "../utils/BaseController.js";
 import { postCommentsService } from "../services/PostCommentsService.js";
+import { clubMembersService } from "../services/ClubMembersService.js";
+import { Forbidden } from "../utils/Errors.js";
 
 export class PostCommentsController extends BaseController {
   constructor() {
@@ -15,7 +17,9 @@ export class PostCommentsController extends BaseController {
   async createComment(req, res, next) {
     try {
       const commentData = req.body
+
       commentData.creatorId = req.userInfo.id
+
       const comment = await postCommentsService.createComment(commentData)
       return res.send(comment)
     } catch (error) {
