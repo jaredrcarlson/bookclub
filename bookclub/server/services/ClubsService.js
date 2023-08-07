@@ -14,11 +14,11 @@ class ClubsService {
 
     clubsData.clubs = clubs
     clubsData.total = await dbContext.Clubs.countDocuments()
-    if (page * 10 < clubsData.total) {
-      clubsData.next = null
+    if ((page + 1) * 10 < clubsData.total) {
+      clubsData.next = `http://localhost:3000/api/clubs?page=${parseInt(page) + 1}`
     }
     else {
-      clubsData.next = `http://localhost:3000/api/clubs?page=${parseInt(page) + 1}`
+      clubsData.next = null
     }
     if (page - 1 >= 0) {
       clubsData.prev = `http://localhost:3000/api/clubs?page=${parseInt(page) - 1}`
