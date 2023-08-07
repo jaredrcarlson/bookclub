@@ -30,7 +30,6 @@ export class UserBooksController extends BaseController {
     try {
       const userId = req.userInfo.id
       const userBooks = await userBooksService.getUserBooksByUserId(userId)
-      logger.log(`Controller > got userBooks by userId: ${userId}`, userBooks)
       return res.send(userBooks)
     } catch (error) {
       next(error)

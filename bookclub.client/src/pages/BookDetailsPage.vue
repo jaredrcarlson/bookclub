@@ -231,7 +231,7 @@
     </template>
     <template v-slot:footer>
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-      <button @click="addBookToLists()" type="button" class="btn btn-primary">Submit</button>
+      <button @click="addBookToLists()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBookToLists">Submit</button>
     </template>
   </Modal>
 </template>
@@ -239,7 +239,7 @@
 <script>
 import { useRoute } from 'vue-router';
 import { booksService } from '../services/BooksService.js';
-import { computed, ref, watchEffect } from 'vue';
+import { computed, onMounted, ref, watchEffect } from 'vue';
 import { AppState } from '../AppState.js';
 import Pop from '../utils/Pop.js';
 import { bookReviewsService } from '../services/BookReviewsService.js';
@@ -329,10 +329,14 @@ export default {
       }
     }
 
-    function setAddBookToListsOptions() {
+    async function removeFromUserBookList() {
+
+    }
+
+    async function setAddBookToListsOptions() {
       addBookToListsOptions.value['My'] = {
         bookListType: 'user',
-        existsInBookList: bookExistsInUserBookList(),
+        existsInBookList: await bookExistsInUserBookList(),
         selected: false
       }
       
@@ -356,8 +360,8 @@ export default {
       })
     }
 
-    function bookExistsInUserBookList() {
-      const book = AppState.bookDetailsPage.userBooks.find(book => book.gbId == route.params.gbId)
+    async function bookExistsInUserBookList() {
+      const book = AppState.bookDetailsPage.userBooks.find((book) => book.gbId == route.params.gbId)
       return book ? true : false
     }
     
@@ -388,7 +392,16 @@ export default {
       }
     }
 
-    watchEffect(() => {
+    watchEffect(async() => {
+      const user = AppState.user
+      if(user.id) {
+        await setUserReviewedStatus(AppState.user, AppState.bookDetailsPage.userReviews)
+        await setUserClubs(AppState.user)
+        await setUserBooks()
+      }
+    })
+    
+    onMounted(() => {
       const gbId = route.params.gbId
       setBook(gbId)
       setClubs(gbId, 'planned')
@@ -397,20 +410,11 @@ export default {
       setReviews(gbId)
     })
     
-    watchEffect(() => {
-      const user = AppState.account
-      const userReviews = AppState.bookDetailsPage.userReviews
-      if(user.id) {
-        setUserReviewedStatus(user, userReviews)
-        setUserClubs(user)
-        setUserBooks()
-      }
-    })
-
+    
     return {
       selectedTab,
       reviewData,
-      user: computed(() => AppState.account),
+      user: computed(() => AppState.user),
       book: computed(() => AppState.bookDetailsPage.book),
       clubsPlanned: computed(() => AppState.bookDetailsPage.clubs.planned),
       clubsReading: computed(() => AppState.bookDetailsPage.clubs.reading),
@@ -424,6 +428,7 @@ export default {
       bookExistsInUserBookList,
       setAddBookToListsOptions,
       addBookToLists,
+      removeFromUserBookList,
       createReview,
       deleteReview
     }
