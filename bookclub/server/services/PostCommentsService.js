@@ -23,8 +23,8 @@ class PostCommentsService {
 
   async createComment(commentData) {
     const memberships = await clubMembersService.getUserClubs(commentData.creatorId)
-    const clubId = (await clubPostsService.getPostById(commentData.postId)).clubId
-    if (!memberships.find(m => m.clubId == clubId)) {
+    const clubId = (await clubPostsService.getPostById(commentData.postId)).clubId.toString()
+    if (!memberships.find(m => m.clubId.toString() == clubId)) {
       throw new BadRequest("You cannot post a comment in clubs you are not a member of.")
     }
     const newComment = await dbContext.PostComments.create(commentData)
