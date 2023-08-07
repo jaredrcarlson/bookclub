@@ -7,12 +7,12 @@ export class BookRatingsController extends BaseController {
     constructor() {
         super('api/bookRatings')
         this.router
-            .get('', this.getBookRatingsByGbid)
-            .get('/:ratingId', this.getBookRatingById)
-            .use(Auth0Provider.getAuthorizedUserInfo)
-            .post('', this.createBookRating)
-            .put('/:ratingId', this.editRating)
-            .delete('/:ratingId', this.deleteRating)
+        // .get('', this.getBookRatingsByGbid)
+        // .get('/:ratingId', this.getBookRatingById)
+        // .use(Auth0Provider.getAuthorizedUserInfo)
+        // .post('', this.createBookRating)
+        // .put('/:ratingId', this.editRating)
+        // .delete('/:ratingId', this.deleteRating)
     }
 
     async deleteRating(req, res, next) {
