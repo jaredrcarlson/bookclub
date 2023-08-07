@@ -1,14 +1,15 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import BaseController from "../utils/BaseController.js";
 import { userBooksService } from "../services/UserBooksService.js";
+import { logger } from "../utils/Logger.js";
 
 export class UserBooksController extends BaseController {
   constructor() {
     super('api/userBooks')
     this.router
-      .get('', this.getUserBooks)
       .get('/:userBookId', this.getUserBookById)
       .use(Auth0Provider.getAuthorizedUserInfo)
+      .get('', this.getUserBooksByUserId)
       .post('', this.createUserBook)
       .put('/:userBookId', this.updateUserBook)
       .delete('/:userBookId', this.deleteUserBook)
@@ -25,9 +26,10 @@ export class UserBooksController extends BaseController {
     }
   }
 
-  async getUserBooks(req, res, next) {
+  async getUserBooksByUserId(req, res, next) {
     try {
-      const userBooks = await userBooksService.getUserBooks()
+      const userId = req.userInfo.id
+      const userBooks = await userBooksService.getUserBooksByUserId(userId)
       return res.send(userBooks)
     } catch (error) {
       next(error)

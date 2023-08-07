@@ -40,15 +40,36 @@ class BooksService {
   // @function
   // @param {bookBody} - book data passed in order to create ClubBook
   async createClubBook(bookData) {
-    const res = api.post(`api/clubBooks`, bookData)
+    const res = await api.post(`api/clubBooks`, bookData)
     logger.log(`[CREATED CLUB BOOK]`, res.data)
     return res.data
   }
 
+  //Function sends a request to create a UserBook to server
+  // @function
+  // @param {bookBody} - book data passed in order to create ClubBook
+  async createUserBook(bookData) {
+    const res = await api.post(`api/userBooks`, bookData)
+    logger.log(`[CREATED USER BOOK]`, res.data)
+    return res.data
+  }
+
   async setBookDetailsPageBook(gbId) {
-    const volume = await googleBooksService.getVolumeById(gbId)
-    const book = new Book(volume)
+    const volumeData = await googleBooksService.getVolumeById(gbId)
+    const book = new Book(volumeData)
     AppState.bookDetailsPage.book = book
+  }
+
+  async setBookDetailsPageUserBooks() {
+    const userBooks = []
+    const res = await api.get('api/userBooks')
+    res.data.forEach(async (data) => {
+      const volumeData = await googleBooksService.getVolumeById(data.gbId)
+      const book = new Book(data)
+      book.addGoogleBooksVolumeData(volumeData)
+      userBooks.push(book)
+    })
+    AppState.bookDetailsPage.userBooks = userBooks
   }
 
   async getClubBooksByGbId(gbId) {

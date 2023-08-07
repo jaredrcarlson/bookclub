@@ -8,6 +8,7 @@ export class ClubMembersController extends BaseController {
     this.router
       //routes
       .use(Auth0Provider.getAuthorizedUserInfo)
+      .get('', this.getUserClubMemberships)
       .post('', this.becomeMember)
       .delete('/:memberId', this.removeMember)
       .put('/:memberId', this.editMemberRole)
@@ -42,6 +43,21 @@ export class ClubMembersController extends BaseController {
       const userId = req.userInfo.id
       const member = await clubMembersService.editMemberRole(req.body, userId, req.params.memberId)
       return res.send(member)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getUserClubMemberships(req, res, next) {
+    try {
+      const userId = req.userInfo.id
+      const allUserMemberships = await clubMembersService.getUserClubs(userId)
+      const role = req.query.role
+      if (role) {
+        const roleMemberships = allUserMemberships.filter(membership => membership.role == role)
+        return res.send(roleMemberships)
+      }
+      return res.send(allUserMemberships)
     } catch (error) {
       next(error)
     }

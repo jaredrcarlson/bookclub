@@ -22,7 +22,7 @@ class UserBooksService {
   }
 
   async getUserBooksByUserId(userId) {
-    const userBooks = await dbContext.UserBooks.find({ userId })
+    const userBooks = await dbContext.UserBooks.find({ creatorId: userId })
     return userBooks
   }
 

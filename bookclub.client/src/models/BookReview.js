@@ -1,5 +1,6 @@
 export class BookReview {
   constructor(data) {
+    this.id = data.id
     this.gbId = data.gbId
     this.creatorId = data.creatorId
     this.content = data.content

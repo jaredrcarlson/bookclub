@@ -5,6 +5,7 @@
   <main>
     <router-view />
   </main>
+  <footer></footer>
 </template>
 
 <script>
@@ -13,12 +14,12 @@ import { AppState } from './AppState'
 import Navbar from './components/Navbar.vue'
 
 export default {
+  components: { Navbar },
   setup() {
     return {
       appState: computed(() => AppState)
     }
-  },
-  components: { Navbar }
+  }
 }
 </script>
 <style lang="scss">

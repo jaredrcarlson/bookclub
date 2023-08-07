@@ -28,6 +28,11 @@ class MembersService {
     logger.log('[DELETED CLUB MEMBER]', res.data)
     AppState.myMemberships = AppState.myMemberships.filter(m => m.id != memberId)
   }
+
+  async getMembershipsByUserId() {
+    const res = await api.get('api/members')
+    return res.data
+  }
 }
 
 export const membersService = new MembersService
