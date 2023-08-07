@@ -54,6 +54,10 @@ class BooksService {
     return res.data
   }
 
+  async deleteUserBook(bookId) {
+    await api.delete(`api/userBooks/${bookId}`)
+  }
+
   async setBookDetailsPageBook(gbId) {
     const volumeData = await googleBooksService.getVolumeById(gbId)
     const book = new Book(volumeData)
