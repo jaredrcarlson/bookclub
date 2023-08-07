@@ -7,7 +7,8 @@
         </p>
       </div>
       <div class="col-12">
-        <p class="m-3 fs-1">
+        <p v-if="account?.id == clubCreator?.profile.id || account?.id == clubAdmin.profile.id" class="m-3 fs-1">
+          <!-- v-if="selectedClub?.creatorId == member.creatorId" -->
           <PostForm :isAnnouncement="true"/>
         </p>
       </div>
@@ -47,7 +48,14 @@ export default {
         getClubAnnouncements();
       })
         return {
-          announcements: computed(() => AppState.clubAnnouncements)
+          announcements: computed(() => AppState.clubAnnouncements),
+          member: computed(() => AppState.members),
+          clubCreator: computed(() => 
+            AppState.members.find(m => m.role == 'creator')
+          ),
+          clubAdmin: computed(() => AppState.members.find(m => m.role == 'admin')),
+          account: computed(() => AppState.account),
+          selectedClub: computed(() => AppState.selectedClub),
         };
     },
     components: {  PostForm, AnnouncementCard }
