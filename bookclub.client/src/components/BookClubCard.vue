@@ -15,9 +15,9 @@
           <span>
             <span>{{ clubProp.memberCount }}</span> club members
           </span>
-          <button class="btn orange-btn">
+          <!-- <button class="btn orange-btn">
             Join Club
-          </button>
+          </button> -->
         </div>
       </div>
     </div>

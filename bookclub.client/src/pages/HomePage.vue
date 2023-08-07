@@ -102,7 +102,6 @@ import { clubsService } from '../services/ClubsService.js'
 import { computed, onMounted, ref } from 'vue'
 import { AppState } from '../AppState.js'
 import BookClubCard from '../components/BookClubCard.vue'
-import { logger } from '../utils/Logger'
 
 export default {
     setup() {
