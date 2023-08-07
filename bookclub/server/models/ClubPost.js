@@ -10,9 +10,9 @@ export const ClubPostSchema = new Schema({
 )
 
 ClubPostSchema.virtual('commentCount', {
-  localField: 'commentId',
-  foreignField: '_id',
-  ref: 'comment',
+  localField: '_id',
+  foreignField: 'postId',
+  ref: 'PostComment',
   count: true
 })
 
