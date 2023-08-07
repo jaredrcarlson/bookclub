@@ -1,6 +1,7 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import BaseController from "../utils/BaseController.js";
 import { userBooksService } from "../services/UserBooksService.js";
+import { logger } from "../utils/Logger.js";
 
 export class UserBooksController extends BaseController {
   constructor() {
@@ -29,6 +30,7 @@ export class UserBooksController extends BaseController {
     try {
       const userId = req.userInfo.id
       const userBooks = await userBooksService.getUserBooksByUserId(userId)
+      logger.log(`Controller > got userBooks by userId: ${userId}`, userBooks)
       return res.send(userBooks)
     } catch (error) {
       next(error)
