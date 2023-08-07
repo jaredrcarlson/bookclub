@@ -244,26 +244,31 @@ export default {
   setup(){
     const route = useRoute()
     const gbId = route.params.gbId
+    const user = ref(AppState.user)
     const account = ref(AppState.account)
     const book = ref(AppState.bookDetailsPage.book)
-    const user = ref(AppState.user)
     const userBooks = ref(AppState.bookDetailsPage.userBooks)
     const userClubs = ref(AppState.bookDetailsPage.userClubs)
     const userCreatorAdminClubs = ref(AppState.bookDetailsPage.userCreatorAdminClubs)
     const userReviews = ref(AppState.bookDetailsPage.userReviews)
 
-    const bookExistsInUserBookList = ref(true)
-
+    
     const clubsPlanned = ref(AppState.bookDetailsPage.clubs.planned)
     const clubsReading = ref(AppState.bookDetailsPage.clubs.reading)
     const clubsFinished = ref(AppState.bookDetailsPage.clubs.finished)
-
+    
+    const bookExistsInUserBookList = ref(true)
     const selectedTab = ref('reading')
-    const reviewData = ref({gbId: gbId})
+    const reviewData = ref({
+      gbId: gbId,
+      rating: null,
+      content: null
+    })
     const userReviewedStatus = ref(true)
     const addBookToListsOptions = ref({})
     
     async function setBook() {
+      console.log('running setBook()')
       try {
         await booksService.setBookDetailsPageBook(gbId)
       } catch (error) {
@@ -271,7 +276,14 @@ export default {
       }
     }
 
+    async function setAllClubs() {
+      await setClubs('planned')
+      await setClubs('reading')
+      await setClubs('finished')
+    }
+
     async function setClubs(status) {
+      console.log(`running setClubs(${status})`)
       try {
         await clubsService.setBookDetailsPageClubs(gbId, status)
       } catch (error) {
@@ -280,6 +292,7 @@ export default {
     }
 
     async function setReviews() {
+      console.log('running setReviews()')
       try {
         await bookReviewsService.setBookDetailsPageReviews(gbId)
       } catch (error) {
@@ -288,15 +301,18 @@ export default {
     }
     
     async function setUserBooks() {
+      console.log('running setUserBooks()')
       try {
         await booksService.setBookDetailsPageUserBooks()
         console.log('set user books', userBooks.value)
+        setBookExistsInUserBookList()
       } catch (error) {
         Pop.error(error.message)
       }
     }
     
     async function setUserClubs() {
+      console.log('running setUserClubs()')
       try {
         await clubsService.setBookDetailsPageUserClubs(user.value.id)
         console.log('set user clubs', userClubs.value)
@@ -306,6 +322,7 @@ export default {
     }
     
     async function setUserReviewedStatus() {
+      console.log('running setUserReviewedStatus()')
       try {
         if(user.value.id) {
           const userReview = userReviews.value.filter(review => review.gbId == gbId && review.creatorId == user.value.id)
@@ -318,16 +335,19 @@ export default {
     }
     
     async function addBookToLists() {
+      console.log('running addBookToLists()')
       for (const [name, option] of Object.entries(addBookToListsOptions.value)) {
         if (option.selected) {
           try {
             switch (option.bookListType) {
               case 'user': 
                 await booksService.createUserBook(book.value)
+                await setUserBooks()
               break;
               case 'club':
                 book.value.clubId = option.clubId
                 await booksService.createClubBook(book.value)
+                await setAllClubs()
               break;
             }
           } catch (error) {
@@ -338,10 +358,19 @@ export default {
     }
 
     async function removeFromUserBookList() {
-
+      console.log('running removeFromUserBookList()')
+      try {
+        const book = userBooks.value.find((book) => book.gbId == gbId)
+        await booksService.deleteUserBook(book.id)
+        console.log('removed book from user book list')
+        await setUserBooks()
+      } catch (error) {
+        Pop.error(error.message)
+      }
     }
 
     async function setAddBookToListsOptions() {
+      console.log('running setAddBookToListsOptions()')
       addBookToListsOptions.value['My'] = {
         bookListType: 'user',
         existsInBookList: bookExistsInUserBookList.value,
@@ -369,12 +398,14 @@ export default {
     }
 
     function setBookExistsInUserBookList() {
+      console.log('running setBookExistsInUserBookList()')
       const bookFound = userBooks.value.find((book) => book.gbId == gbId)
       bookExistsInUserBookList.value = bookFound ? true : false
       console.log('set book exists in user book list status', bookExistsInUserBookList.value)
     }
     
     async function bookExistsInClubBookList(clubId) {
+      console.log(`running bookExistsInClubBookList(${clubId})`)
       const res = await booksService.getClubBooksByGbId(gbId)
       const clubBooks = res.data
       if (!clubBooks) {
@@ -385,15 +416,21 @@ export default {
     }
 
     async function createReview() {
+      console.log('running createReview()')
       try {
         await bookReviewsService.createBookReview(reviewData.value)
-        reviewData.value = {gbId: gbId}
+        reviewData.value = {
+          gbId: gbId,
+          rating: null,
+          content: null
+        }
       } catch (error) {
         Pop.error(error.message)
       }
     }
     
     async function deleteReview(reviewId) {
+      console.log(`running deleteReview(${reviewId})`)
       try {
         await bookReviewsService.deleteBookReview(reviewId)
       } catch (error) {
@@ -402,20 +439,32 @@ export default {
     }
 
     watchEffect(async() => {
+      user
+      console.log('running watchEffect: user')
       if(user.value.id) {
         await setUserBooks()
-        setBookExistsInUserBookList()
         await setUserClubs()
         await setUserReviewedStatus()
+      } else {
+        console.log('no user logged in')
       }
     })
     
-    onMounted(() => {
-      setBook()
-      setClubs('planned')
-      setClubs('reading')
-      setClubs('finished')
-      setReviews()
+    watchEffect(async() => {
+      userBooks
+      console.log('running watchEffect: userBooks')
+      if(user.value.id) {
+        await setUserBooks()
+      } else {
+        console.log('no user logged in')
+      }
+    })
+    
+    onMounted(async() => {
+      console.log('running onMounted')
+      await setBook()
+      await setAllClubs()
+      await setReviews()
     })
     
     
