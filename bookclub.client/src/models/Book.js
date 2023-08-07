@@ -23,6 +23,7 @@ export class Book {
         this.club = data.club
       }
       this.gbId = data.gbId
+      this.authors = [data.author]
       this.author = data.author
       this.title = data.title
       this.imgUrl = data.imgUrl
@@ -33,14 +34,18 @@ export class Book {
   }
 
   addGoogleBooksVolumeData(volumeData) {
-    this.author = volumeData.volumeInfo.authors.join(', ')
-    this.authors = volumeData.volumeInfo.authors
-    this.title = volumeData.volumeInfo.title
-    this.subtitle = volumeData.volumeInfo.subtitle ? volumeData.volumeInfo.subtitle : ""
-    this.imgUrl = volumeData.volumeInfo.imageLinks ? volumeData.volumeInfo.imageLinks.thumbnail : `https://placehold.co/128x192?text=${volumeData.volumeInfo.title}`
-    this.imgUrlLarge = volumeData.volumeInfo.imageLinks ? googleBooksService.createImageURL(volumeData.id) : `https://placehold.co/400x600?text=${volumeData.volumeInfo.title} ${volumeData.volumeInfo.subtitle}`
-    this.publishedDate = new Date(volumeData.volumeInfo.publishedDate)
-    this.description = volumeData.volumeInfo.description ? volumeData.volumeInfo.description : ""
-    this.pageCount = volumeData.volumeInfo.pageCount
+    if (!('volumeInfo' in volumeData)) {
+      throw new Error('No volumeInfo key found in volumeData')
+    }
+    const data = volumeData.volumeInfo
+    this.authors = 'authors' in data ? data.authors : [data.author]
+    this.author = 'author' in data ? data.author : this.authors.join(', ')
+    this.title = 'title' in data ? data.title : ''
+    this.subtitle = 'subtitle' in data ? data.subtitle : ''
+    this.imgUrl = 'imageLinks' in data && 'thumbnail' in data.imageLinks ? data.imageLinks.thumbnail : `https://placehold.co/128x192?text=${this.title}`
+    this.imgUrlLarge = 'imageLinks' in data ? googleBooksService.createImageURL(volumeData.id) : `https://placehold.co/400x600?text=${this.title} ${this.subtitle}`
+    this.publishedDate = 'publishedDate' in data ? new Date(data.publishedDate) : new Date(0)
+    this.description = 'description' in data ? data.description : ''
+    this.pageCount = 'pageCount' in data ? data.pageCount : ''
   }
 }

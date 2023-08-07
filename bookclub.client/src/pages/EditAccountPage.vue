@@ -3,19 +3,16 @@
     
     <section class="row">
       <div class="col-12 p-0">
-        <img class="coverImg-style img-fluid" src="https://images.unsplash.com/photo-1551043047-1d2adf00f3fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" :alt=account.name>
-      </div>
-      <section class="col-12">
-        <div class="row">
-          <div class="col-12 account-info-style align-items-center d-flex">
-            <img class="img-fluid account-img me-4" :src=account.picture :alt=account.name>
-          </div>
+        <div class="image-container">
+          <img class="img-fluid account-img me-4" :src=account.picture :alt=account.name>
+          <img v-if="!account.coverImg" class="coverImg-style img-fluid" src="https://images.unsplash.com/photo-1551043047-1d2adf00f3fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" :alt=account.name>
+          <img v-else class="coverImg-style img-fluid" :src="account.coverImg" :alt=account.name>
         </div>
-      </section>
+      </div>
     </section>
 
-    <section class="row my-2">
-      <div class="col-12">
+    <section class="row mt-5">
+      <div class="col-12 px-4">
         <p class="ps-2 fs-1">
           Edit Your Account
         </p>
@@ -88,31 +85,40 @@ export default {
 
 <style lang="scss" scoped>
 .coverImg-style{
-  height: 20vh;
+  height: 100%;
   width: 100%;
   object-fit: cover;
   object-position: center;
 }
 
+
 .account-img{
-  height: 13vh;
-  width: 13vh;
+  height: 17vh;
+  width: 17vh;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
+  bottom: -8vh;
+  left: 5vw;
+  position: absolute;
+}
+
+.image-container {
+  height: 30vh;
+  position: relative;
 }
 
 .account-info-style{
-  top: 13.5vh;
+  top: -6.5vh;
   margin-bottom: -6.5vh;
-  position: absolute;
+  position: relative;
 }
 
 @media(min-width: 768px){
   .account-info-style{
-  top: 10.5vh;
+  top: -6.5vh;
   margin-bottom: -6.5vh;
-  position: absolute;
-  }
+  position: relative;
+}
 }
 </style>
