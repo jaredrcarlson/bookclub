@@ -3,14 +3,15 @@
       <div class="col-12 dark-blue-bg rounded elevation-5 text-light p-3">
         <h1>{{postProp?.title}}</h1>
         <div class="d-flex">
+          <router-link :to="{name: 'Profile Page', params: {profileId: postProp?.creator.id}}">
           <div class="pe-4">
             <img class="avatar-img" :src="postProp?.creator?.picture" :alt="postProp?.creator?.name">
           </div>
+        </router-link>
           <div>
             <p class="fs-4">{{ postProp?.creator?.name }}</p>
             <p class="fs-5 mb-4">
-              <!-- **FIXME - still need ROLE  -->
-              <span v-if="postProp?.membership?.role == 'creator'" class="orange-text"><i class="mdi mdi-star"></i></span> {{postProp?.membership?.role?.toUpperCase()}}  Posted {{postProp?.createdAt}}
+              <span class="orange-text"><i v-if="postProp?.membership.role == 'creator'" class="mdi mdi-star orange-text"></i><i v-else-if="postProp?.membership.role == 'admin'" class="mdi mdi-star-outline orange-text"></i><i v-else class="mdi mdi-account orange-text"></i></span> {{postProp?.membership?.role?.toUpperCase()}}  Posted {{postProp?.createdAt}}
             </p>
             <p class="fs-4">{{postProp?.body}}</p>
           </div>
