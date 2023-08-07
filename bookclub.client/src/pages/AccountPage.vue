@@ -56,7 +56,7 @@
         <p class="m-3 fs-1">
           My Booklist
           <span class="fs-3">
-            <i class="mdi mdi-book-multiple"></i> {{ myBooks.length }}
+            <i class="mdi mdi-book-multiple"></i> {{ myBooks?.length }}
           </span>
         </p>
       </div>
@@ -123,15 +123,15 @@ export default {
       myMemberships: computed(() => AppState.myMemberships),
       myBooks: computed(() => AppState.myBooks),
       finishedBooks: computed(() => {
-        let finishedBooks = AppState.myBooks.filter(b => b.status == 'finished')
+        let finishedBooks = AppState.myBooks?.filter(b => b.status == 'finished')
         return finishedBooks
       }),
       plannedBooks: computed(() => {
-        let plannedBooks = AppState.myBooks.filter(b => b.status == 'planned')
+        let plannedBooks = AppState.myBook?.filter(b => b.status == 'planned')
         return plannedBooks
       }),
       currentBooks: computed(() => {
-        let currentBooks = AppState.myBooks.filter(b => b.status == 'reading')
+        let currentBooks = AppState.myBooks?.filter(b => b.status == 'reading')
         return currentBooks
       }),
 
