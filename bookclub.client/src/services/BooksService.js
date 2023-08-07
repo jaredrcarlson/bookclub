@@ -1,6 +1,7 @@
 import { AppState } from "../AppState"
 import { Book } from "../models/Book"
 import { logger } from "../utils/Logger"
+import Pop from "../utils/Pop.js"
 import { api } from "./AxiosService"
 import { googleBooksService } from "./GoogleBooksService"
 
@@ -52,6 +53,17 @@ class BooksService {
     const res = await api.post(`api/userBooks`, bookData)
     logger.log(`[CREATED USER BOOK]`, res.data)
     return res.data
+  }
+
+  async getMyBooks() {
+    try {
+      const res = await api.get('account/books')
+
+      logger.log('[GOT ACCOUNT BOOKS]', res.data)
+      AppState.myBooks = res.data.map(pojo => new Book(pojo))
+    } catch (error) {
+      Pop.error(error.message)
+    }
   }
 
   async deleteUserBook(bookId) {
