@@ -30,18 +30,14 @@
                         <div>[POPULATE]</div>
                       </div>
                       <div>
-                        <button @click="removeFromUserBookList()" type="button" class="btn btn-danger">
+                        <button @click="setAddBookToListsOptions()" type="button" class="btn orange-btn" data-bs-toggle="modal" data-bs-target="#addBookToLists">
+                          Add To List
+                        </button>
+                        <!-- <button @click="removeFromUserBookList()" type="button" class="btn btn-danger">
                           Remove Book
-                        </button>  
+                        </button>   -->
                       </div>
                     </div>
-                    
-                    <div v-else class="d-flex justify-content-end">
-                      <button @click="setAddBookToListsOptions()" type="button" class="btn orange-btn" data-bs-toggle="modal" data-bs-target="#addBookToLists">
-                        Add To List
-                      </button>
-                    </div>
-
                 </div>
               </div> 
               <div class="mt-2 fs-5">Description</div>
@@ -245,7 +241,7 @@ export default {
     const route = useRoute()
     const gbId = route.params.gbId
     const user = ref(AppState.user)
-    const account = ref(AppState.account)
+    // const account = ref(AppState.account)
     const book = ref(AppState.bookDetailsPage.book)
     const userBooks = ref(AppState.bookDetailsPage.userBooks)
     const userClubs = ref(AppState.bookDetailsPage.userClubs)
