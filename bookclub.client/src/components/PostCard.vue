@@ -11,7 +11,8 @@
               </p>
             </router-link>
               <p>
-                <span class="pe-4">{{postProp?.creator?.name}}</span><span>posted {{postProp?.createdAt}}</span>
+                {{ postProp }}
+                <span class="pe-4"> {{ postProp?.membership?.role.toUpperCase() }} {{postProp?.creator?.name}}</span><span>posted {{postProp?.createdAt}}</span>
               </p>
             </div>
             <div class="col-md-2 col-12  justify-content-evenly">
