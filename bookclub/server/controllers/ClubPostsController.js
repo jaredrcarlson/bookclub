@@ -2,6 +2,8 @@ import { Auth0Provider } from "@bcwdev/auth0provider";
 import BaseController from "../utils/BaseController.js";
 import { clubPostsService } from "../services/ClubPostsService.js";
 import { postCommentsService } from "../services/PostCommentsService.js";
+import { clubMembersService } from "../services/ClubMembersService.js";
+import { Forbidden } from "../utils/Errors.js";
 
 export class ClubPostsController extends BaseController {
   constructor() {
@@ -38,6 +40,16 @@ export class ClubPostsController extends BaseController {
   async createPost(req, res, next) {
     try {
       const postData = req.body
+
+      const userId = req.userInfo.id
+
+      const memberClubs = await clubMembersService.getUserClubs(userId)
+      const inClub = memberClubs.find(c => c.clubId == postData.clubId)
+
+      if (!inClub) {
+        throw new Forbidden('You are not in this club. Please become a member of this club in order to make a post.')
+      }
+
       postData.creatorId = req.userInfo.id
       const post = await clubPostsService.createPost(postData)
       return res.send(post)
