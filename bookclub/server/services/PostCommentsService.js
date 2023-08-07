@@ -1,5 +1,7 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
+import { clubMembersService } from "./ClubMembersService.js"
+import { clubPostsService } from "./ClubPostsService.js"
 
 class PostCommentsService {
   async getPostComments(postId) {
@@ -20,6 +22,11 @@ class PostCommentsService {
   }
 
   async createComment(commentData) {
+    const memberships = await clubMembersService.getUserClubs(commentData.creatorId)
+    const clubId = (await clubPostsService.getPostById(commentData.postId)).clubId
+    if (!memberships.find(m => m.clubId == clubId)) {
+      throw new BadRequest("You cannot post a comment in clubs you are not a member of.")
+    }
     const newComment = await dbContext.PostComments.create(commentData)
     await newComment.populate('creator', 'name picture')
     await newComment.populate('membership')
