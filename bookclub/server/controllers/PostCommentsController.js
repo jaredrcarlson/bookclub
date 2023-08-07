@@ -7,7 +7,6 @@ export class PostCommentsController extends BaseController {
     super('api/comments')
     this.router
       //routes
-
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createComment)
       .put('/:commentId', this.editComment)
