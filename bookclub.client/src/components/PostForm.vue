@@ -11,13 +11,6 @@
           <div class="my-2">
             <button type="submit" class="btn orange-btn">Submit</button>
           </div>
-          <!-- <div class="form-check">
-            put conditional if person making post is a club creator or admin, then have this show....?
-            <input class="form-check-input" type="checkbox" value="" id="">
-            <label class="form-check-label" for="">
-              Make this Post an Announcement
-            </label>
-          </div> -->
         </form>
 </template>
 
@@ -41,9 +34,9 @@ export default {
     const route = useRoute()
 
 
-    // watchEffect(() => {
-    //   editable.value = {...AppState.activeClubPost}
-    // })
+    watchEffect(() => {
+      editable.value = {...AppState.activeClubPost}
+    })
     return {
       editable,
       handleSubmit(){

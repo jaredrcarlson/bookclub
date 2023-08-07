@@ -3,11 +3,13 @@
 
           <div class="d-flex">
             <div class="pe-4">
+              
               <img class="avatar-img" :src="commentProp?.creator?.picture" :alt="commentProp?.creator?.name">
             </div>
             
             <div>
-              <p class="fs-5">{{commentProp?.creator?.name}}</p>
+              <p class="fs-5">{{commentProp?.creator?.name}}, {{ commentProp?.creator?.role }}</p>
+              <!-- //*FIXME - Needs role populated... not accessing membership -->
               <p class=" mb-4">
                 Posted {{commentProp?.createdAt}}
               </p>
@@ -23,7 +25,7 @@
     <li @click="deleteComment(commentProp?.id)" class="selectable mb-1 p-2">
       Delete Comment <i class="mdi mdi-delete"></i>
     </li>
-    <li @click="editComment(commentProp?.id)" class="selectable mb-1 p-2">
+    <li @click="setCommentToEdit()" class="selectable mb-1 p-2">
       Edit Comment <i class="mdi mdi-pencil"></i>
     </li>
   </ul>
@@ -43,7 +45,7 @@ export default {
   props: {
     commentProp: { type: Object, required: true}
   },
-  setup(){
+  setup(props){
     return {
       postComments: computed(() => AppState.postComments),
       account: computed(() => AppState.account),
@@ -60,6 +62,10 @@ export default {
                     Pop.error(error.message);
                 }
             },
+            setCommentToEdit(){
+              const commentToEdit = props.commentProp
+              postCommentsService.setCommentToEdit(commentToEdit)
+            }
     }
   }
 }

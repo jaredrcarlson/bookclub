@@ -1,8 +1,6 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import BaseController from "../utils/BaseController.js";
 import { postCommentsService } from "../services/PostCommentsService.js";
-import { clubMembersService } from "../services/ClubMembersService.js";
-import { Forbidden } from "../utils/Errors.js";
 
 export class PostCommentsController extends BaseController {
   constructor() {

@@ -50,7 +50,7 @@ class ClubPostsService {
     logger.log('[DID I EDIT A POST?]', res.data)
     const post = new ClubPost(res.data)
     const clubPostIndex = AppState.clubPosts.findIndex(post => post.id == postData.id)
-    // const updatedPost = new ClubPost(res.data)
+    AppState.activeClubPost = post
     AppState.clubPosts.splice(clubPostIndex, 1, post)
   }
 

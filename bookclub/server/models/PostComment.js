@@ -1,8 +1,8 @@
 import { Schema } from "mongoose";
 
 export const PostCommentSchema = new Schema({
-  postId: { type: Schema.Types.ObjectId, required: true },
-  creatorId: { type: Schema.Types.ObjectId, required: true },
+  postId: { type: Schema.Types.ObjectId, required: true, ref: 'ClubPost' },
+  creatorId: { type: Schema.Types.ObjectId, required: true, ref: 'Account' },
   body: { type: String, minLength: 3, maxLength: 200, required: true },
 }, { timestamps: true, toJSON: { virtuals: true } }
 )
