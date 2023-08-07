@@ -3,37 +3,36 @@
     <section class="row">
       <div class="col-12">
         <h1 class="m-3">
-          Club Discussions <span class="ps-5"><button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn orange-btn">Make Post</button></span>
+          Club Discussions 
+          <span class="ps-5" v-if="account.id && Array.isArray(myMemberships)">
+            <button v-if="inClub" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn orange-btn">Make Post</button>
+          </span>
         </h1>
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Make a Post...</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-
-        <PostForm :isAnnouncement="false"/>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Make a Post...</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <PostForm :isAnnouncement="false"/>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- End Modal -->
       </div>
     </section>
 <!-- //comments section -->
     <section v-for="clubPost in clubPosts" :key="clubPost?.id" class="row bg-white elevation-5 rounded">
       <PostCard :postProp="clubPost"/>
-
-      
-   </section>
+    </section>
   </div>
 </template>
 
@@ -64,10 +63,18 @@ export default {
             getClubPosts();
         });
         return {
+            route,
             selectedClub: computed(() => AppState.selectedClub),
             clubPosts: computed(() => AppState.clubPosts),
             account: computed(() => AppState.account),
             activeClubPost: computed(() => AppState.activeClubPost),
+            inClub: computed(() => {
+            const foundClub = AppState.myMemberships.find(c => c.clubId == route.params.clubId)
+            logger.log(foundClub)
+            logger.log(AppState.myMemberships)
+            return foundClub
+            }),
+            myMemberships: computed(() => AppState.myMemberships),
             // async deletePost(postId) {
             //     try {
             //         const wantsToDelete = await Pop.confirm("Once it's gone, it's gone. Are you sure you want to delete?");

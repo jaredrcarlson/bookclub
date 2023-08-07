@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid" v-if="account.id">
         <section class="row h-100">
             <div class="col-md-7 col-12">
                 <div class="px-2">
@@ -76,6 +76,17 @@
             </div>
         </section>
     </div>
+    <div class="container-fluid" v-else>
+        <section class="row">
+            <div class="col-12 text-center my-3">
+                <div class="dark-blue-bg text-light p-2 rounded elevation-3">
+                    <h2>
+                        Please log in or sign up to create a book club!
+                    </h2>
+                </div>
+            </div>
+        </section>
+    </div>
 </template>
 
 <script>
@@ -141,7 +152,8 @@ export default {
             editable,
             books : computed(() => AppState.books),
             selectedBook : computed(() => AppState.selectedBook),
-            booksToAdd
+            booksToAdd,
+            account: computed(() => AppState.account)
         }
     }
 }
