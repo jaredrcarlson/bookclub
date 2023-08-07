@@ -20,20 +20,15 @@
                 </div>
                 
                 <div v-if="user.id">
-                                    
-                  <div class="d-flex justify-content-around">
-                    
-                    <div v-if="bookExistsInUserBookList()">
+                    <div v-if="bookExistsInUserBookList.exists" class="d-flex justify-content-around">
                       <div class="text-center fw-bold">
                         <div class="text-light light-blue-bg rounded px-2">Your Rating</div>
                         <div>[POPULATE]</div>
                       </div>
-                      
                       <div class="text-center fw-bold mx-2">
                         <div class="text-light light-blue-bg rounded px-2">Progress</div>
                         <div>[POPULATE]</div>
                       </div>
-
                       <div>
                         <button @click="removeFromUserBookList()" type="button" class="btn btn-danger">
                           Remove Book
@@ -41,14 +36,11 @@
                       </div>
                     </div>
                     
-                    <div v-else>
+                    <div v-else class="d-flex justify-content-end">
                       <button @click="setAddBookToListsOptions()" type="button" class="btn orange-btn" data-bs-toggle="modal" data-bs-target="#addBookToLists">
                         Add To List
                       </button>
                     </div>
-                  
-                  </div>
-                  
 
                 </div>
               </div> 
@@ -251,12 +243,27 @@ export default {
   components: { BookClubCard, Modal },
   setup(){
     const route = useRoute()
+    const gbId = route.params.gbId
+    const account = ref(AppState.account)
+    const book = ref(AppState.bookDetailsPage.book)
+    const user = ref(AppState.user)
+    const userBooks = ref(AppState.bookDetailsPage.userBooks)
+    const userClubs = ref(AppState.bookDetailsPage.userClubs)
+    const userCreatorAdminClubs = ref(AppState.bookDetailsPage.userCreatorAdminClubs)
+    const userReviews = ref(AppState.bookDetailsPage.userReviews)
+
+    const bookExistsInUserBookList = ref({exists: true})
+
+    const clubsPlanned = ref(AppState.bookDetailsPage.clubs.planned)
+    const clubsReading = ref(AppState.bookDetailsPage.clubs.reading)
+    const clubsFinished = ref(AppState.bookDetailsPage.clubs.finished)
+
     const selectedTab = ref('reading')
-    const reviewData = ref({gbId: route.params.gbId})
+    const reviewData = ref({gbId: gbId})
     const userReviewedStatus = ref({reviewed: true})
     const addBookToListsOptions = ref({})
     
-    async function setBook(gbId) {
+    async function setBook() {
       try {
         await booksService.setBookDetailsPageBook(gbId)
       } catch (error) {
@@ -264,15 +271,7 @@ export default {
       }
     }
 
-    async function setUserBooks() {
-      try {
-        await booksService.setBookDetailsPageUserBooks()
-      } catch (error) {
-        Pop.error(error.message)
-      }
-    }
-
-    async function setClubs(gbId, status) {
+    async function setClubs(status) {
       try {
         await clubsService.setBookDetailsPageClubs(gbId, status)
       } catch (error) {
@@ -280,15 +279,7 @@ export default {
       }
     }
 
-    async function setUserClubs(user) {
-      try {
-        await clubsService.setBookDetailsPageUserClubs(user.id)
-      } catch (error) {
-        Pop.error(error.message)
-      }
-    }
-
-    async function setReviews(gbId) {
+    async function setReviews() {
       try {
         await bookReviewsService.setBookDetailsPageReviews(gbId)
       } catch (error) {
@@ -296,13 +287,31 @@ export default {
       }
     }
     
-    async function setUserReviewedStatus(user, userReviews) {
-      const gbId = route.params.gbId
+    async function setUserBooks() {
       try {
-        if(user.id) {
-          const userReview = userReviews.filter(review => review.gbId == gbId && review.creatorId == user.id)
+        await booksService.setBookDetailsPageUserBooks()
+        console.log('set user books', userBooks.value)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+    
+    async function setUserClubs() {
+      try {
+        await clubsService.setBookDetailsPageUserClubs(user.value.id)
+        console.log('set user clubs', userClubs.value)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+    
+    async function setUserReviewedStatus() {
+      try {
+        if(user.value.id) {
+          const userReview = userReviews.value.filter(review => review.gbId == gbId && review.creatorId == user.value.id)
           userReviewedStatus.value.reviewed = userReview.length ? true : false
         }
+        console.log('set user reviewed status', userReviewedStatus.value)
       } catch (error) {
         Pop.error(error.message)
       }
@@ -312,14 +321,13 @@ export default {
       for (const [name, option] of Object.entries(addBookToListsOptions.value)) {
         if (option.selected) {
           try {
-            const bookData = AppState.bookDetailsPage.book
             switch (option.bookListType) {
               case 'user': 
-                await booksService.createUserBook(bookData)
+                await booksService.createUserBook(book.value)
               break;
               case 'club':
-                bookData.clubId = option.clubId
-                await booksService.createClubBook(bookData)
+                book.value.clubId = option.clubId
+                await booksService.createClubBook(book.value)
               break;
             }
           } catch (error) {
@@ -336,11 +344,11 @@ export default {
     async function setAddBookToListsOptions() {
       addBookToListsOptions.value['My'] = {
         bookListType: 'user',
-        existsInBookList: await bookExistsInUserBookList(),
+        existsInBookList: bookExistsInUserBookList.value.exists,
         selected: false
       }
       
-      AppState.bookDetailsPage.userCreatorAdminClubs.forEach(async(club) => {
+      userCreatorAdminClubs.value.forEach(async(club) => {
         addBookToListsOptions.value[club.name] = {
           bookListType: 'club',
           clubId: club.id,
@@ -350,7 +358,7 @@ export default {
       })
       
       // FIXME remove after testing
-      AppState.bookDetailsPage.userClubs.forEach(async(club) => {
+      userClubs.value.forEach(async(club) => {
         addBookToListsOptions.value[club.name] = {
           bookListType: 'club',
           clubId: club.id,
@@ -360,13 +368,14 @@ export default {
       })
     }
 
-    async function bookExistsInUserBookList() {
-      const book = AppState.bookDetailsPage.userBooks.find((book) => book.gbId == route.params.gbId)
-      return book ? true : false
+    function setBookExistsInUserBookList() {
+      const bookFound = userBooks.value.find((book) => book.gbId == gbId)
+      bookExistsInUserBookList.value.exists = bookFound ? true : false
+      console.log('set book exists in user book list status', bookExistsInUserBookList.value.exists)
     }
     
     async function bookExistsInClubBookList(clubId) {
-      const res = await booksService.getClubBooksByGbId(route.params.gbId)
+      const res = await booksService.getClubBooksByGbId(gbId)
       const clubBooks = res.data
       if (!clubBooks) {
         return false
@@ -378,7 +387,7 @@ export default {
     async function createReview() {
       try {
         await bookReviewsService.createBookReview(reviewData.value)
-        reviewData.value = {gbId: route.params.gbId}
+        reviewData.value = {gbId: gbId}
       } catch (error) {
         Pop.error(error.message)
       }
@@ -393,39 +402,42 @@ export default {
     }
 
     watchEffect(async() => {
-      const user = AppState.user
-      if(user.id) {
-        await setUserReviewedStatus(AppState.user, AppState.bookDetailsPage.userReviews)
-        await setUserClubs(AppState.user)
+      if(user.value.id) {
         await setUserBooks()
+        setBookExistsInUserBookList()
+        await setUserClubs()
+        await setUserReviewedStatus()
       }
     })
     
     onMounted(() => {
-      const gbId = route.params.gbId
-      setBook(gbId)
-      setClubs(gbId, 'planned')
-      setClubs(gbId, 'reading')
-      setClubs(gbId, 'finished')
-      setReviews(gbId)
+      setBook()
+      setClubs('planned')
+      setClubs('reading')
+      setClubs('finished')
+      setReviews()
     })
     
     
     return {
+      book,
+      user,
+      userBooks,
+      userClubs,
+      userCreatorAdminClubs,
+      userReviews,
+      userReviewedStatus,
+      
+      clubsPlanned,
+      clubsReading,
+      clubsFinished,
+      
       selectedTab,
       reviewData,
-      user: computed(() => AppState.user),
-      book: computed(() => AppState.bookDetailsPage.book),
-      clubsPlanned: computed(() => AppState.bookDetailsPage.clubs.planned),
-      clubsReading: computed(() => AppState.bookDetailsPage.clubs.reading),
-      clubsFinished: computed(() => AppState.bookDetailsPage.clubs.finished),
-      userBooks: computed(() => AppState.bookDetailsPage.userBooks),
-      userClubs: computed(() => AppState.bookDetailsPage.userClubs),
-      userCreatorAdminClubs: computed(() => AppState.bookDetailsPage.userCreatorAdminClubs),
-      userReviews: computed(() => AppState.bookDetailsPage.userReviews),
-      userReviewedStatus,
       addBookToListsOptions,
+      
       bookExistsInUserBookList,
+
       setAddBookToListsOptions,
       addBookToLists,
       removeFromUserBookList,

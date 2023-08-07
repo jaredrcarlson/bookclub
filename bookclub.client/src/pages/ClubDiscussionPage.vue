@@ -75,19 +75,6 @@ export default {
             return foundClub
             }),
             myMemberships: computed(() => AppState.myMemberships),
-            // async deletePost(postId) {
-            //     try {
-            //         const wantsToDelete = await Pop.confirm("Once it's gone, it's gone. Are you sure you want to delete?");
-            //         if (!wantsToDelete) {
-            //             return;
-            //         }
-            //         logger.log('[DELETING POST...]');
-            //         await clubPostsService.deletePost(postId);
-            //     }
-            //     catch (error) {
-            //         Pop.error(error.message);
-            //     }
-            // },
         };
     },
     components: { PostCard, PostForm }
