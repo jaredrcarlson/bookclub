@@ -10,7 +10,7 @@
             <p class="fs-4">{{ postProp?.creator?.name }}</p>
             <p class="fs-5 mb-4">
               <!-- **FIXME - still need ROLE  -->
-              <span class="orange-text"><i class="mdi mdi-star"></i></span> Book Club Admin  Posted {{postProp?.createdAt}}
+              <span v-if="postProp?.membership?.role == 'creator'" class="orange-text"><i class="mdi mdi-star"></i></span> {{postProp?.membership?.role?.toUpperCase()}}  Posted {{postProp?.createdAt}}
             </p>
             <p class="fs-4">{{postProp?.body}}</p>
           </div>
