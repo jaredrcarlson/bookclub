@@ -12,7 +12,7 @@
                 {{ announcementProp.body }}
               </p>
               <p>
-                <span class="pe-4">  {{announcementProp.creator?.name}}</span><span>posted {{announcementProp.createdAt}}</span>
+                <span class="pe-4"><i v-if="announcementProp.membership.role == 'creator'" class="mdi mdi-star orange-text"></i>{{ announcementProp?.membership?.role.toUpperCase() }}   {{announcementProp.creator?.name}}</span><span>posted {{announcementProp.createdAt}}</span>
               </p>
             </div>
             <div class="col-md-2 col-12">

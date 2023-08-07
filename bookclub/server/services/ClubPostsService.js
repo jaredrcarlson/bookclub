@@ -6,6 +6,9 @@ class ClubPostsService {
   async getClubPosts(clubId) {
     const clubPosts = await dbContext.Posts.find({ clubId: clubId })
       .populate('creator', 'name picture')
+      .populate('commentCount')
+      .populate('membership')
+
     return clubPosts
   }
   async getPostById(postId) {
@@ -23,6 +26,7 @@ class ClubPostsService {
     const clubPosts = await dbContext.Posts.find({ clubId, isAnnouncement: true })
       .populate('creator', 'name picture')
       .populate('membership')
+      .populate('commentCount')
     return clubPosts
   }
 
