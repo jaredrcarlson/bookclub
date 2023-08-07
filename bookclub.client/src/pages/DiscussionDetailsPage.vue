@@ -21,7 +21,6 @@ import Pop from "../utils/Pop.js";
 import { clubPostsService } from "../services/ClubPostsService.js";
 import { computed, onMounted, ref, watchEffect } from "vue";
 import { AppState } from "../AppState.js";
-import { logger } from "../utils/Logger.js";
 import CommentsForm from "../components/CommentsForm.vue";
 import CommentCard from "../components/CommentCard.vue";
 import PostDetailsCard from "../components/PostDetailsCard.vue";

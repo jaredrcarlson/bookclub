@@ -1,5 +1,6 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
+import { clubMembersService } from "./ClubMembersService.js"
 
 class ClubPostsService {
   async getClubPosts(clubId) {
@@ -25,6 +26,7 @@ class ClubPostsService {
   }
 
   async createPost(postData) {
+
     const newPost = await dbContext.Posts.create(postData)
     await newPost.populate('creator', 'name picture')
     await newPost.populate('commentCount')

@@ -38,7 +38,7 @@
 
 
 <script>
-import { computed, ref, watchEffect } from 'vue';
+import { computed, watchEffect } from 'vue';
 import { AppState } from '../AppState.js';
 import { useRoute } from "vue-router";
 import Pop from "../utils/Pop.js";

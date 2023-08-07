@@ -8,10 +8,31 @@ import { booksService } from "./BooksService.js"
 import { membersService } from "./MembersService.js"
 
 class ClubsService {
-  async getAllClubs() {
-    const res = await api.get('api/clubs')
+  async getAllClubs(searchQuery) {
+    const res = await api.get('api/clubs',
+      {
+        params: { search: searchQuery }
+      })
     // logger.log('[GOT CLUBS]', res.data.clubs)
     AppState.clubs = res.data.clubs.map(pojo => new Club(pojo))
+    AppState.nextPage = res.data.next
+    AppState.prevPage = res.data.prev
+  }
+
+  async getNextClubsPage() {
+    const res = await api.get(AppState.nextPage)
+    // logger.log('[GOT CLUBS]', res.data.clubs)
+    AppState.clubs = res.data.clubs.map(pojo => new Club(pojo))
+    AppState.nextPage = res.data.next
+    AppState.prevPage = res.data.prev
+  }
+
+  async getPrevClubsPage() {
+    const res = await api.get(AppState.prevPage)
+    // logger.log('[GOT CLUBS]', res.data.clubs)
+    AppState.clubs = res.data.clubs.map(pojo => new Club(pojo))
+    AppState.nextPage = res.data.next
+    AppState.prevPage = res.data.prev
   }
 
   async getClubById(clubId) {

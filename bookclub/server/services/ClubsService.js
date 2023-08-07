@@ -3,9 +3,9 @@ import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { logger } from "../utils/Logger.js"
 
 class ClubsService {
-  async getClubs(page) {
+  async getClubs(page, search) {
     const clubsData = {}
-    const clubs = await dbContext.Clubs.find()
+    const clubs = await dbContext.Clubs.find({ "name": { "$regex": search, "$options": "i" } })
       .sort({ name: 1 })
       .skip(page * 10)
       .limit(10)
@@ -13,15 +13,15 @@ class ClubsService {
       .populate('memberCount')
 
     clubsData.clubs = clubs
-    clubsData.total = await dbContext.Clubs.countDocuments()
+    clubsData.total = await dbContext.Clubs.countDocuments({ "name": { "$regex": search, "$options": "i" } })
     if ((page + 1) * 10 < clubsData.total) {
-      clubsData.next = `http://localhost:3000/api/clubs?page=${parseInt(page) + 1}`
+      clubsData.next = `http://localhost:3000/api/clubs?page=${parseInt(page) + 1}&search=${search}`
     }
     else {
       clubsData.next = null
     }
     if (page - 1 >= 0) {
-      clubsData.prev = `http://localhost:3000/api/clubs?page=${parseInt(page) - 1}`
+      clubsData.prev = `http://localhost:3000/api/clubs?page=${parseInt(page) - 1}&search=${search}`
     }
     else {
       clubsData.prev = null
