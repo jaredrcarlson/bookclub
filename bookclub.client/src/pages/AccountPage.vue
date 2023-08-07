@@ -1,27 +1,24 @@
 <template>
   <div class="container-fluid">
     <section class="row">
-      <div class="col-12 p-0">
-        <img class="coverImg-style img-fluid" src="https://images.unsplash.com/photo-1551043047-1d2adf00f3fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" :alt=account.name>
-      </div>
-      <section class="col-12 mb-5">
-        <div class="row">
-          <div class="col-12 account-info-style align-items-center d-flex">
-            <img class="img-fluid account-img me-4" :src=account.picture :alt=account.name>
-            <div class="fs-2 pt-5 d-flex align-items-center">
-              <p class="pe-2 m-0">
+      <div class="col-12 p-4">
+        <div class="image-container">
+          <img class="img-fluid account-img me-4" :src=account.picture :alt=account.name>
+          <div class="account-name">
+            <p class="fs-2 pe-2 m-0">
                 {{ account.name }}
-              </p>
-              <router-link :to="{name: 'Edit Account Page'}">
-                <i class="mdi mdi-pencil-box-outline fs-3 mt-md-2 mt-1 text-dark" type="button" title="Edit Account"></i>
-              </router-link>
-            </div>
+                <router-link :to="{name: 'Edit Account Page'}">
+                  <i class="mdi mdi-pencil-box-outline fs-3 mt-md-2 mt-1 text-dark" type="button" title="Edit Account"></i>
+                </router-link>
+            </p>
           </div>
+          <img v-if="!account.coverImg" class="coverImg-style img-fluid" src="https://images.unsplash.com/photo-1551043047-1d2adf00f3fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" :alt=account.name>
+          <img v-else class="coverImg-style img-fluid" :src="account.coverImg" :alt=account.name>
         </div>
-      </section>
+      </div>
     </section>
 
-    <section class="row">
+    <section class="row mt-5">
       <div class="col-12">
         <p class="m-3 fs-1">
           My Clubs
@@ -31,14 +28,12 @@
 
     <section class="row mb-4" v-if="Array.isArray(myMemberships) && account.id">
       <div class="col-md-4 col-12 my-3" v-for="membership in myMemberships" :key="membership.id">
-          <div class="mx-3">
+          <div class="membership-card mx-3">
             <router-link :to="({name: 'Club About Page', params: {clubId: membership.club.id}})">
-              <div>
                 <img class="img-fluid card-img" :src=membership.club.coverImg alt="card img">
-              </div>
             </router-link>
 
-            <div class="dark-blue-bg p-3 text-light">
+            <div class="dark-blue-bg p-3 text-light card-description">
               <p class="fs-5">
                 {{ membership.club.name }}
               </p>
@@ -46,7 +41,7 @@
                 {{ membership.club.description }}
               </p>
 
-              <div v-if="loadingRef == false">
+              <div class="mt-auto" v-if="loadingRef == false">
                 <button class="btn orange-btn" @click="leaveClub(membership.id)" title="Leave Club">
                   <i class="mdi mdi-account-minus"></i> Leave Club
                 </button>
@@ -130,29 +125,51 @@ export default {
 
 <style scoped>
 .coverImg-style{
-  height: 20vh;
+  height: 100%;
   width: 100%;
   object-fit: cover;
   object-position: center;
 }
 
 .account-img{
-  height: 13vh;
-  width: 13vh;
+  height: 17vh;
+  width: 17vh;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
+  bottom: -8vh;
+  left: 5vw;
+  position: absolute;
+}
+
+.account-name {
+  position: absolute;
+  bottom: -7vh;
+  left: 14vw;
 }
 
 .account-info-style{
-  top: -6.5vh;
-  margin-bottom: -6.5vh;
   position: relative;
 }
 
 .card-img{
-  height:20vh;
+  height: 50%;
   object-fit: cover;
   object-position: center;
 }
+.card-description{
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.membership-card{
+  height: 50vh;
+}
+
+.image-container {
+  height: 30vh;
+  position: relative;
+}
+
 </style>
