@@ -61,13 +61,17 @@ export const AppState = reactive({
 
   /** @type {import('./models/ClubPost.js').ClubPost[]} */
   clubPosts: [],
+  /** @type {import('./models/ClubPost.js').ClubPost[]} */
   clubAnnouncements: [],
 
   /** @type {import('./models/ClubPost.js').ClubPost} */
   activeClubPost: null,
+  /** @type {import('./models/ClubPost.js').ClubPost} */
   activeClubAnnouncement: null,
 
   /** @type {import('./models/PostComment.js').PostComment[]} */
   postComments: [],
 
+  nextPage: null,
+  prevPage: null
 })
