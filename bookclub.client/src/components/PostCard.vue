@@ -1,7 +1,7 @@
 <template>
   <section  class="row align-items-center p-2 text-dark  ">
         <div class="col-md-2 col-12">
-          <router-link :to="{name: 'Profile Page', params: {profileId: postProp.creator.id}}">
+          <router-link :to="{name: 'Profile Page', params: {profileId: postProp?.creator?.id}}">
           <img class="selectable img-fluid avatar-img" :src="postProp?.creator?.picture" :title="postProp.creator?.name" :alt="postProp?.creator?.name">
         </router-link>
         </div>
