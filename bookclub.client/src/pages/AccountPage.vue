@@ -127,7 +127,7 @@ export default {
         return finishedBooks
       }),
       plannedBooks: computed(() => {
-        let plannedBooks = AppState.myBook?.filter(b => b.status == 'planned')
+        let plannedBooks = AppState.myBooks?.filter(b => b.status == 'planned')
         return plannedBooks
       }),
       currentBooks: computed(() => {
