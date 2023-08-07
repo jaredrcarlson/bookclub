@@ -7,14 +7,13 @@
         </p>
       </div>
       <div class="col-12">
-        <p v-if="account?.id == clubCreator?.profile.id || account?.id == clubAdmin.profile.id" class="m-3 fs-1">
+        <p v-if="account?.id == clubCreator?.profile.id || account?.id == clubAdmin?.profile?.id" class="m-3 fs-1">
           <!-- v-if="selectedClub?.creatorId == member.creatorId" -->
           <PostForm :isAnnouncement="true"/>
         </p>
       </div>
     </section>
     <section class="row">
-      <!-- FIXME Make this into a v-for that pulls up all announcements with their title, creator, createdAt, and commentCount Put into a component. -->
       <div v-for="announcement in announcements" :key="announcement.id" class="col-12 border border-black elevation-2 mb-3 rounded bg-light">
         <AnnouncementCard :announcementProp="announcement"/>
       </div>
