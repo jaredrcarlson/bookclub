@@ -2,7 +2,7 @@
   <div class="container-fluid">
     
     <section class="row">
-      <div class="col-12 p-4">
+      <div class="col-12 p-0">
         <div class="image-container">
           <img class="img-fluid account-img me-4" :src=account.picture :alt=account.name>
           <img v-if="!account.coverImg" class="coverImg-style img-fluid" src="https://images.unsplash.com/photo-1551043047-1d2adf00f3fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" :alt=account.name>

@@ -1,7 +1,7 @@
 <template>
 <div class="container-fluid" v-if="profile">
     <section class="row">
-      <div class="col-12 p-4">
+      <div class="col-12 p-0">
         <div class="image-container">
           <img class="img-fluid account-img me-4" :src=profile.picture :alt=profile.name>
           <div class="account-name">

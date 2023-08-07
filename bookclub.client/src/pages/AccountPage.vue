@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <section class="row">
-      <div class="col-12 p-4">
+      <div class="col-12 p-0">
         <div class="image-container">
           <img class="img-fluid account-img me-4" :src=account.picture :alt=account.name>
           <div class="account-name">
