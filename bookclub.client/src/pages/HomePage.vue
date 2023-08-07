@@ -12,7 +12,7 @@
         </div>
 
         <div>
-          <button class="fs-3 btn orange-btn m-2">
+          <button @click="goToBookclubs" class="fs-3 btn orange-btn m-2">
             Find a Book Club
           </button>
           <router-link :to="{name: 'Create Book Club'}">
@@ -41,7 +41,7 @@
       </div>
     </section> -->
 
-    <section class="row ghost-bg">
+    <section id="bookclubList" class="row ghost-bg">
       <div class="col-12 mt-5">
         <section class="row">
           <div class="col-md-6 col-12">
@@ -143,6 +143,9 @@ export default {
               } catch (error) {
                 Pop.error(error.message)
               }
+            },
+            goToBookclubs() {
+              document.getElementById('bookclubList').scrollIntoView()
             }
         };
     },
