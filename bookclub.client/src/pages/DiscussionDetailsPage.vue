@@ -1,19 +1,17 @@
 <template>
-  <div class="container-fluid">
-    <PostDetailsCard :postProp="activeClubPost"/>
-    <p class="fs-3"><i class="mdi mdi-comment"></i> {{postComments.length  }} Comments</p>
-<!-- //form to make comments -->
-<CommentsForm/>
-
-<!-- end comments form -->
-    <div class="row py-3">
-      <!-- //v-for over comments below -->
-      <div v-for="comment in postComments" :key="comment?.id" class="col-12 dark-blue-bg rounded elevation-5 text-light p-3 mb-3">
-      <CommentCard :commentProp="comment"/>
+    <div class="container-fluid">
+        <PostDetailsCard :postProp="activeClubPost"/>
+        <p class="fs-3"><i class="mdi mdi-comment"></i> {{postComments.length  }} Comments</p>
+            <!-- //form to make comments -->
+            <CommentsForm/>
+            <!-- end comments form -->
+        <div class="row py-3">
+            <!-- //v-for over comments below -->
+            <div v-for="comment in postComments" :key="comment?.id" class="col-12 dark-blue-bg rounded elevation-5 text-light p-3 mb-3">
+            <CommentCard :commentProp="comment"/>
+            </div>
+        </div>
     </div>
-          
-  </div>
-  </div>
 </template>
 
 
