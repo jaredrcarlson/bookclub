@@ -46,7 +46,7 @@
                 Search Book Clubs
               </li>
             </router-link>
-            <router-link :to="{ name: 'Create Book Club' }">
+            <router-link :to="{ name: 'Create Book Club' }" v-if="account.id">
               <li class="dropdown-item px-4 mb-2">
                 Create Book Club
               </li>
@@ -61,10 +61,14 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 import Login from './Login.vue';
+import { AppState } from '../AppState.js';
 export default {
   setup() {
-    return {}
+    return {
+      account: computed(() => AppState.account)
+    }
   },
   components: { Login }
 }

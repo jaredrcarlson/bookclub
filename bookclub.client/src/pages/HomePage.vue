@@ -60,10 +60,10 @@
             </div>
 
             <div>
-              <form>
+              <form @submit.prevent="getClubsByQuery">
                 <div class="d-flex me-3">
                   <label for="search"></label>
-                  <input type="text" name="search" id="search" placeholder="Search clubs..." class="form-control">
+                  <input v-model="searchQuery" type="text" name="search" id="search" placeholder="Search clubs..." class="form-control">
                   <button class="btn orange-btn" title="Submit" type="submit">
                     <i class="mdi mdi-magnify"></i>
                   </button>
@@ -84,18 +84,29 @@
       </div>
     </section>
 
+    <section class="row ghost-bg">
+      <div class="col-md-4 col-12 mx-md-auto px-5 pb-3 justify-content-between">
+        <div class="d-flex justify-content-between">
+          <button @click="getPrevClubs" :disabled="!prevPage" class="btn orange-btn">Previous Page</button>
+          <button @click="getNextClubs" :disabled="!nextPage" class="btn orange-btn">Next Page</button>
+        </div>
+      </div>
+    </section>
+
   </div>
 </template>
 
 <script>
 import Pop from '../utils/Pop.js'
 import { clubsService } from '../services/ClubsService.js'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { AppState } from '../AppState.js'
 import BookClubCard from '../components/BookClubCard.vue'
 
 export default {
     setup() {
+
+        const searchQuery = ref("")
         async function getAllClubs() {
             try {
                 await clubsService.getAllClubs();
@@ -108,7 +119,31 @@ export default {
             getAllClubs();
         });
         return {
-            clubs: computed(() => AppState.clubs)
+            searchQuery,
+            clubs: computed(() => AppState.clubs),
+            prevPage: computed(() => AppState.prevPage),
+            nextPage: computed(() => AppState.nextPage),
+            async getNextClubs() {
+              try {
+                await clubsService.getNextClubsPage()
+              } catch (error) {
+                Pop.error(error.message)
+              }
+            },
+            async getPrevClubs() {
+              try {
+                await clubsService.getPrevClubsPage()
+              } catch (error) {
+                Pop.error(error.message)
+              }
+            },
+            async getClubsByQuery() {
+              try {
+                await clubsService.getAllClubs(searchQuery.value)
+              } catch (error) {
+                Pop.error(error.message)
+              }
+            }
         };
     },
     components: { BookClubCard }

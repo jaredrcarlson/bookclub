@@ -37,8 +37,9 @@ export class ClubsController extends BaseController {
   // FIXME Gets all clubs, could become future problem if returning a very large number of clubs
   async getClubs(req, res, next) {
     try {
+      const search = req.query.search || ""
       const page = req.query.page || 0
-      const clubs = await clubsService.getClubs(page)
+      const clubs = await clubsService.getClubs(page, search)
       return res.send(clubs)
     } catch (error) {
       next(error)
