@@ -26,17 +26,9 @@
           <p>
             <span class="fw-semibold">Members: </span>{{ selectedClub.memberCount }}
           </p>
-          <!-- FIXME Go into the clubs book list and find the one whose status is set to currently reading -->
-          <p>
-            <span class="fw-semibold">Currently Reading: </span>
-          </p>
           <p class="fw-light">
             <span class="pe-5">
               Created at: {{ selectedClub.createdAt }}
-            </span>
-            <!-- FIXME Make sure that when the club is edited, its updatedAt is updated with the current applicable time -->
-            <span>
-              Updated at: {{ selectedClub.updatedAt }}
             </span>
           </p>
         </div>
