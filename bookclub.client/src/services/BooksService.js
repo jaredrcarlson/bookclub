@@ -77,7 +77,9 @@ class BooksService {
 
   async updateUserBook(bookId, bookData) {
     const res = await api.put(`api/userBooks/${bookId}`, bookData)
-    const updatedBook = res.data
+    const updatedBookData = res.data
+    const updatedBook = new Book(updatedBookData)
+    this.addGoogleBooksVolumeData(updatedBook)
     let bookIndex = AppState.myBooks.findIndex(book => book.id == bookId)
     if (bookIndex != -1) {
       AppState.myBooks.splice(bookIndex, 1, updatedBook)
@@ -86,6 +88,7 @@ class BooksService {
     if (bookIndex != -1) {
       AppState.bookDetailsPage.userBooks.splice(bookIndex, 1, updatedBook)
     }
+    this.setBookDetailsPageUserBook(updatedBook.gbId)
     return updatedBook
   }
 
