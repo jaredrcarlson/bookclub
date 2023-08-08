@@ -76,6 +76,9 @@
               <th class="ps-2">
                 Rating
               </th>
+              <th class="ps-2">
+                Options
+              </th>
             </tr>
             <tr v-for="book in currentBooks" :key="book.id">
               <BookListItem :bookProp="book" />
