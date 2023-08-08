@@ -75,6 +75,18 @@ class BooksService {
     }
   }
 
+  async getProfileBooks(profileId) {
+    try {
+      const res = await api.get(`api/profiles/${profileId}/books`)
+
+      logger.log('[GOT PROFILE BOOKS]', res.data)
+      AppState.profileBooks = res.data.map(pojo => new Book(pojo))
+      return new Book(res.data)
+    } catch (error) {
+      Pop.error(error.message)
+    }
+  }
+
   async updateUserBook(bookId, bookData) {
     const res = await api.put(`api/userBooks/${bookId}`, bookData)
     const updatedBookData = res.data
