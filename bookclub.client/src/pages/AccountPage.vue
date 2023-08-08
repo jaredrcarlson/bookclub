@@ -81,13 +81,13 @@
               </th>
             </tr>
             <tr v-for="book in currentBooks" :key="book.id">
-              <BookListItem :bookProp="book" />
+              <UserBookListItem :bookProp="book" />
             </tr>
             <tr v-for="book in plannedBooks" :key="book.id">
-              <BookListItem :bookProp="book" />
+              <UserBookListItem :bookProp="book" />
             </tr>
             <tr v-for="book in finishedBooks" :key="book.id">
-              <BookListItem :bookProp="book" />
+              <UserBookListItem :bookProp="book" />
             </tr>
           </table>
         </div>

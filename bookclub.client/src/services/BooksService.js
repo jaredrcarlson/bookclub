@@ -127,7 +127,7 @@ class BooksService {
     return book
   }
 
-  async changeBookProgress(progress, userBookId) {
+  async changeUserBookProgress(progress, userBookId) {
     const res = await api.put(`api/userBooks/${userBookId}`, progress)
 
     logger.log('[CHANGED BOOK STATUS]', res.data)
@@ -136,6 +136,18 @@ class BooksService {
     const newBook = new Book(res.data)
 
     AppState.myBooks.splice(oldBook, 1, newBook)
+  }
+
+  async changeClubBookProgress(bookData, clubBookId) {
+    const res = await api.put(`api/clubBooks/${clubBookId}`, bookData)
+
+    logger.log('[CHANGED BOOK STATUS]', res.data)
+
+    const oldBook = AppState.books.findIndex(b => b.id == clubBookId)
+
+    const newBook = new Book(res.data)
+
+    AppState.books.splice(oldBook, 1, newBook)
   }
 }
 

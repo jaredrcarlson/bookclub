@@ -21,18 +21,18 @@
               <th class="ps-2">
                 Rating
               </th>
-              <th class="ps-2">
+              <th class="ps-2" v-if="inClub && inClub?.role == 'admin' || inClub?.role =='creator'">
                 Options
               </th>
             </tr>
             <tr v-for="book in currentBooks" :key="book.id">
-                <BookListItem :bookProp="book" />
+              <ClubBookListItem :bookProp="book" />
             </tr>
             <tr v-for="book in plannedBooks" :key="book.id">
-                <BookListItem :bookProp="book" />
+              <ClubBookListItem :bookProp="book" />
             </tr>
             <tr v-for="book in finishedBooks" :key="book.id">
-              <BookListItem :bookProp="book" />
+              <ClubBookListItem :bookProp="book" />
             </tr>
           </table>
         </div>
@@ -48,40 +48,50 @@ import { AppState } from '../AppState.js';
 import { useRoute } from 'vue-router';
 import Pop from '../utils/Pop.js';
 import { booksService } from '../services/BooksService.js';
+import ClubBookListItem from './ClubBookListItem.vue';
+import { logger } from '../utils/Logger.js';
 
 export default {
-  setup() {
-      const route = useRoute();
-      async function getBooksByClubId() {
-          try {
-              const clubId = route.params.clubId;
-              await booksService.getBooksByClubId(clubId);
-          }
-          catch (error) {
-              Pop.error(error.message);
-          }
-      }
-      watchEffect(() => {
-          getBooksByClubId();
-      });
-      return {
-        route,
-        selectedClub: computed(() => AppState.selectedClub),
-        books: computed(() => AppState.books),
-        finishedBooks: computed(() => {
-          let finishedBooks = AppState.books.filter(b => b.status == 'finished')
-          return finishedBooks
-        }),
-        plannedBooks: computed(() => {
-          let plannedBooks = AppState.books.filter(b => b.status == 'planned')
-          return plannedBooks
-        }),
-        currentBooks: computed(() => {
-          let currentBooks = AppState.books.filter(b => b.status == 'reading')
-          return currentBooks
-        }),
-      };
-  },
+    setup() {
+        const route = useRoute();
+        async function getBooksByClubId() {
+            try {
+                const clubId = route.params.clubId;
+                await booksService.getBooksByClubId(clubId);
+            }
+            catch (error) {
+                Pop.error(error.message);
+            }
+        }
+        watchEffect(() => {
+            getBooksByClubId();
+        });
+        return {
+            route,
+            selectedClub: computed(() => AppState.selectedClub),
+            myMemberships: computed(() => AppState.myMemberships),
+            inClub: computed(() => {
+              const foundClub = AppState.myMemberships?.find(c => c.clubId == route.params.clubId)
+              logger.log(foundClub)
+              logger.log(AppState.myMemberships)
+              return foundClub
+            }),
+            books: computed(() => AppState.books),
+            finishedBooks: computed(() => {
+                let finishedBooks = AppState.books.filter(b => b.status == 'finished');
+                return finishedBooks;
+            }),
+            plannedBooks: computed(() => {
+                let plannedBooks = AppState.books.filter(b => b.status == 'planned');
+                return plannedBooks;
+            }),
+            currentBooks: computed(() => {
+                let currentBooks = AppState.books.filter(b => b.status == 'reading');
+                return currentBooks;
+            }),
+        };
+    },
+    components: { ClubBookListItem }
 }
 </script>
 
