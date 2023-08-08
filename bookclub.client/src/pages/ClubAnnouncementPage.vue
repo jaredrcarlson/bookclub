@@ -7,7 +7,7 @@
         </p>
       </div>
       <div class="col-12">
-        <p v-if="account?.id == clubCreator?.profile.id || account?.id == clubAdmin?.profile?.id" class="m-3 fs-1">
+        <p v-if="account.id && (account?.id == clubCreator?.profile.id || account.id == clubAdmin?.profile.id)" class="m-3 fs-1">
           <!-- v-if="selectedClub?.creatorId == member.creatorId" -->
           <PostForm :isAnnouncement="true"/>
         </p>
@@ -31,6 +31,7 @@ import Pop from "../utils/Pop.js";
 import { useRoute } from "vue-router";
 import { clubPostsService } from "../services/ClubPostsService.js";
 import AnnouncementCard from "../components/AnnouncementCard.vue";
+import { membersService } from "../services/MembersService.js";
 
 export default {
     setup() {
@@ -43,8 +44,19 @@ export default {
           Pop.error(error.message)
         }
       }
+      async function getMembersByClubId(){
+        try {
+          const clubId = route.params.clubId
+    
+          await membersService.getMembersByClubId(clubId)
+        } catch (error) {
+          Pop.error(error.message)
+        }
+      }
       onMounted(() => {
         getClubAnnouncements();
+        getMembersByClubId();
+        
       })
         return {
           announcements: computed(() => AppState.clubAnnouncements),

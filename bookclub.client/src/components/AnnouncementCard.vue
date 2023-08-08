@@ -19,7 +19,7 @@
               </p>
             </div>
             <div class="col-md-2 col-12">
-              <div v-if="announcementProp?.creatorId == account?.id" class="btn-group align-items-start mb-3">
+              <!-- <div v-if="announcementProp?.creatorId == account?.id" class="btn-group align-items-start mb-3">
                 <button title="More Options" class="btn orange-text text-end btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="mdi mdi-circle"></i><i class="mdi mdi-circle"></i><i class="mdi mdi-circle"></i>
         </button>
@@ -32,7 +32,7 @@
       </li>
 
     </ul>
-  </div>
+  </div> -->
               <p class="fs-5">
                 <i class="mdi mdi-message-reply"></i> <span>{{announcementProp.commentCount}}</span>
               </p>
@@ -56,19 +56,19 @@ export default {
   setup(){
     return {
       account: computed(() => AppState.account),
-      async deletePost(postId) {
-                try {
-                    const wantsToDelete = await Pop.confirm("Once it's gone, it's gone. Are you sure you want to delete?");
-                    if (!wantsToDelete) {
-                        return;
-                    }
-                    logger.log('[DELETING POST...]');
-                    await clubPostsService.deletePost(postId);
-                }
-                catch (error) {
-                    Pop.error(error.message);
-                }
-            },
+      // async deletePost(postId) {
+      //           try {
+      //               const wantsToDelete = await Pop.confirm("Once it's gone, it's gone. Are you sure you want to delete?");
+      //               if (!wantsToDelete) {
+      //                   return;
+      //               }
+      //               logger.log('[DELETING POST...]');
+      //               await clubPostsService.deletePost(postId);
+      //           }
+      //           catch (error) {
+      //               Pop.error(error.message);
+      //           }
+      //       },
     }
   }
 }
