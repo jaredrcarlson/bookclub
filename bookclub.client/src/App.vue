@@ -5,7 +5,6 @@
   <main>
     <router-view />
   </main>
-  <footer></footer>
 </template>
 
 <script>
@@ -86,6 +85,14 @@ body {
 .soft-blue-btn:hover{
   border-color: #7abcd8;
   color: #183a48;
+}
+
+header {
+  height: 10vh;
+}
+
+main {
+  height: 90vh;
 }
 
 </style>

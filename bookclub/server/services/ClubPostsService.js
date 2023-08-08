@@ -34,6 +34,7 @@ class ClubPostsService {
     const newPost = await dbContext.Posts.create(postData)
     await newPost.populate('creator', 'name picture')
     await newPost.populate('commentCount')
+    await newPost.populate('membership')
     return newPost
   }
   async updatePost(postId, userId, postData) {

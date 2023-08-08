@@ -38,9 +38,9 @@ class ClubPostsService {
     const clubPost = new ClubPost(res.data)
 
     if (postData.isAnnouncement == true) {
-      AppState.clubAnnouncements.unshift(postData)
+      AppState.clubAnnouncements.unshift(clubPost)
     } else {
-      AppState.clubPosts.unshift(postData)
+      AppState.clubPosts.unshift(clubPost)
     }
     return clubPost
   }
