@@ -284,6 +284,7 @@ export default {
     const user = computed(() => AppState.user)
     // const account = computed(() => AppState.account)
     const book = computed(() => AppState.bookDetailsPage.book)
+    const userBook = computed(() => AppState.bookDetailsPage.userBook)
     const userBooks = computed(() => AppState.bookDetailsPage.userBooks)
     const userClubs = computed(() => AppState.bookDetailsPage.userClubs)
     const userCreatorAdminClubs = computed(() => AppState.bookDetailsPage.userCreatorAdminClubs)

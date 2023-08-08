@@ -107,6 +107,11 @@ class BooksService {
     AppState.bookDetailsPage.book = book
   }
 
+  async setBookDetailsPageUserBook(gbId) {
+    const bookFound = AppState.bookDetailsPage.userBooks.find(book => book.gbId == gbId)
+    AppState.bookDetailsPage.userBook = bookFound ? bookFound : null
+  }
+
   async setBookDetailsPageUserBooks() {
     const userBooks = []
     const res = await api.get('api/userBooks')
