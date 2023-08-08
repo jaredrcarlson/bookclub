@@ -116,6 +116,13 @@ class BooksService {
     return AppState.bookDetailsPage.userBook
   }
 
+  async setBookDetailsPageUserBooksByGbId(gbId) {
+    const res = await api.get(`api/userBooks?gbId=${gbId}`)
+    console.log('userBooks', res.data)
+
+    //AppState.bookDetailsPage.userBooksByGbId
+  }
+
   async setBookDetailsPageUserBooks() {
     const userBooks = []
     const res = await api.get('api/userBooks')

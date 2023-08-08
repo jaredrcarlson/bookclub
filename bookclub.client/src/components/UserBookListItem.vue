@@ -6,11 +6,18 @@
         </span> <br>
         <span class="author-text-style text-dark">
           by {{ bookProp.author }}
-        </span>
+        </span>   
       </router-link>
     </td>
-    <td v-if="bookProp.status == 'finished'">
-      <span class="large-text-style">
+    <td>
+      <select @change="editUserBook" v-model="progressSelect">
+        <option value="reading">Currently Reading</option>
+        <option value="planned">Plan to Read</option>
+        <option value="finished">Finished</option>
+      </select>
+    </td>
+    <!-- <td v-if="bookProp.status == 'finished'">
+      <span class="large-text-style"> 
         Finished
       </span> <br>
       <span class="sub-text-style">
@@ -32,13 +39,24 @@
       <span class="sub-text-style">
         added {{ new Date(bookProp.createdAt).toLocaleDateString() }}
       </span>
+    </td> -->
+    <td>
+      <select @change="editUserBook" v-model="ratingSelect">
+        <option value="0">Not Rated</option>
+        <option v-for="option in ratingOptions" :key="option.rating" :value="option.rating">
+          {{ option.rating }} - {{ option.description }}
+        </option>
+      </select>
     </td>
     <td>
-      <span class="large-text-style">
-        ?/10
-      </span>
+      <p v-if="progressSelect == 'finished'" class="mb-0 sub-text-style"> 
+        completed {{ bookProp.updatedAt.toLocaleDateString() }}
+      </p>
+      <p v-else class="mb-0 sub-text-style">
+        added {{ bookProp.createdAt.toLocaleDateString() }}
+      </p>
     </td>
-    <td>
+    <!-- <td>
       <div class="dropdown">
         <button class="btn dropdown-toggle fs-4 orange-text" type="button" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="mdi mdi-dots-vertical"></i>
@@ -48,13 +66,17 @@
           <li class="px-3 selectable" @click="changeUserBookProgress('reading')">Reading</li>
           <li class="px-3 selectable" @click="changeUserBookProgress('planned')">Planning to Read</li>
           <li class="px-3 selectable" @click="changeUserBookProgress('finished')">Finished</li>
-        </ul>
+        </ul> 
       </div>
+    </td> -->
+    <td>
+      <i @click="deleteUserBook" class="trash mdi mdi-trash-can fs-3"></i>
     </td>
 </template>
 
 
 <script>
+import { ref } from 'vue';
 import { Book } from '../models/Book.js';
 import { booksService } from '../services/BooksService.js';
 import Pop from '../utils/Pop.js';
@@ -63,15 +85,43 @@ export default {
   props:{
     bookProp: {type: Book, required: true}
   },
+
+
   setup(props){
+
+    const progressSelect = ref(props.bookProp.status)
+    const ratingSelect = ref(props.bookProp.rating)
+
     return {
-      async changeBookProgress(progress){
+      progressSelect,
+      ratingSelect,
+      ratingOptions : [
+      {rating: 1, description : 'Horrendous'},
+      {rating: 2, description : 'Terrible'},
+      { rating: 3, description : 'Bad'},
+      { rating: 4, description : 'Meh'},
+      { rating: 5, description : 'Average'},
+      { rating: 6, description : 'Good'},
+      { rating: 7, description : 'Very Good'},
+      { rating: 8, description : 'Great'},
+      { rating: 9, description : 'Oustanding'},
+      { rating: 10, description : 'Masterpiece'}],
+      async editUserBook(){
         try {
-          const bookData = {status: progress}
-
+          const bookData = {status: progressSelect.value, rating: ratingSelect.value}
           const userBookId = props.bookProp.id
-
-          await booksService.changeBookProgress(bookData, userBookId)
+          await booksService.changeUserBookProgress(bookData, userBookId)
+        } catch (error) {
+          Pop.error(error.message)
+        }
+      },
+      async deleteUserBook(){
+        try {
+          const confirmation = await Pop.confirm('Are you sure you want to delete this user books?')
+          if (confirmation) {
+            const userBookId = props.bookProp.id
+            await booksService.deleteUserBook(userBookId)
+          }
         } catch (error) {
           Pop.error(error.message)
         }
@@ -107,4 +157,13 @@ export default {
   font-size: smaller;
   font-weight: 500;
 }
+
+.trash {
+  color: red;
+}
+.trash:hover {
+  color: rgb(180, 1, 1);
+  cursor: pointer;
+}
+
 </style>
