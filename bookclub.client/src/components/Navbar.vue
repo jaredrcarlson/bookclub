@@ -91,7 +91,7 @@ a:hover {
 }
 
 nav {
-  padding: 3rem 2.5rem;
+  padding: 1rem 3rem
 }
 
 h1 i, h1 span {
