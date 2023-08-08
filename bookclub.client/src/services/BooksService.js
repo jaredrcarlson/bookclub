@@ -110,9 +110,10 @@ class BooksService {
     AppState.bookDetailsPage.book = book
   }
 
-  async setBookDetailsPageUserBook(gbId) {
+  setBookDetailsPageUserBook(gbId) {
     const bookFound = AppState.bookDetailsPage.userBooks.find(book => book.gbId == gbId)
     AppState.bookDetailsPage.userBook = bookFound ? bookFound : null
+    return AppState.bookDetailsPage.userBook
   }
 
   async setBookDetailsPageUserBooks() {

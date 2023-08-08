@@ -362,7 +362,7 @@ export default {
     async function setUserBook() {
       console.log('running setUserBook()')
       try {
-        await booksService.setBookDetailsPageUserBook()
+        booksService.setBookDetailsPageUserBook()
         console.log('set user book', userBook.value)
       } catch (error) {
         Pop.error(error.message)
@@ -372,8 +372,9 @@ export default {
     async function updateUserBookRating() {
       try {
         // FIXME needs implemented
-        console.log('update user book rating - needs implemented')
-        userBookData.value.initRating = userBookData.value.rating
+        await booksService.updateUserBook({rating: userBookData.value.rating})
+        console.log(`updated rating from [${userBookData.value.initRating}] to [${userBookData.value.rating}]`)
+        // userBookData.value.initRating = userBookData.value.rating
       } catch (error) {
         Pop.error(error.message)
       }
@@ -382,8 +383,9 @@ export default {
     async function updateUserBookProgress() {
       try {
         // FIXME needs implemented
-        console.log('update user book progress - needs implemented')
-        userBookData.value.initProgress = userBookData.value.progress
+        await booksService.updateUserBook({progress: userBookData.value.progress})
+        console.log(`updated progress from [${userBookData.value.initProgress}] to [${userBookData.value.progress}]`)
+        // userBookData.value.initProgress = userBookData.value.progress
       } catch (error) {
         Pop.error(error.message)
       }
