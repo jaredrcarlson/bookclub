@@ -359,6 +359,16 @@ export default {
       }
     }
 
+    async function setUserBook() {
+      console.log('running setUserBook()')
+      try {
+        await booksService.setBookDetailsPageUserBook()
+        console.log('set user book', userBook.value)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
     async function updateUserBookRating() {
       try {
         // FIXME needs implemented
@@ -523,6 +533,7 @@ export default {
       console.log('running watchEffect: user')
       if(user.value.id) {
         await setUserBooks()
+        await setUserBook()
         await setUserClubs()
         await setUserReviewedStatus()
       } else {
