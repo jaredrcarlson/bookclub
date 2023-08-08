@@ -9,38 +9,29 @@
         </span>   
       </router-link>
     </td>
-    <td>
+    <td v-if="bookProp.creatorId == account?.id">
       <select @change="editUserBook" v-model="progressSelect">
         <option value="reading">Currently Reading</option>
         <option value="planned">Plan to Read</option>
         <option value="finished">Finished</option>
       </select>
     </td>
-    <!-- <td v-if="bookProp.status == 'finished'">
+    <td v-else-if="bookProp.status == 'finished'">
       <span class="large-text-style"> 
         Finished
-      </span> <br>
-      <span class="sub-text-style">
-        completed {{ new Date(bookProp.updatedAt).toLocaleDateString() }}
       </span>
     </td>
     <td v-else-if="bookProp.status == 'planned'">
       <span class="status-text-style">
-        Planning to Read
-      </span> <br>
-      <span class="sub-text-style">
-        added {{ new Date(bookProp.createdAt).toLocaleDateString() }}
+        Planned
       </span>
     </td>
     <td v-else>
       <span class="status-text-style">
-        Currently Reading
-      </span> <br>
-      <span class="sub-text-style">
-        added {{ new Date(bookProp.createdAt).toLocaleDateString() }}
+        Reading
       </span>
-    </td> -->
-    <td>
+    </td>
+    <td v-if="bookProp.creatorId == account?.id">
       <select @change="editUserBook" v-model="ratingSelect">
         <option value="0">Not Rated</option>
         <option v-for="option in ratingOptions" :key="option.rating" :value="option.rating">
@@ -48,11 +39,14 @@
         </option>
       </select>
     </td>
+    <td v-else>
+      <span class="large-text-style">{{ bookProp.rating }}/10</span>
+    </td>
     <td>
-      <p v-if="progressSelect == 'finished'" class="mb-0 sub-text-style"> 
+      <p v-if="progressSelect == 'finished'" class="mb-0 text-end sub-text-style"> 
         completed {{ bookProp.updatedAt.toLocaleDateString() }}
       </p>
-      <p v-else class="mb-0 sub-text-style">
+      <p v-else class="mb-0 text-end sub-text-style">
         added {{ bookProp.createdAt.toLocaleDateString() }}
       </p>
     </td>
@@ -69,17 +63,18 @@
         </ul> 
       </div>
     </td> -->
-    <td>
+    <td v-if="bookProp.creatorId == account?.id">
       <i @click="deleteUserBook" class="trash mdi mdi-trash-can fs-3"></i>
     </td>
 </template>
 
 
 <script>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { Book } from '../models/Book.js';
 import { booksService } from '../services/BooksService.js';
 import Pop from '../utils/Pop.js';
+import { AppState } from '../AppState';
 
 export default {
   props:{
@@ -95,6 +90,7 @@ export default {
     return {
       progressSelect,
       ratingSelect,
+      account: computed(() => AppState.account),
       ratingOptions : [
       {rating: 1, description : 'Horrendous'},
       {rating: 2, description : 'Terrible'},
@@ -125,7 +121,7 @@ export default {
         } catch (error) {
           Pop.error(error.message)
         }
-      }
+      }  
     }
   }
 }

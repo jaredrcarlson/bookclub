@@ -256,7 +256,6 @@ export default {
     // const account = computed(() => AppState.account)
     const book = computed(() => AppState.bookDetailsPage.book)
     // const userBooks = computed(() => AppState.bookDetailsPage.userBooks)
-    const userBooksByGbId = computed(() => AppState.bookDetailsPage.userBooksByGbId)
     const userBook = computed(() => AppState.bookDetailsPage.userBook)
     // const userClubs = computed(() => AppState.bookDetailsPage.userClubs)
     const userCreatorAdminClubs = computed(() => AppState.bookDetailsPage.userCreatorAdminClubs)
@@ -291,14 +290,6 @@ export default {
     async function setBook() {
       try {
         await booksService.setBookDetailsPageBook(gbId)
-      } catch (error) {
-        Pop.error(error.message)
-      }
-    }
-
-    async function setUserBooksByGbId() {
-      try {
-        await booksService.setBookDetailsPageUserBooksByGbId(gbId)
       } catch (error) {
         Pop.error(error.message)
       }
@@ -495,7 +486,6 @@ export default {
         
     onMounted(async() => {
       await setBook()
-      await setUserBooksByGbId()
       await setAllClubs()
       await setReviews()
     })
