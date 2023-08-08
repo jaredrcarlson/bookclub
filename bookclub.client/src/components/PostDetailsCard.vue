@@ -16,7 +16,7 @@
               <span class="orange-text"><i v-if="postProp?.membership.role == 'creator'" class="mdi mdi-star orange-text"></i><i v-else-if="postProp?.membership.role == 'admin'" class="mdi mdi-star-outline orange-text"></i><i v-else class="mdi mdi-account orange-text"></i></span> {{postProp?.membership?.role?.toUpperCase()}}  Posted {{postProp?.createdAt}}
             </p>
             <textarea class="form-control mb-2" v-model="editable.body" v-if="isEditing"  rows="10"></textarea>
-            <p v-else class="fs-4">{{postProp?.body}}</p>
+            <p v-else class="fs-5 post-body">{{postProp?.body}}</p>
             <button type="submit" v-if="isEditing" class="btn orange-btn">Save Changes</button>
           </div>
           <div v-if="postProp?.creatorId == account?.id" class="btn-group align-items-start mb-3">
@@ -101,6 +101,10 @@ textarea{
   object-fit: cover;
   object-position: center;
   box-shadow: 2px 2px 6px whitesmoke;
+}
+
+.post-body{
+  white-space: pre-line;
 }
 
 </style>

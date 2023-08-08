@@ -31,7 +31,7 @@ class UserBooksService {
     if (userId != userBook.creatorId) {
       throw new Forbidden('This Book can only be modified by the Book Creator.')
     }
-    const updateFields = ['title', 'imgUrl', 'author', 'status', 'rating']
+    const updateFields = ['status', 'rating']
     updateFields.forEach(field => {
       if (field in userBookData) {
         userBook[field] = userBookData[field]

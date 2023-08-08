@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="container-fluid">
     <section class="row">
       <div class="col-12 mt-3 dark-blue-bg rounded elevation-3 text-light">
