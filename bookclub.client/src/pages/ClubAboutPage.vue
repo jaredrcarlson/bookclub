@@ -125,6 +125,7 @@ export default {
           }
           const clubId = route.params.clubId
           await clubsService.deleteClub(clubId)
+          router.push({name: 'Home'})
         } catch (error) {
           Pop.error(error.message)
         }
