@@ -51,10 +51,8 @@ export default {
       //onMounted not grabbing logger..... unless router link is commented out in post details card
       onMounted(() => {
         getPostById(route.params.postId)
-        // logger.log('mounted...')
-      })
-      watchEffect(() => {
         getAnnouncementComments()
+        // logger.log('mounted...')
       })
         return {
             comments: computed(() => AppState.postComments),
