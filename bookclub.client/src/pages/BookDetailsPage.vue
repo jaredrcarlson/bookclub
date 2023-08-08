@@ -25,12 +25,13 @@
                     <div v-if="userHasThisBook" class="text-center fw-bold pe-2">
                       
                       <div class="d-flex align-items-center">
-                        <div class="text-light light-blue-bg rounded-start px-2">My Rating</div>
+                        <!-- <div class="text-light light-blue-bg rounded-start px-2">My Rating</div>
                         <div v-if="userBookData.rating == userBookRating" class="border-0 rounded-end d-flex align-items-center text-light light-blue-bg"><i class="mdi mdi-star-outline fs-6 mx-2"></i></div>
-                        <div v-else @click="updateUserBookRating()" class="selectable border-0 rounded-end d-flex align-items-center text-light orange-bg"><i class="mdi mdi-check-outline fs-6 mx-2"></i></div>
+                        <div v-else @click="updateUserBookRating()" class="selectable border-0 rounded-end d-flex align-items-center text-light orange-bg"><i class="mdi mdi-check-outline fs-6 mx-2"></i></div> -->
                       </div>
                       <div>
-                        <select v-model="userBookData.rating" class="form-select form-select-sm border-0 rounded-start shadow-none fw-bold text-center" aria-label=".form-select-sm rating">
+                        <div class="text-light light-blue-bg rounded px-2">My Rating</div>
+                        <select @change="updateUserBookRating()" v-model="userBookData.rating" class="form-select form-select-sm border-0 rounded-start shadow-none fw-bold text-center" aria-label=".form-select-sm rating">
                           <optgroup class="">
                             <option selected :value="userBookData.rating"><div class="bg-dark">{{ userBookData.rating ? userBookData.rating : 'Not Rated' }}</div></option>
                           </optgroup>
@@ -46,14 +47,15 @@
                     <div v-if="userHasThisBook" class="text-center fw-bold pe-2">
                       
                       <div class="d-flex align-items-center">
-                        <div class="text-light light-blue-bg rounded-start px-2">Progress</div>
-                        <div v-if="userBookData.progress == userBookProgress" class="border-0 rounded-end d-flex align-items-center text-light light-blue-bg"><i class="mdi mdi-book-outline fs-6 mx-2"></i></div>
-                        <div v-else @click="updateUserBookProgress()" class="selectable border-0 rounded-end d-flex align-items-center text-light orange-bg"><i class="mdi mdi-check-outline fs-6 mx-2"></i></div>
+                        <!-- <div class="text-light light-blue-bg rounded-start px-2">Progress</div>
+                        <div v-if="userBookData.status == userBookStatus" class="border-0 rounded-end d-flex align-items-center text-light light-blue-bg"><i class="mdi mdi-book-outline fs-6 mx-2"></i></div>
+                        <div v-else @click="updateUserBookStatus()" class="selectable border-0 rounded-end d-flex align-items-center text-light orange-bg"><i class="mdi mdi-check-outline fs-6 mx-2"></i></div> -->
                       </div>
                       <div>
-                        <select v-model="userBookData.progress" class="form-select form-select-sm border-0 rounded-start shadow-none fw-bold text-center" aria-label=".form-select-sm progress">
+                        <div class="text-light light-blue-bg rounded px-2">Progress</div>
+                        <select @change="updateUserBookStatus()" v-model="userBookData.status" class="form-select form-select-sm border-0 rounded-start shadow-none fw-bold text-center" aria-label=".form-select-sm status">
                           <optgroup class="">
-                            <option selected :value="userBookData.progress"><div class="bg-dark">{{ userBookData.progress.charAt(0).toUpperCase() + userBookData.progress.slice(1) }}</div></option>
+                            <option selected :value="userBookData.status"><div class="bg-dark">{{ userBookData.status.charAt(0).toUpperCase() + userBookData.status.slice(1) }}</div></option>
                           </optgroup>
                           <optgroup>
                             <option value="planned">Planned</option>
@@ -300,11 +302,11 @@ export default {
       userCount: '[null]'
     })
     const userBookRating = computed(() => AppState.bookDetailsPage.userBook ? AppState.bookDetailsPage.userBook.rating : 0)
-    const userBookProgress = computed(() => AppState.bookDetailsPage.userBook ? AppState.bookDetailsPage.userBook.status : 'planned')
+    const userBookStatus = computed(() => AppState.bookDetailsPage.userBook ? AppState.bookDetailsPage.userBook.status : 'planned')
 
     const userBookData = ref({
       rating: 0,
-      progress: 'planned'
+      status: 'planned'
     })
     
     const selectedTab = ref('reading')
@@ -364,9 +366,9 @@ export default {
       console.log('running setUserBook()')
       try {
         booksService.setBookDetailsPageUserBook(gbId)
-        console.log('set user book', userBook.value)
-        userBookData.value.rating = userBook.value.rating
-        userBookData.value.status = userBook.value.status
+        console.log(`userBook -> [status] ${userBook.value.status} [rating] ${userBook.value.rating}`)
+        userBookData.value.rating = userBook.value ? userBook.value.rating : 'null'
+        userBookData.value.status = userBook.value ? userBook.value.status : 'null'
       } catch (error) {
         Pop.error(error.message)
       }
@@ -382,11 +384,11 @@ export default {
       }
     }
     
-    async function updateUserBookProgress() {
+    async function updateUserBookStatus() {
       try {
-        const initProgress = userBook.value.status
-        await booksService.updateUserBook(userBook.value.id, {status: userBookData.value.progress})
-        console.log(`updated progress from [${initProgress}] to [${userBookData.value.progress}]`)
+        const initStatus = userBook.value.status
+        await booksService.updateUserBook(userBook.value.id, {status: userBookData.value.status})
+        console.log(`updated status from [${initStatus}] to [${userBookData.value.status}]`)
       } catch (error) {
         Pop.error(error.message)
       }
@@ -570,12 +572,12 @@ export default {
       // userCreatorAdminClubs,
       userBook,
       userBookRating,
-      userBookProgress,
+      userBookStatus,
       userHasThisBook,
       bookScore,
       userBookData,
       updateUserBookRating,
-      updateUserBookProgress,
+      updateUserBookStatus,
 
       userReviews,
       userReviewedStatus,
