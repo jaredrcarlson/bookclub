@@ -3,7 +3,7 @@ import { Schema } from "mongoose";
 export const ClubPostSchema = new Schema({
   clubId: { type: Schema.Types.ObjectId, required: true, ref: 'Club' },
   creatorId: { type: Schema.Types.ObjectId, required: true, ref: 'Account' },
-  body: { type: String, required: true, minLength: 3, maxLength: 200 },
+  body: { type: String, required: true, minLength: 3, maxLength: 1500 },
   title: { type: String, required: true, minlength: 3, maxLength: 100 },
   isAnnouncement: { type: Boolean, default: false }
 }, { timestamps: true, toJSON: { virtuals: true } }
