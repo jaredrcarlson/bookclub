@@ -29,6 +29,11 @@
                 Search Books
               </li>
             </router-link>
+            <router-link :to="{ name: 'NYT Best Sellers'}">
+              <li class="dropdown-item px-4 mb-2">
+                NYT Best Sellers
+              </li>
+            </router-link>
             <li>
               <!-- <router-link :to="{ name: 'Books' }" class="btn text-light selectable"> -->
                 Your Book List (To Do)

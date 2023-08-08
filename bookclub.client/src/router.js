@@ -21,9 +21,9 @@ const routes = [
     component: loadPage('CreateBookClubPage')
   },
   {
-    path: '/books',
-    name: 'Books',
-    component: loadPage('BooksPage')
+    path: '/nytbooks',
+    name: 'NYT Best Sellers',
+    component: loadPage('NYTBestPage')
   },
   {
     path: '/booksearch',
