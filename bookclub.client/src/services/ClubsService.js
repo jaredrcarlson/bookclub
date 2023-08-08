@@ -72,6 +72,11 @@ class ClubsService {
     // logger.log('[GOT USER CREATOR/ADMIN MEMBERSHIPS]', creatorAdminMemberships)
     AppState.bookDetailsPage.userCreatorAdminClubs = creatorAdminMemberships.map((membership) => new Club(membership.club))
   }
+
+  async deleteClub(clubId) {
+    const res = await api.delete(`api/clubs/${clubId}`)
+    AppState.clubs = AppState.clubs.filter(c => c.id != clubId)
+  }
 }
 
 export const clubsService = new ClubsService

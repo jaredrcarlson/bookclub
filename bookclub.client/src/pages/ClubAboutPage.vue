@@ -26,6 +26,9 @@
                 <i class="mdi mdi-account-plus"></i> Join Club
               </button>
             </div>
+            <div v-if="selectedClub.creatorId == account.id">
+              <button @click="deleteClub()" class="btn orange-btn fs-3">Delete Club</button>
+            </div>
           </div>
         </div>
 
@@ -43,6 +46,7 @@ import { membersService } from '../services/MembersService.js';
 import Pop from '../utils/Pop.js';
 import { logger } from '../utils/Logger.js';
 import { router } from '../router.js';
+import { clubsService } from "../services/ClubsService.js";
 
 export default {
   setup(){
@@ -109,6 +113,18 @@ export default {
           loadingRef.value = false
 
           router.push({name: 'Home'})
+        } catch (error) {
+          Pop.error(error.message)
+        }
+      },
+      async deleteClub(){
+        try {
+          const wantsToDelete = await Pop.confirm('Deleting your club is permanent, are you sure you want to let down your members?')
+          if(!wantsToDelete){
+            return
+          }
+          const clubId = route.params.clubId
+          await clubsService.deleteClub(clubId)
         } catch (error) {
           Pop.error(error.message)
         }
