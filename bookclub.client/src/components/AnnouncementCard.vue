@@ -10,29 +10,15 @@
               <p class="fw-bold fs-3">
                 {{ announcementProp.title }}
               </p>
-              <p class="fw-bold fs-4">
-                {{ announcementProp.body }}
-              </p>
+
             </router-link>
               <p>
                 <span class="pe-4"><i v-if="announcementProp.membership.role == 'creator'" class="mdi mdi-star orange-text"></i><i v-else-if="announcementProp.membership.role == 'admin'" class="mdi mdi-star-outline orange-text"></i><i v-else class="mdi mdi-account orange-text"></i>{{ announcementProp?.membership?.role.toUpperCase() }}   {{announcementProp.creator?.name}}</span><span>posted {{announcementProp.createdAt}}</span>
               </p>
             </div>
             <div class="col-md-2 col-12">
-              <!-- <div v-if="announcementProp?.creatorId == account?.id" class="btn-group align-items-start mb-3">
-                <button title="More Options" class="btn orange-text text-end btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="mdi mdi-circle"></i><i class="mdi mdi-circle"></i><i class="mdi mdi-circle"></i>
-        </button>
-        <ul  class="p-1 dropdown-menu">
-        <li @click="deletePost(announcementProp?.id)" class="selectable mb-1 p-1">
-        Delete Announcement <i class="mdi mdi-delete"></i>
-        </li>
-        <li class="selectable mb-1 p-1">
-        Edit Announcement <i class="mdi mdi-pencil"></i>
-      </li>
 
-    </ul>
-  </div> -->
+
               <p class="fs-5">
                 <i class="mdi mdi-message-reply"></i> <span>{{announcementProp.commentCount}}</span>
               </p>
@@ -69,6 +55,7 @@ export default {
       //               Pop.error(error.message);
       //           }
       //       },
+      
     }
   }
 }
