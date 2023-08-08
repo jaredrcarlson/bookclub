@@ -44,14 +44,55 @@
     <section class="row mb-4">
       <div class="col-12">
         <p class="m-3 fs-1">
-          Booklist
+          <span class="pe-3">
+            My Booklist
+          </span>
+          <span class="fs-3 pe-4">
+            <i class="mdi mdi-book-multiple"></i> {{ profileBooks?.length }}
+          </span>
         </p>
       </div>
     </section>
 
     <section class="row mb-4">
       <div class="col-12">
-        placeholder
+        <div style="overflow-x: auto;" class="ms-3">
+          <table id="books">
+            <tr>
+              <th class="ps-2 w-100 ">
+                Title
+              </th>
+              <th class="ps-2">
+                Progress
+              </th>
+              <th class="ps-2">
+                Rating
+              </th>
+              <th>Timestamp</th>
+            </tr>
+            <tr v-for="book in currentBooks" :key="book.id">
+              <UserBookListItem :bookProp="book" />
+            </tr>
+            <tr>
+              <td>Planning</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr v-for="book in plannedBooks" :key="book.id">
+              <UserBookListItem :bookProp="book" />
+            </tr>
+            <tr>
+              <td>Finished</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr v-for="book in finishedBooks" :key="book.id">
+              <UserBookListItem :bookProp="book" />
+            </tr>
+          </table>
+        </div>
       </div>
     </section>
     
@@ -74,11 +115,12 @@
 
 
 <script>
-import { computed, watchEffect } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import Pop from '../utils/Pop.js';
 import { profilesService } from '../services/ProfilesService.js';
 import { AppState } from '../AppState.js';
+import { booksService } from '../services/BooksService';
 
 export default {
   setup(){
@@ -104,16 +146,38 @@ export default {
         Pop.error(error.message)
       }
     }
+    async function getProfileBooks(){
+      try {
+        const profileId = route.params.profileId
+        await booksService.getProfileBooks(profileId)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
 
-    watchEffect(() => {
+    onMounted(() => {
       getProfile(route.params.profileId)
       getProfileMemberships()
+      getProfileBooks()
     })
 
     return {
       route,
       profile: computed(() => AppState.profile),
-      profileMemberships: computed(() => AppState.profileMemberships)
+      profileMemberships: computed(() => AppState.profileMemberships),
+      profileBooks: computed(() => AppState.profileBooks),
+      finishedBooks: computed(() => {
+        let finishedBooks = AppState.profileBooks?.filter(b => b.status == 'finished')
+        return finishedBooks
+      }),
+      plannedBooks: computed(() => {
+        let plannedBooks = AppState.profileBooks?.filter(b => b.status == 'planned')
+        return plannedBooks
+      }),
+      currentBooks: computed(() => {
+        let currentBooks = AppState.profileBooks?.filter(b => b.status == 'reading')
+        return currentBooks
+      })
     }
   }
 }
@@ -169,6 +233,40 @@ export default {
 .image-container {
   height: 30vh;
   position: relative;
+}
+
+table{
+  width: 95%;
+}
+
+#books th{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight: lighter;
+}
+
+#books th, #books td{
+  border-bottom: 1px solid #8f8f8f;
+  padding: 7px;
+}
+
+.sub-text-style{
+  font-weight: 100;
+  font-size: smaller;
+}
+
+.large-text-style{
+  font-size:large;
+  font-weight: 600;
+}
+
+.status-text-style{
+  font-size: large;
+}
+
+.author-text-style{
+  font-size: smaller;
+  font-weight: 500;
 }
 
 </style>
