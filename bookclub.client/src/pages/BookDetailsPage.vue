@@ -25,11 +25,6 @@
                     <div v-if="userHasThisBook" class="text-center fw-bold pe-2">
                       
                       <div class="d-flex align-items-center">
-                        <!-- <div class="text-light light-blue-bg rounded-start px-2">My Rating</div>
-                        <div v-if="userBookData.rating == userBookRating" class="border-0 rounded-end d-flex align-items-center text-light light-blue-bg"><i class="mdi mdi-star-outline fs-6 mx-2"></i></div>
-                        <div v-else @click="updateUserBookRating()" class="selectable border-0 rounded-end d-flex align-items-center text-light orange-bg"><i class="mdi mdi-check-outline fs-6 mx-2"></i></div> -->
-                      </div>
-                      <div>
                         <div class="text-light light-blue-bg rounded px-2">My Rating</div>
                         <select @change="updateUserBookRating()" v-model="userBookData.rating" class="form-select form-select-sm border-0 rounded-start shadow-none fw-bold text-center" aria-label=".form-select-sm rating">
                           <optgroup class="">
@@ -319,7 +314,6 @@ export default {
     const addBookToListsOptions = ref({})
     
     async function setBook() {
-      console.log('running setBook()')
       try {
         await booksService.setBookDetailsPageBook(gbId)
       } catch (error) {
@@ -334,7 +328,6 @@ export default {
     }
 
     async function setClubs(status) {
-      console.log(`running setClubs(${status})`)
       try {
         await clubsService.setBookDetailsPageClubs(gbId, status)
       } catch (error) {
@@ -343,7 +336,6 @@ export default {
     }
 
     async function setReviews() {
-      console.log('running setReviews()')
       try {
         await bookReviewsService.setBookDetailsPageReviews(gbId)
       } catch (error) {
@@ -352,21 +344,17 @@ export default {
     }
     
     async function setUserBooks() {
-      console.log('running setUserBooks()')
       try {
         await booksService.setBookDetailsPageUserBooks()
         userHasThisBook.value = await bookExistsInUserBookList()
-        console.log('set user books', userBooks.value)
       } catch (error) {
         Pop.error(error.message)
       }
     }
 
     async function setUserBook() {
-      console.log('running setUserBook()')
       try {
         booksService.setBookDetailsPageUserBook(gbId)
-        console.log(`userBook -> [status] ${userBook.value.status} [rating] ${userBook.value.rating}`)
         userBookData.value.rating = userBook.value ? userBook.value.rating : 'null'
         userBookData.value.status = userBook.value ? userBook.value.status : 'null'
       } catch (error) {
@@ -376,9 +364,7 @@ export default {
 
     async function updateUserBookRating() {
       try {
-        const initRating = userBook.value.rating
         await booksService.updateUserBook(userBook.value.id, {rating: userBookData.value.rating})
-        console.log(`updated rating from [${initRating}] to [${userBookData.value.rating}]`)
       } catch (error) {
         Pop.error(error.message)
       }
@@ -386,37 +372,30 @@ export default {
     
     async function updateUserBookStatus() {
       try {
-        const initStatus = userBook.value.status
         await booksService.updateUserBook(userBook.value.id, {status: userBookData.value.status})
-        console.log(`updated status from [${initStatus}] to [${userBookData.value.status}]`)
       } catch (error) {
         Pop.error(error.message)
       }
     }
 
     async function setUserClubs() {
-      console.log('running setUserClubs()')
       try {
         await clubsService.setBookDetailsPageUserClubs(user.value.id)
-        console.log('set user clubs', userClubs.value)
       } catch (error) {
         Pop.error(error.message)
       }
     }
     
     async function setUserReviewedStatus() {
-      console.log('running setUserReviewedStatus()')
       try {
         const userReview = userReviews.value.filter(review => review.gbId == gbId && review.creatorId == user.value.id)
         userReviewedStatus.value = userReview.length ? true : false        
-        console.log('set user reviewed status', userReviewedStatus.value)
       } catch (error) {
         Pop.error(error.message)
       }
     }
     
     async function addBookToLists() {
-      console.log('running addBookToLists()')
       for (const [name, option] of Object.entries(addBookToListsOptions.value)) {
         if (option.selected) {
           try {
@@ -439,11 +418,9 @@ export default {
     }
 
     async function removeFromUserBookList() {
-      console.log('running removeFromUserBookList()')
       try {
         const book = userBooks.value.filter(book => book.gbId == gbId)
         await booksService.deleteUserBook(book.id)
-        console.log('removed book from user book list')
         await setUserBooks()
       } catch (error) {
         Pop.error(error.message)
@@ -451,10 +428,7 @@ export default {
     }
 
     async function openAddBookToListsModal() {
-      console.log('running setAddBookToListsOptions()')
-      
       const exists = await bookExistsInUserBookList()
-      console.log(`${gbId} exists in My Books: `, exists)
       addBookToListsOptions.value['My'] = {
         bookListType: 'user',
         existsInBookList: exists,
@@ -463,7 +437,6 @@ export default {
       
       userCreatorAdminClubs.value.forEach(async(club) => {
         const exists = await bookExistsInClubBookList(club.id)
-        console.log(`${gbId} exists in ${club.name}: `, exists)
         addBookToListsOptions.value[club.name] = {
           bookListType: 'club',
           clubId: club.id,
@@ -487,11 +460,8 @@ export default {
     }
     
     async function bookExistsInUserBookList() {
-      console.log(`running bookExistsInUserBookList()`)
       const userBooks = await booksService.getMyBooks()
-      console.log('userBooks', userBooks)
       if (!userBooks) {
-        console.log('userBooks is empty')
         return false
       }
       const bookFound = userBooks.find(book => book.gbId == gbId)
@@ -499,11 +469,8 @@ export default {
     }
     
     async function bookExistsInClubBookList(clubId) {
-      console.log(`running bookExistsInClubBookList(${clubId})`)
       const clubBooks = await booksService.getBooksByClubId(clubId)
-      console.log('clubBooks', clubBooks)
       if (!clubBooks) {
-        console.log('clubBooks is empty')
         return false
       }
       const bookFound = clubBooks.find(book => book.gbId == gbId)
@@ -511,7 +478,6 @@ export default {
     }
 
     async function createReview() {
-      console.log('running createReview()')
       try {
         await bookReviewsService.createBookReview(reviewData.value)
         reviewData.value = {
@@ -525,7 +491,6 @@ export default {
     }
     
     async function deleteReview(reviewId) {
-      console.log(`running deleteReview(${reviewId})`)
       try {
         await bookReviewsService.deleteBookReview(reviewId)
       } catch (error) {
@@ -535,29 +500,15 @@ export default {
 
     watchEffect(async() => {
       user
-      console.log('running watchEffect: user')
       if(user.value.id) {
         await setUserBooks()
         await setUserBook()
         await setUserClubs()
         await setUserReviewedStatus()
-      } else {
-        console.log('no user logged in')
       }
     })
-    
-    // watchEffect(async() => {
-    //   userBooks
-    //   console.log('running watchEffect: userBooks')
-    //   if(user.value.id) {
-    //     await setUserBooks()
-    //   } else {
-    //     console.log('no user logged in')
-    //   }
-    // })
-    
+        
     onMounted(async() => {
-      console.log('running onMounted')
       await setBook()
       await setAllClubs()
       await setReviews()
@@ -567,33 +518,25 @@ export default {
     return {
       book,
       user,
-      // userBooks,
-      // userClubs,
-      // userCreatorAdminClubs,
       userBook,
       userBookRating,
       userBookStatus,
       userHasThisBook,
       bookScore,
       userBookData,
-      updateUserBookRating,
-      updateUserBookStatus,
-
       userReviews,
       userReviewedStatus,
-      
       clubsPlanned,
       clubsReading,
       clubsFinished,
-      
       selectedTab,
       reviewData,
       addBookToListsOptions,
-
+      updateUserBookRating,
+      updateUserBookStatus,
       openAddBookToListsModal,
       addBookToLists,
       removeFromUserBookList,
-      
       createReview,
       deleteReview
     }
