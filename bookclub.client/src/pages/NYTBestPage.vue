@@ -1,5 +1,25 @@
 <template>
-  <h1>Books Page</h1>
+  <div class="container-fluid ghost-bg">
+    <section class="row">
+      <div class="col-12">
+        <h1>
+          New York Times Best Sellers
+        </h1>
+      </div>
+    </section>
+    <section class="row">
+      <div class="col-12">
+        <h2>
+          Paperback Trade Fiction
+        </h2>
+      </div>
+      <div class="col-12">
+        <div class="elevation-3 dark-blue-bg">
+          
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 
 
@@ -22,8 +42,9 @@ export default {
     onMounted(()=> {
       getTopBooks()
     })
+
     return {
-      nytLists: computed(() => AppState.nytLists)
+      nytLists: computed(() => AppState.nytLists),
     }
   }
 }
