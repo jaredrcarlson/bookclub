@@ -64,7 +64,7 @@
 <script>
 import { useRoute } from 'vue-router';
 import { clubsService } from '../services/ClubsService.js';
-import { computed, watchEffect } from 'vue';
+import { computed, onMounted, watchEffect } from 'vue';
 import { AppState } from '../AppState.js';
 import Pop from '../utils/Pop.js';
 
@@ -83,7 +83,7 @@ export default {
       }
     }
 
-    watchEffect(()=> {
+    onMounted(()=> {
       getClubById(route.params.clubId)
     })
 
