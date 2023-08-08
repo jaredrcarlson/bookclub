@@ -116,6 +116,13 @@ class BooksService {
     }
   }
 
+  async setBookScore(gbId) {
+    const res = await api.get(`api/gbooks/${gbId}/rating`)
+    AppState.bookDetailsPage.bookScore = res.data.score
+    AppState.bookDetailsPage.bookScoreUserCount = res.data.userCount
+    return res.data
+  }
+
   async setBookDetailsPageBook(gbId) {
     const volumeData = await googleBooksService.getVolumeById(gbId)
     const book = new Book(volumeData)

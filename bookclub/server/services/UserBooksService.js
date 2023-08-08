@@ -26,6 +26,11 @@ class UserBooksService {
     return userBooks
   }
 
+  async getUserBooksByGbId(gbId) {
+    const userBooks = await dbContext.UserBooks.find({ gbId: gbId })
+    return userBooks
+  }
+
   async updateUserBook(userId, userBookId, userBookData) {
     const userBook = await this.getUserBookById(userBookId)
     if (userId != userBook.creatorId) {

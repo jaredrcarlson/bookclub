@@ -14,8 +14,8 @@
                 <div>
                   <div class="text-center fw-bold me-1">
                     <div class="text-light light-blue-bg rounded px-2">Score</div>
-                    <div>{{ bookScore.score }}</div>
-                    <small class="text-muted">{{ bookScore.userCount }} Users</small>
+                    <div>{{ bookScore }}</div>
+                    <small class="text-muted">{{ bookScoreUserCount }} Users</small>
                   </div>
                 </div>
                 <div v-if="user.id">
@@ -251,33 +251,24 @@ export default {
     const route = useRoute()
     const gbId = route.params.gbId
     
-    
     const user = computed(() => AppState.user)
-    // const account = computed(() => AppState.account)
     const book = computed(() => AppState.bookDetailsPage.book)
-    // const userBooks = computed(() => AppState.bookDetailsPage.userBooks)
     const userBook = computed(() => AppState.bookDetailsPage.userBook)
     // const userClubs = computed(() => AppState.bookDetailsPage.userClubs)
     const userCreatorAdminClubs = computed(() => AppState.bookDetailsPage.userCreatorAdminClubs)
     const userReviews = computed(() => AppState.bookDetailsPage.userReviews)
-    
     const clubsPlanned = computed(() => AppState.bookDetailsPage.clubs.planned)
     const clubsReading = computed(() => AppState.bookDetailsPage.clubs.reading)
     const clubsFinished = computed(() => AppState.bookDetailsPage.clubs.finished)
-    
     const userHasThisBook = ref(false)
-    const bookScore = ref({
-      score: '[null]',
-      userCount: '[null]'
-    })
+    const bookScore = computed(() => Number(AppState.bookDetailsPage.bookScore).toFixed(2))
+    const bookScoreUserCount = computed(() => AppState.bookDetailsPage.bookScoreUserCount)
     const userBookRating = computed(() => AppState.bookDetailsPage.userBook ? AppState.bookDetailsPage.userBook.rating : 0)
     const userBookStatus = computed(() => AppState.bookDetailsPage.userBook ? AppState.bookDetailsPage.userBook.status : 'planned')
-
     const userBookData = ref({
       rating: 0,
       status: 'planned'
     })
-    
     const selectedTab = ref('reading')
     const reviewData = ref({
       gbId: gbId,
@@ -290,6 +281,14 @@ export default {
     async function setBook() {
       try {
         await booksService.setBookDetailsPageBook(gbId)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
+    async function setBookScore() {
+      try {
+        await booksService.setBookScore(gbId)
       } catch (error) {
         Pop.error(error.message)
       }
@@ -340,6 +339,7 @@ export default {
     async function updateUserBookRating() {
       try {
         await booksService.updateUserBook(userBook.value.id, {rating: userBookData.value.rating})
+        setBookScore()
       } catch (error) {
         Pop.error(error.message)
       }
@@ -396,6 +396,7 @@ export default {
       try {
         await booksService.deleteUserBook(userBook.value.id)
         await setUserBooks()
+        setBookScore()
       } catch (error) {
         Pop.error(error.message)
       }
@@ -486,6 +487,7 @@ export default {
         
     onMounted(async() => {
       await setBook()
+      await setBookScore()
       await setAllClubs()
       await setReviews()
     })
@@ -499,6 +501,7 @@ export default {
       userBookStatus,
       userHasThisBook,
       bookScore,
+      bookScoreUserCount,
       userBookData,
       userReviews,
       userReviewedStatus,
