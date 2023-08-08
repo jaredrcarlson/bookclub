@@ -5,6 +5,8 @@ import Pop from "../utils/Pop.js"
 import { api } from "./AxiosService"
 import { googleBooksService } from "./GoogleBooksService"
 
+const limitGoogleBooksAPIUsage = true
+
 class BooksService {
 
   // Function takes in a query as a string and searches the Google Books API with that string. Then populates appstate with found books.
@@ -39,20 +41,26 @@ class BooksService {
 
   //Function sends a request to create a ClubBook to server
   // @function
-  // @param {bookBody} - book data passed in order to create ClubBook
+  // @param {bookData} - book data passed in order to create ClubBook
   async createClubBook(bookData) {
     const res = await api.post(`api/clubBooks`, bookData)
     logger.log(`[CREATED CLUB BOOK]`, res.data)
-    return res.data
+    const book = new Book(res.data)
+    await this.addGoogleBooksVolumeData(book)
+    return book
   }
 
   //Function sends a request to create a UserBook to server
   // @function
-  // @param {bookBody} - book data passed in order to create ClubBook
+  // @param {bookData} - book data passed in order to create UserBook
   async createUserBook(bookData) {
     const res = await api.post(`api/userBooks`, bookData)
     logger.log(`[CREATED USER BOOK]`, res.data)
-    return res.data
+    const book = new Book(res.data)
+    await this.addGoogleBooksVolumeData(book)
+    AppState.myBooks.push(book)
+    AppState.bookDetailsPage.userBooks.push(book)
+    return book
   }
 
   async getMyBooks() {
@@ -61,6 +69,7 @@ class BooksService {
 
       logger.log('[GOT ACCOUNT BOOKS]', res.data)
       AppState.myBooks = res.data.map(pojo => new Book(pojo))
+      return res.data
     } catch (error) {
       Pop.error(error.message)
     }
@@ -68,6 +77,14 @@ class BooksService {
 
   async deleteUserBook(bookId) {
     await api.delete(`api/userBooks/${bookId}`)
+    let bookIndex = AppState.myBooks.findIndex(book => book.id == bookId)
+    if (bookIndex != -1) {
+      AppState.myBooks.splice(bookIndex, 1)
+    }
+    bookIndex = AppState.bookDetailsPage.userBooks.findIndex(book => book.id == bookId)
+    if (bookIndex != -1) {
+      AppState.bookDetailsPage.userBooks.splice(bookIndex, 1)
+    }
   }
 
   async setBookDetailsPageBook(gbId) {
@@ -80,9 +97,8 @@ class BooksService {
     const userBooks = []
     const res = await api.get('api/userBooks')
     res.data.forEach(async (data) => {
-      const volumeData = await googleBooksService.getVolumeById(data.gbId)
       const book = new Book(data)
-      book.addGoogleBooksVolumeData(volumeData)
+      await this.addGoogleBooksVolumeData(book)
       userBooks.push(book)
     })
     AppState.bookDetailsPage.userBooks = userBooks
@@ -99,6 +115,16 @@ class BooksService {
 
     logger.log('[GOT CLUB BOOKS]', res.data)
     AppState.books = res.data.map(pojo => new Book(pojo))
+    return res.data
+  }
+
+  async addGoogleBooksVolumeData(book) {
+    if (limitGoogleBooksAPIUsage) {
+      return book
+    }
+    const volumeData = await googleBooksService.getVolumeById(book.gbId)
+    book.addGoogleBooksVolumeData(volumeData)
+    return book
   }
 }
 

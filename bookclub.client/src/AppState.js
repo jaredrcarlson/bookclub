@@ -31,21 +31,22 @@ export const AppState = reactive({
   /** @type {import('./models/Book.js').Book[]} */
   booksToAdd: [],
 
-  /** @type {import('./models/Book.js').Book | null} */
-  myBooks: null,
+  /** @type {import('./models/Book.js').Book[]} */
+  myBooks: [],
 
   /** @type {import('./models/Book.js').Book} */
   selectedBook: null,
 
+  //
   bookDetailsPage: {
     /** @type {import('./models/Book.js').Book} */
     book: null,
     clubs: {
-      /** @type {import('./models/Club.js').Book[]} */
+      /** @type {import('./models/Club.js').Club[]} */
       planned: [],
-      /** @type {import('./models/Club.js').Book[]} */
+      /** @type {import('./models/Club.js').Club[]} */
       reading: [],
-      /** @type {import('./models/Club.js').Book[]} */
+      /** @type {import('./models/Club.js').Club[]} */
       finished: []
     },
     /** @type {import('./models/Book.js').Book[]} */

@@ -14,30 +14,68 @@
                 <div>
                   <div class="text-center fw-bold me-1">
                     <div class="text-light light-blue-bg rounded px-2">Score</div>
-                    <div>[POPULATE]</div>
-                    <small class="text-muted">[POPULATE] Users</small>
+                    <div>{{ bookScore.score }}</div>
+                    <small class="text-muted">{{ bookScore.userCount }} Users</small>
                   </div>
                 </div>
                 
                 <div v-if="user.id">
-                    <div v-if="bookExistsInUserBookList" class="d-flex justify-content-around">
-                      <div class="text-center fw-bold">
-                        <div class="text-light light-blue-bg rounded px-2">Your Rating</div>
-                        <div>[POPULATE]</div>
-                      </div>
-                      <div class="text-center fw-bold mx-2">
-                        <div class="text-light light-blue-bg rounded px-2">Progress</div>
-                        <div>[POPULATE]</div>
+                    
+                  <div class="d-flex justify-content-around">
+                    <div v-if="userHasThisBook" class="text-center fw-bold pe-2">
+                      
+                      <div class="d-flex align-items-center">
+                        <div class="text-light light-blue-bg rounded-start px-2">My Rating</div>
+                        <div v-if="userBookData.rating == userBookData.initRating" class="border-0 rounded-end d-flex align-items-center text-light light-blue-bg"><i class="mdi mdi-star-outline fs-6 mx-2"></i></div>
+                        <div v-else @click="updateUserBookRating()" class="selectable border-0 rounded-end d-flex align-items-center text-light orange-bg"><i class="mdi mdi-check-outline fs-6 mx-2"></i></div>
                       </div>
                       <div>
-                        <button @click="setAddBookToListsOptions()" type="button" class="btn orange-btn" data-bs-toggle="modal" data-bs-target="#addBookToLists">
-                          Add To List
-                        </button>
-                        <!-- <button @click="removeFromUserBookList()" type="button" class="btn btn-danger">
-                          Remove Book
-                        </button>   -->
+                        <select v-model="userBookData.rating" class="form-select form-select-sm border-0 rounded-start shadow-none fw-bold text-center" aria-label=".form-select-sm rating">
+                          <optgroup class="">
+                            <option selected :value="userBookData.rating"><div class="bg-dark">{{ userBookData.rating ? userBookData.rating : 'Not Rated' }}</div></option>
+                          </optgroup>
+                          <optgroup>
+                            <option :value="0">Not Rated</option>
+                            <option v-for="i in 10" :key="i" :value="i">{{ i }}</option>
+                          </optgroup>
+                        </select>
                       </div>
+                      
                     </div>
+                    
+                    <div v-if="userHasThisBook" class="text-center fw-bold pe-2">
+                      
+                      <div class="d-flex align-items-center">
+                        <div class="text-light light-blue-bg rounded-start px-2">Progress</div>
+                        <div v-if="userBookData.progress == userBookData.initProgress" class="border-0 rounded-end d-flex align-items-center text-light light-blue-bg"><i class="mdi mdi-book-outline fs-6 mx-2"></i></div>
+                        <div v-else @click="updateUserBookProgress()" class="selectable border-0 rounded-end d-flex align-items-center text-light orange-bg"><i class="mdi mdi-check-outline fs-6 mx-2"></i></div>
+                      </div>
+                      <div>
+                        <select v-model="userBookData.progress" class="form-select form-select-sm border-0 rounded-start shadow-none fw-bold text-center" aria-label=".form-select-sm progress">
+                          <optgroup class="">
+                            <option selected :value="userBookData.progress"><div class="bg-dark">{{ userBookData.progress.charAt(0).toUpperCase() + userBookData.progress.slice(1) }}</div></option>
+                          </optgroup>
+                          <optgroup>
+                            <option value="planned">Planned</option>
+                            <option value="reading">Reading</option>
+                            <option value="finished">Finished</option>
+                          </optgroup>
+                        </select>
+                      </div>
+                      
+                    </div>
+
+                    <div>
+                      <button @click="openAddBookToListsModal()" type="button" class="btn orange-btn">
+                        Add To List
+                      </button>
+                      <!-- <button @click="removeFromUserBookList()" type="button" class="btn btn-danger">
+                        Remove Book
+                      </button> -->
+                    </div>
+                  </div>
+
+
                 </div>
               </div> 
               <div class="mt-2 fs-5">Description</div>
@@ -95,7 +133,7 @@
             </div>
           </div>
           <div v-else-if="selectedTab == 'reviews'" class="bg-dark">
-            <div v-if="!userReviewedStatus.reviewed">
+            <div v-if="user.id && !userReviewedStatus">
               <div class="px-3 py-2">
                 <button class="btn orange-btn" type="button" data-bs-toggle="collapse" data-bs-target="#bookReviewForm" aria-expanded="false" aria-controls="bookReviewForm">
                   Add Review
@@ -200,7 +238,7 @@
       </div>
     </div>
   </div>
-  <Modal :id="'addBookToLists'">
+  <ModalBasic :id="'addBookToLists'">
     <template v-slot:header>
       <div class="fw-bold fs-5">Add Book To Lists</div>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -221,7 +259,7 @@
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
       <button @click="addBookToLists()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBookToLists">Submit</button>
     </template>
-  </Modal>
+  </ModalBasic>
 </template>
 
 <script>
@@ -233,26 +271,40 @@ import Pop from '../utils/Pop.js';
 import { bookReviewsService } from '../services/BookReviewsService.js';
 import { clubsService } from '../services/ClubsService.js';
 import BookClubCard from '../components/BookClubCard.vue';
-import Modal from '../components/Modal.vue';
+import ModalBasic from '../components/ModalBasic.vue';
+import { Modal } from 'bootstrap';
 
 export default {
-  components: { BookClubCard, Modal },
+  components: { BookClubCard, ModalBasic },
   setup(){
     const route = useRoute()
     const gbId = route.params.gbId
-    const user = ref(AppState.user)
-    // const account = ref(AppState.account)
-    const book = ref(AppState.bookDetailsPage.book)
-    const userBooks = ref(AppState.bookDetailsPage.userBooks)
-    const userClubs = ref(AppState.bookDetailsPage.userClubs)
-    const userCreatorAdminClubs = ref(AppState.bookDetailsPage.userCreatorAdminClubs)
-    const userReviews = ref(AppState.bookDetailsPage.userReviews)
     
-    const clubsPlanned = ref(AppState.bookDetailsPage.clubs.planned)
-    const clubsReading = ref(AppState.bookDetailsPage.clubs.reading)
-    const clubsFinished = ref(AppState.bookDetailsPage.clubs.finished)
     
-    const bookExistsInUserBookList = ref(true)
+    const user = computed(() => AppState.user)
+    // const account = computed(() => AppState.account)
+    const book = computed(() => AppState.bookDetailsPage.book)
+    const userBooks = computed(() => AppState.bookDetailsPage.userBooks)
+    const userClubs = computed(() => AppState.bookDetailsPage.userClubs)
+    const userCreatorAdminClubs = computed(() => AppState.bookDetailsPage.userCreatorAdminClubs)
+    const userReviews = computed(() => AppState.bookDetailsPage.userReviews)
+    
+    const clubsPlanned = computed(() => AppState.bookDetailsPage.clubs.planned)
+    const clubsReading = computed(() => AppState.bookDetailsPage.clubs.reading)
+    const clubsFinished = computed(() => AppState.bookDetailsPage.clubs.finished)
+    
+    const userHasThisBook = ref(false)
+    const bookScore = ref({
+      score: '[null]',
+      userCount: '[null]'
+    })
+    const userBookData = ref({
+      initRating: 0,
+      initProgress: 'planned',
+      rating: 0,
+      progress: 'planned'
+    })
+    
     const selectedTab = ref('reading')
     const reviewData = ref({
       gbId: gbId,
@@ -299,13 +351,33 @@ export default {
       console.log('running setUserBooks()')
       try {
         await booksService.setBookDetailsPageUserBooks()
+        userHasThisBook.value = await bookExistsInUserBookList()
         console.log('set user books', userBooks.value)
-        setBookExistsInUserBookList()
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
+    async function updateUserBookRating() {
+      try {
+        // FIXME needs implemented
+        console.log('update user book rating - needs implemented')
+        userBookData.value.initRating = userBookData.value.rating
       } catch (error) {
         Pop.error(error.message)
       }
     }
     
+    async function updateUserBookProgress() {
+      try {
+        // FIXME needs implemented
+        console.log('update user book progress - needs implemented')
+        userBookData.value.initProgress = userBookData.value.progress
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
     async function setUserClubs() {
       console.log('running setUserClubs()')
       try {
@@ -319,10 +391,8 @@ export default {
     async function setUserReviewedStatus() {
       console.log('running setUserReviewedStatus()')
       try {
-        if(user.value.id) {
-          const userReview = userReviews.value.filter(review => review.gbId == gbId && review.creatorId == user.value.id)
-          userReviewedStatus.value = userReview.length ? true : false
-        }
+        const userReview = userReviews.value.filter(review => review.gbId == gbId && review.creatorId == user.value.id)
+        userReviewedStatus.value = userReview.length ? true : false        
         console.log('set user reviewed status', userReviewedStatus.value)
       } catch (error) {
         Pop.error(error.message)
@@ -342,7 +412,7 @@ export default {
               case 'club':
                 book.value.clubId = option.clubId
                 await booksService.createClubBook(book.value)
-                await setAllClubs()
+                await setClubs('planned')
               break;
             }
           } catch (error) {
@@ -355,7 +425,7 @@ export default {
     async function removeFromUserBookList() {
       console.log('running removeFromUserBookList()')
       try {
-        const book = userBooks.value.find((book) => book.gbId == gbId)
+        const book = userBooks.value.filter(book => book.gbId == gbId)
         await booksService.deleteUserBook(book.id)
         console.log('removed book from user book list')
         await setUserBooks()
@@ -364,50 +434,64 @@ export default {
       }
     }
 
-    async function setAddBookToListsOptions() {
+    async function openAddBookToListsModal() {
       console.log('running setAddBookToListsOptions()')
+      
+      const exists = await bookExistsInUserBookList()
+      console.log(`${gbId} exists in My Books: `, exists)
       addBookToListsOptions.value['My'] = {
         bookListType: 'user',
-        existsInBookList: bookExistsInUserBookList.value,
+        existsInBookList: exists,
         selected: false
       }
       
       userCreatorAdminClubs.value.forEach(async(club) => {
+        const exists = await bookExistsInClubBookList(club.id)
+        console.log(`${gbId} exists in ${club.name}: `, exists)
         addBookToListsOptions.value[club.name] = {
           bookListType: 'club',
           clubId: club.id,
-          existsInBookList: await bookExistsInClubBookList(club.id),
+          existsInBookList: exists,
           selected: false
         }
       })
-      
-      // FIXME remove after testing
-      userClubs.value.forEach(async(club) => {
-        addBookToListsOptions.value[club.name] = {
-          bookListType: 'club',
-          clubId: club.id,
-          existsInBookList: await bookExistsInClubBookList(club.id),
-          selected: false
-        }
-      })
-    }
 
-    function setBookExistsInUserBookList() {
-      console.log('running setBookExistsInUserBookList()')
-      const bookFound = userBooks.value.find((book) => book.gbId == gbId)
-      bookExistsInUserBookList.value = bookFound ? true : false
-      console.log('set book exists in user book list status', bookExistsInUserBookList.value)
+      // userClubs.value.forEach(async(club) => {
+      //   const exists = await bookExistsInClubBookList(club.id)
+      //   console.log(`${gbId} exists in ${club.name}: `, exists)
+      //   addBookToListsOptions.value[club.name] = {
+      //     bookListType: 'club',
+      //     clubId: club.id,
+      //     existsInBookList: exists,
+      //     selected: false
+      //   }
+      // })
+
+      Modal.getOrCreateInstance('#addBookToLists').show()
+    }
+    
+    async function bookExistsInUserBookList() {
+      console.log(`running bookExistsInUserBookList()`)
+      const userBooks = await booksService.getMyBooks()
+      console.log('userBooks', userBooks)
+      if (!userBooks) {
+        console.log('userBooks is empty')
+        return false
+      }
+      const bookFound = userBooks.find(book => book.gbId == gbId)
+      return bookFound ? true : false
     }
     
     async function bookExistsInClubBookList(clubId) {
       console.log(`running bookExistsInClubBookList(${clubId})`)
-      const res = await booksService.getClubBooksByGbId(gbId)
-      const clubBooks = res.data
+      const clubBooks = await booksService.getBooksByClubId(clubId)
+      console.log('clubBooks', clubBooks)
       if (!clubBooks) {
+        console.log('clubBooks is empty')
         return false
       }
-      const book = clubBooks.find(book => book.clubId == clubId)
-      return book ? true : false
+      const bookFound = clubBooks.find(book => book.gbId == gbId)
+      return bookFound ? true : false
     }
 
     async function createReview() {
@@ -445,15 +529,15 @@ export default {
       }
     })
     
-    watchEffect(async() => {
-      userBooks
-      console.log('running watchEffect: userBooks')
-      if(user.value.id) {
-        await setUserBooks()
-      } else {
-        console.log('no user logged in')
-      }
-    })
+    // watchEffect(async() => {
+    //   userBooks
+    //   console.log('running watchEffect: userBooks')
+    //   if(user.value.id) {
+    //     await setUserBooks()
+    //   } else {
+    //     console.log('no user logged in')
+    //   }
+    // })
     
     onMounted(async() => {
       console.log('running onMounted')
@@ -464,11 +548,17 @@ export default {
     
     
     return {
-      book: computed(() => AppState.bookDetailsPage.book),
+      book,
       user,
-      userBooks,
-      userClubs,
-      userCreatorAdminClubs,
+      // userBooks,
+      // userClubs,
+      // userCreatorAdminClubs,
+      userHasThisBook,
+      bookScore,
+      userBookData,
+      updateUserBookRating,
+      updateUserBookProgress,
+
       userReviews,
       userReviewedStatus,
       
@@ -479,12 +569,11 @@ export default {
       selectedTab,
       reviewData,
       addBookToListsOptions,
-      
-      bookExistsInUserBookList,
 
-      setAddBookToListsOptions,
+      openAddBookToListsModal,
       addBookToLists,
       removeFromUserBookList,
+      
       createReview,
       deleteReview
     }
