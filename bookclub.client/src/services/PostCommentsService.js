@@ -19,6 +19,9 @@ class PostCommentsService {
   async editComment(commentData) {
     const res = await api.put(`api/comments/${commentData.id}`, commentData)
     logger.log('editing comment?', res.data)
+    const comment = new PostComment(res.data)
+    const commentIndex = AppState.postComments.findIndex(c => c.id == commentData.id)
+    AppState.postComments.splice(commentIndex, 1, comment)
   }
 
   async deleteComment(commentId) {
