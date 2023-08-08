@@ -33,13 +33,9 @@
 
     </section>
 
-    <!-- <section class="row ghost-bg">
-      <div class="col-12 mt-5">
-        <h6>
-          NY Times Best Sellers
-        </h6>
-      </div>
-    </section> -->
+    <section class="row">
+      <NYTCard />
+    </section>
 
     <section id="bookclubList" class="row ghost-bg">
       <div class="col-12 mt-5">
@@ -76,8 +72,6 @@
       </div>
     </section>
 
-    
-
     <section class="row ghost-bg">
       <div class="col-md-6 col-12 my-3" v-for="club in clubs" :key="club.id">
         <BookClubCard :clubProp="club" />
@@ -102,6 +96,8 @@ import { clubsService } from '../services/ClubsService.js'
 import { computed, onMounted, ref } from 'vue'
 import { AppState } from '../AppState.js'
 import BookClubCard from '../components/BookClubCard.vue'
+import NYTCard from '../components/NYTCard.vue'
+import { newYorkTimesService } from '../services/NewYorkTimesService.js'
 
 export default {
     setup() {
@@ -115,8 +111,18 @@ export default {
                 Pop.error(error.message);
             }
         }
+
+        async function getTopBooks(){
+          try {
+            newYorkTimesService.getTopBooks()
+          } catch (error) {
+            Pop.error(error.message)
+          }
+        }
+
         onMounted(() => {
             getAllClubs();
+            getTopBooks();
         });
         return {
             searchQuery,
@@ -149,7 +155,7 @@ export default {
             }
         };
     },
-    components: { BookClubCard }
+    components: { BookClubCard, NYTCard }
 }
 </script>
 

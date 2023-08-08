@@ -62,6 +62,12 @@ export const AppState = reactive({
     userReviewedStatus: true
   },
 
+  /** @type {import('./models/NYTBook.js').NYTBook[]} */
+  nytBooks: [],
+
+  /** @type {import('./models/NYTList.js').NYTList[]} */
+  nytLists: [],
+
   /** @type {import('./models/Member.js').Member[]} */
   members: [],
 
