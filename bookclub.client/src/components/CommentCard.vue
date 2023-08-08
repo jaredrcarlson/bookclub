@@ -13,7 +13,11 @@
               <p class=" mb-4">
                 Posted {{commentProp?.createdAt}}
               </p>
-              <p class="fs-5">{{commentProp?.body}}</p>
+              <form @submit.prevent="editComment()">
+              <textarea class="form-control mb-2" v-model="editable.body" v-if="isEditing"  rows="10"></textarea>
+              <p v-else class="fs-5">{{commentProp?.body}}</p>
+              <button type="submit" v-if="isEditing" class="btn orange-btn">Save Changes</button>
+            </form>
             </div>
           </div>
           
@@ -25,7 +29,7 @@
     <li @click="deleteComment(commentProp?.id)" class="selectable mb-1 p-2">
       Delete Comment <i class="mdi mdi-delete"></i>
     </li>
-    <li @click="setCommentToEdit()" class="selectable mb-1 p-2">
+    <li @click="enableEditing()" class="selectable mb-1 p-2">
       Edit Comment <i class="mdi mdi-pencil"></i>
     </li>
   </ul>
@@ -36,7 +40,7 @@
 
 
 <script>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { AppState } from "../AppState.js";
 import { postCommentsService } from "../services/PostCommentsService.js";
 import Pop from "../utils/Pop.js";
@@ -46,9 +50,17 @@ export default {
     commentProp: { type: Object, required: true}
   },
   setup(props){
+    const isEditing = ref(false)
+    const editable = ref({})
     return {
+      editable,
+      isEditing,
       postComments: computed(() => AppState.postComments),
       account: computed(() => AppState.account),
+      enableEditing(){
+        isEditing.value = true
+        editable.value = {...props.commentProp}
+      },
       async deleteComment(commentId) {
                 try {
                     const wantsToDelete = await Pop.confirm('Are you sure you want to delete your comment?');
@@ -62,10 +74,15 @@ export default {
                     Pop.error(error.message);
                 }
             },
-            setCommentToEdit(){
-              const commentToEdit = props.commentProp
-              postCommentsService.setCommentToEdit(commentToEdit)
-            }
+      async editComment(){
+        try {
+          const commentData = editable.value
+          await postCommentsService.editComment(commentData)
+          isEditing.value = false
+        } catch (error) {
+          Pop.error(error.message)
+        }
+      }
     }
   }
 }

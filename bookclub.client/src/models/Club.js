@@ -5,8 +5,8 @@ export class Club {
     this.coverImg = data.coverImg
     this.name = data.name
     this.description = data.description
-    this.createdAt = new Date(data.createdAt).toLocaleString()
-    this.updatedAt = new Date(data.updatedAt).toLocaleString()
+    this.createdAt = new Date(data.createdAt)
+    this.updatedAt = new Date(data.updatedAt)
     this.memberCount = data.memberCount
   }
 }

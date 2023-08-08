@@ -3,7 +3,7 @@ import { BadRequest, Forbidden } from "../utils/Errors.js"
 
 class ClubPostsService {
   async getClubPosts(clubId) {
-    const clubPosts = await dbContext.Posts.find({ clubId: clubId })
+    const clubPosts = await dbContext.Posts.find({ clubId: clubId, isAnnouncement: false })
       .populate('creator', 'name picture')
       .populate('commentCount')
       .populate('membership')

@@ -54,9 +54,18 @@
     <section class="row mb-4">
       <div class="col-12">
         <p class="m-3 fs-1">
-          My Booklist
-          <span class="fs-3">
+          <span class="pe-3">
+            My Booklist
+          </span>
+          <span class="fs-3 pe-4">
             <i class="mdi mdi-book-multiple"></i> {{ myBooks?.length }}
+          </span>
+          <span>
+            <router-link :to="{name:'Book Search'}">
+              <button class="btn orange-btn" title="Add a Book to My List">
+                <i class="mdi mdi-book-plus"></i> Add a Book to My List
+              </button>
+            </router-link>
           </span>
         </p>
       </div>

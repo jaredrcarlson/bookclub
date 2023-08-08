@@ -96,10 +96,10 @@ import { clubsService } from '../services/ClubsService'
 import { AppState } from '../AppState';
 import Pop from '../utils/Pop';
 import { logger } from '../utils/Logger';
+import { router } from '../router.js';
 
 export default {
     setup() {
-        
         const searchQuery = ref("")
         const editable = ref({})
         const booksToAdd = computed(() => AppState.booksToAdd)
@@ -143,6 +143,8 @@ export default {
                         const bookData = {...booksToAdd.value[i], author: booksToAdd.value[i].authors[0], clubId: club._id}
                         booksService.createClubBook(bookData)
                     }
+                    editable.value = {}
+                    router.push({name:'Club About Page', params:{clubId: club.id}})
                 } catch (error) {
                     logger.log(error)
                     Pop.error(error.message)
