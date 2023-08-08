@@ -26,7 +26,7 @@
                       
                       <div class="d-flex align-items-center">
                         <div class="text-light light-blue-bg rounded-start px-2">My Rating</div>
-                        <div v-if="userBookData.rating == userBookData.initRating" class="border-0 rounded-end d-flex align-items-center text-light light-blue-bg"><i class="mdi mdi-star-outline fs-6 mx-2"></i></div>
+                        <div v-if="userBookData.rating == userBookRating" class="border-0 rounded-end d-flex align-items-center text-light light-blue-bg"><i class="mdi mdi-star-outline fs-6 mx-2"></i></div>
                         <div v-else @click="updateUserBookRating()" class="selectable border-0 rounded-end d-flex align-items-center text-light orange-bg"><i class="mdi mdi-check-outline fs-6 mx-2"></i></div>
                       </div>
                       <div>
@@ -47,7 +47,7 @@
                       
                       <div class="d-flex align-items-center">
                         <div class="text-light light-blue-bg rounded-start px-2">Progress</div>
-                        <div v-if="userBookData.progress == userBookData.initProgress" class="border-0 rounded-end d-flex align-items-center text-light light-blue-bg"><i class="mdi mdi-book-outline fs-6 mx-2"></i></div>
+                        <div v-if="userBookData.progress == userBookProgress" class="border-0 rounded-end d-flex align-items-center text-light light-blue-bg"><i class="mdi mdi-book-outline fs-6 mx-2"></i></div>
                         <div v-else @click="updateUserBookProgress()" class="selectable border-0 rounded-end d-flex align-items-center text-light orange-bg"><i class="mdi mdi-check-outline fs-6 mx-2"></i></div>
                       </div>
                       <div>
@@ -284,8 +284,8 @@ export default {
     const user = computed(() => AppState.user)
     // const account = computed(() => AppState.account)
     const book = computed(() => AppState.bookDetailsPage.book)
-    const userBook = computed(() => AppState.bookDetailsPage.userBook)
     const userBooks = computed(() => AppState.bookDetailsPage.userBooks)
+    const userBook = computed(() => AppState.bookDetailsPage.userBook)
     const userClubs = computed(() => AppState.bookDetailsPage.userClubs)
     const userCreatorAdminClubs = computed(() => AppState.bookDetailsPage.userCreatorAdminClubs)
     const userReviews = computed(() => AppState.bookDetailsPage.userReviews)
@@ -299,9 +299,10 @@ export default {
       score: '[null]',
       userCount: '[null]'
     })
+    const userBookRating = computed(() => AppState.bookDetailsPage.userBook ? AppState.bookDetailsPage.userBook.rating : 0)
+    const userBookProgress = computed(() => AppState.bookDetailsPage.userBook ? AppState.bookDetailsPage.userBook.status : 'planned')
+
     const userBookData = ref({
-      initRating: 0,
-      initProgress: 'planned',
       rating: 0,
       progress: 'planned'
     })
@@ -362,8 +363,10 @@ export default {
     async function setUserBook() {
       console.log('running setUserBook()')
       try {
-        booksService.setBookDetailsPageUserBook()
+        booksService.setBookDetailsPageUserBook(gbId)
         console.log('set user book', userBook.value)
+        userBookData.value.rating = userBook.value.rating
+        userBookData.value.status = userBook.value.status
       } catch (error) {
         Pop.error(error.message)
       }
@@ -371,10 +374,9 @@ export default {
 
     async function updateUserBookRating() {
       try {
-        // FIXME needs implemented
-        await booksService.updateUserBook({rating: userBookData.value.rating})
-        console.log(`updated rating from [${userBookData.value.initRating}] to [${userBookData.value.rating}]`)
-        // userBookData.value.initRating = userBookData.value.rating
+        const initRating = userBook.value.rating
+        await booksService.updateUserBook(userBook.value.id, {rating: userBookData.value.rating})
+        console.log(`updated rating from [${initRating}] to [${userBookData.value.rating}]`)
       } catch (error) {
         Pop.error(error.message)
       }
@@ -382,10 +384,9 @@ export default {
     
     async function updateUserBookProgress() {
       try {
-        // FIXME needs implemented
-        await booksService.updateUserBook({progress: userBookData.value.progress})
-        console.log(`updated progress from [${userBookData.value.initProgress}] to [${userBookData.value.progress}]`)
-        // userBookData.value.initProgress = userBookData.value.progress
+        const initProgress = userBook.value.status
+        await booksService.updateUserBook(userBook.value.id, {status: userBookData.value.progress})
+        console.log(`updated progress from [${initProgress}] to [${userBookData.value.progress}]`)
       } catch (error) {
         Pop.error(error.message)
       }
@@ -567,6 +568,9 @@ export default {
       // userBooks,
       // userClubs,
       // userCreatorAdminClubs,
+      userBook,
+      userBookRating,
+      userBookProgress,
       userHasThisBook,
       bookScore,
       userBookData,
