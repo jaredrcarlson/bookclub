@@ -88,11 +88,11 @@ body {
 }
 
 header {
-  height: 10vh;
+  height: 15vh;
 }
 
 main {
-  height: 90vh;
+  height: 85vh;
 }
 
 </style>
