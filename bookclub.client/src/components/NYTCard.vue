@@ -10,7 +10,7 @@
             <li class="px-3 selectable" @click="sortList('Paperback Trade Fiction')">Paperback Trade Fiction</li>
             <li class="px-3 selectable" @click="sortList('Young Adult Hardcover')">Young Adult Hardcover</li>
             <li class="px-3 selectable" @click="sortList('Graphic Books and Manga')">Graphic Books and Manga</li>
-            <li class="px-3 selectable" @click="sortList('Audio Fiction')">Audio Fiction</li>
+            <li class="px-3 selectable" @click="sortList('Paperback Nonfiction')">Paperback Nonfiction</li>
             <li class="px-3 selectable" @click="sortList('Advice, How-To & Miscellaneous')">Advice, How-To & Miscellanious</li>
           </ul>
         </div>
