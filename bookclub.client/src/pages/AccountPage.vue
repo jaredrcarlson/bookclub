@@ -76,7 +76,7 @@
         <div style="overflow-x: auto;" class="ms-3">
           <table id="books">
             <tr>
-              <th class="ps-2">
+              <th class="ps-2 w-100 ">
                 Title
               </th>
               <th class="ps-2">
@@ -85,15 +85,28 @@
               <th class="ps-2">
                 Rating
               </th>
-              <th class="ps-2">
-                Options
-              </th>
+              <th>Timestamp</th>
+              <th></th>
             </tr>
             <tr v-for="book in currentBooks" :key="book.id">
               <UserBookListItem :bookProp="book" />
             </tr>
+            <tr>
+              <td>Planning</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
             <tr v-for="book in plannedBooks" :key="book.id">
               <UserBookListItem :bookProp="book" />
+            </tr>
+            <tr>
+              <td>Finished</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
             <tr v-for="book in finishedBooks" :key="book.id">
               <UserBookListItem :bookProp="book" />
