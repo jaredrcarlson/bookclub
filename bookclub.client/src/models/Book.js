@@ -28,6 +28,7 @@ export class Book {
       this.title = data.title
       this.imgUrl = data.imgUrl
       this.status = data.status
+      this.rating = data.rating
       this.createdAt = new Date(data.createdAt)
       this.updatedAt = new Date(data.updatedAt)
     }
