@@ -5,17 +5,20 @@
         <div class="pe-3 col-4">
           <img class="img-fluid avatar-img" :src=memberProp.profile.picture :alt=memberProp.profile.name>
         </div>
-      <div class="col-6">
-        <p class="m-0">
-          {{ memberProp.profile.name }}
-        </p>
+        <div class="col-6">
+          <p class="m-0">
+            {{ memberProp.profile.name }}
+          </p>
+          <span v-if="memberProp.role == 'creator'"><i class="mdi mdi-star orange-text"></i>{{ memberProp.role.toUpperCase() }}</span>
+          <span v-if="memberProp.role == 'admin'"><i class="mdi mdi-star-outline orange-text"></i>{{ memberProp.role.toUpperCase() }}</span>
+        </div>
+        <div class="col-2 text-end">
+          <p class="m-0 fs-3">
+            <i class="mdi mdi-dots-vertical" type="button"></i>
+          </p>
+        </div>
       </div>
-      <div class="col-2 text-end">
-        <p class="m-0 fs-3">
-          <i class="mdi mdi-dots-vertical" type="button"></i>
-        </p>
-      </div>
-    </div>
+
   </router-link>
 </template>
 
