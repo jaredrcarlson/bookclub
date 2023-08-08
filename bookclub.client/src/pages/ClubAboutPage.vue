@@ -16,8 +16,9 @@
               <span class="pe-5">
                 Created at: {{ selectedClub.createdAt.toLocaleDateString() }}
               </span>
+              
             </p>
-            <div v-if="loadingRef == false && account.id && Array.isArray(myMemberships)">
+            <div v-if="loadingRef == false && account.id && Array.isArray(myMemberships) && (selectedClub.creatorId != account.id)">
               <button class="btn orange-btn fs-3" @click="leaveClub()" title="Leave Club" v-if="inClub">
                 <i class="mdi mdi-account-minus"></i> Leave Club
               </button>
