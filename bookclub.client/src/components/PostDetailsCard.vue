@@ -3,11 +3,10 @@
       <div class="col-12 dark-blue-bg rounded elevation-5 text-light p-3">
         <h1>{{postProp?.title}}</h1>
         <div class="d-flex">
-          <!-- \**FIXME - this link is breaking :( -->
           <div class="pe-4">
-            <!-- <router-link :to="{name: 'Profile Page', params: {profileId: postProp?.creatorId}}"> -->
+          <router-link :to="{name: 'Profile Page', params: {profileId: postProp?.creatorId}}">
             <img class="avatar-img" :src="postProp?.creator?.picture" :alt="postProp?.creator?.name">
-          <!-- </router-link> -->
+          </router-link>
           </div>
           <div>
             <p class="fs-4">{{ postProp?.creator?.name }}</p>
