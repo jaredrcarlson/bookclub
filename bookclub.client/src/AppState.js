@@ -65,6 +65,9 @@ export const AppState = reactive({
   /** @type {import('./models/NYTBook.js').NYTBook[]} */
   nytBooks: [],
 
+  /** @type {import('./models/NYTBook.js').NYTBook[]} */
+  activeNytBooks: null,
+
   /** @type {import('./models/NYTList.js').NYTList[]} */
   nytLists: [],
 
