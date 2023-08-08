@@ -64,7 +64,7 @@ export default {
             }
         }
         watchEffect(() => {
-            getBooksByClubId();
+            getBooksByClubId(route.params.clubId);
         });
         return {
             route,
