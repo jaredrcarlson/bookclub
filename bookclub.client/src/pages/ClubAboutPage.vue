@@ -1,36 +1,31 @@
 <template>
   <div class="container-fluid">
     <section class="row">
-      <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center">
-          <p class="m-3 fs-1">
-            About the Club
-          </p>
-          <div v-if="loadingRef == false && account.id && Array.isArray(myMemberships)">
-            <button class="btn orange-btn" @click="leaveClub()" title="Leave Club" v-if="inClub">
-              <i class="mdi mdi-account-minus"></i> Leave Club
-            </button>
-            <button class="btn orange-btn" @click="becomeMember()" title="Join Club" v-else>
-              <i class="mdi mdi-account-plus"></i> Join Club
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="row">
-      <div class="col-12 dark-blue-bg rounded elevation-3 text-light">
+      <div class="col-12 mt-3 dark-blue-bg rounded elevation-3 text-light">
         <div class="p-3">
-          <p>
-            <span class="fw-semibold">Description: </span>{{ selectedClub.description }}
+          <p class="fs-3 fw-bold">About us</p>
+          <p class="fs-4">
+            {{ selectedClub.description }}
           </p>
-          <p>
-            <span class="fw-semibold">Members: </span>{{ selectedClub.memberCount }}
-          </p>
-          <p class="fw-light">
-            <span class="pe-5">
-              Created at: {{ selectedClub.createdAt }}
-            </span>
-          </p>
+          <div class="d-flex justify-content-between mt-5 align-items-end">
+
+            <p class="fs-3">
+              <i class="mdi mdi-account"></i> {{ selectedClub.memberCount }}
+            </p>
+            <p class="fw-light fs-5">
+              <span class="pe-5">
+                Created at: {{ selectedClub.createdAt.toLocaleDateString() }}
+              </span>
+            </p>
+            <div v-if="loadingRef == false && account.id && Array.isArray(myMemberships)">
+              <button class="btn orange-btn fs-3" @click="leaveClub()" title="Leave Club" v-if="inClub">
+                <i class="mdi mdi-account-minus"></i> Leave Club
+              </button>
+              <button class="btn orange-btn fs-3" @click="becomeMember()" title="Join Club" v-else>
+                <i class="mdi mdi-account-plus"></i> Join Club
+              </button>
+            </div>
+          </div>
         </div>
 
       </div>
