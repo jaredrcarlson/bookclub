@@ -73,6 +73,14 @@ class ClubsService {
     AppState.bookDetailsPage.userCreatorAdminClubs = creatorAdminMemberships.map((membership) => new Club(membership.club))
   }
 
+  async editClub(clubData) {
+    logger.log('is it reaching the service?')
+    const res = await api.put(`api/clubs/${clubData.id}`, clubData)
+    const club = new Club(res.data)
+    const clubIndex = AppState.clubs.findIndex(c => c.id == clubData.id)
+    AppState.clubs.splice(clubIndex, 1, club)
+  }
+
   async deleteClub(clubId) {
     const res = await api.delete(`api/clubs/${clubId}`)
     AppState.clubs = AppState.clubs.filter(c => c.id != clubId)
