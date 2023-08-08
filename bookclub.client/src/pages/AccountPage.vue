@@ -55,13 +55,39 @@
       <div class="col-12">
         <p class="m-3 fs-1">
           My Booklist
+          <span class="fs-3">
+            <i class="mdi mdi-book-multiple"></i> {{ myBooks?.length }}
+          </span>
         </p>
       </div>
     </section>
 
     <section class="row mb-4">
       <div class="col-12">
-        placeholder
+        <div style="overflow-x: auto;" class="ms-3">
+          <table id="books">
+            <tr>
+              <th class="ps-2">
+                Title
+              </th>
+              <th class="ps-2">
+                Progress
+              </th>
+              <th class="ps-2">
+                Rating
+              </th>
+            </tr>
+            <tr v-for="book in currentBooks" :key="book.id">
+              <BookListItem :bookProp="book" />
+            </tr>
+            <tr v-for="book in plannedBooks" :key="book.id">
+              <BookListItem :bookProp="book" />
+            </tr>
+            <tr v-for="book in finishedBooks" :key="book.id">
+              <BookListItem :bookProp="book" />
+            </tr>
+          </table>
+        </div>
       </div>
     </section>
     
@@ -92,9 +118,22 @@ export default {
     let loadingRef = ref(false)
 
     return {
+      loadingRef,
       account: computed(() => AppState.account),
       myMemberships: computed(() => AppState.myMemberships),
-      loadingRef,
+      myBooks: computed(() => AppState.myBooks),
+      finishedBooks: computed(() => {
+        let finishedBooks = AppState.myBooks?.filter(b => b.status == 'finished')
+        return finishedBooks
+      }),
+      plannedBooks: computed(() => {
+        let plannedBooks = AppState.myBooks?.filter(b => b.status == 'planned')
+        return plannedBooks
+      }),
+      currentBooks: computed(() => {
+        let currentBooks = AppState.myBooks?.filter(b => b.status == 'reading')
+        return currentBooks
+      }),
 
       async leaveClub(memberId){
         try {
@@ -172,4 +211,38 @@ export default {
   position: relative;
 }
 
+
+table{
+  width: 95%;
+}
+
+#books th{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight: lighter;
+}
+
+#books th, #books td{
+  border-bottom: 1px solid #8f8f8f;
+  padding: 7px;
+}
+
+.sub-text-style{
+  font-weight: 100;
+  font-size: smaller;
+}
+
+.large-text-style{
+  font-size:large;
+  font-weight: 600;
+}
+
+.status-text-style{
+  font-size: large;
+}
+
+.author-text-style{
+  font-size: smaller;
+  font-weight: 500;
+}
 </style>
