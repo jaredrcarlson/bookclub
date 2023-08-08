@@ -75,6 +75,20 @@ class BooksService {
     }
   }
 
+  async updateUserBook(bookId, bookData) {
+    const res = await api.put(`api/userBooks/${bookId}`, bookData)
+    const updatedBook = res.data
+    let bookIndex = AppState.myBooks.findIndex(book => book.id == bookId)
+    if (bookIndex != -1) {
+      AppState.myBooks.splice(bookIndex, 1, updatedBook)
+    }
+    bookIndex = AppState.bookDetailsPage.userBooks.findIndex(book => book.id == bookId)
+    if (bookIndex != -1) {
+      AppState.bookDetailsPage.userBooks.splice(bookIndex, 1, updatedBook)
+    }
+    return updatedBook
+  }
+
   async deleteUserBook(bookId) {
     await api.delete(`api/userBooks/${bookId}`)
     let bookIndex = AppState.myBooks.findIndex(book => book.id == bookId)
@@ -91,6 +105,11 @@ class BooksService {
     const volumeData = await googleBooksService.getVolumeById(gbId)
     const book = new Book(volumeData)
     AppState.bookDetailsPage.book = book
+  }
+
+  async setBookDetailsPageUserBook(gbId) {
+    const bookFound = AppState.bookDetailsPage.userBooks.find(book => book.gbId == gbId)
+    AppState.bookDetailsPage.userBook = bookFound ? bookFound : null
   }
 
   async setBookDetailsPageUserBooks() {
