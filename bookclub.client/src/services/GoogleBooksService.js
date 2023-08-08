@@ -1,3 +1,4 @@
+import { logger } from "../utils/Logger.js"
 import { gbApi } from "./AxiosService.js"
 
 const quotaReached = false
@@ -20,6 +21,22 @@ class GoogleBooksService {
     const volumes = res.data.items
     // console.log('GOOGLE BOOKS SEARCH RESULTS: ', volumes)
     return volumes
+  }
+
+  async searchByCode(isbnCode) {
+    const res = await gbApi.get('volumes', {
+      params: {
+        q: `+isbn:${isbnCode}`
+      }
+    })
+
+    logger.log('[GOT GOOGLE BOOK BY ISBN CODE]', res.data)
+
+    const gbId = res.data.items[0].id
+
+    // logger.log('[GBID]', gbId)
+
+    return gbId
   }
 
   async getVolumeById(volumeId) {

@@ -114,7 +114,9 @@ export default {
 
         async function getTopBooks(){
           try {
-            newYorkTimesService.getTopBooks()
+            await newYorkTimesService.getTopBooks()
+
+            newYorkTimesService.sortList('Paperback Trade Fiction')
           } catch (error) {
             Pop.error(error.message)
           }
@@ -124,6 +126,7 @@ export default {
             getAllClubs();
             getTopBooks();
         });
+        
         return {
             searchQuery,
             clubs: computed(() => AppState.clubs),
