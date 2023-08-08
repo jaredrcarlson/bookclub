@@ -16,7 +16,7 @@
     </section>
 
     <section class="row mt-5">
-      <div class="col-12">
+      <div class="col-12 mt-5">
         <p class="m-3 fs-1">
           Clubs
         </p>

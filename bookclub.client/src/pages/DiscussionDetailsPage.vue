@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <PostDetailsCard :postProp="activeClubPost"/>
+        <PostDetailsCard v-if="activeClubPost" :postProp="activeClubPost"/>
         <p class="fs-3"><i class="mdi mdi-comment"></i> {{postComments.length  }} Comments</p>
             <!-- //form to make comments -->
             <CommentsForm/>
@@ -19,7 +19,7 @@
 import { useRoute } from "vue-router";
 import Pop from "../utils/Pop.js";
 import { clubPostsService } from "../services/ClubPostsService.js";
-import { computed, onMounted, ref, watchEffect } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { AppState } from "../AppState.js";
 import CommentsForm from "../components/CommentsForm.vue";
 import CommentCard from "../components/CommentCard.vue";
@@ -50,8 +50,6 @@ export default {
         }
         onMounted(() => {
             getPostById(route.params.postId);
-        });
-        watchEffect(() => {
             getPostComments(route.params.postId);
         });
         return {
@@ -60,7 +58,6 @@ export default {
             activeClubPost: computed(() => AppState.activeClubPost),
             postComments: computed(() => AppState.postComments),
             account: computed(() => AppState.account),
-
         };
     },
     components: { CommentsForm, CommentCard, PostDetailsCard }

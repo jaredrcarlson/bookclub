@@ -100,7 +100,7 @@ h1 i, h1 span {
 
 @media screen and (min-width: 768px) {
   nav {
-    height: 64px;
+    height: 100%;
   }
 }
 </style>

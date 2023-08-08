@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <PostDetailsCard :postProp="activeClubPost" />
+    <PostDetailsCard v-if="activeClubPost" :postProp="activeClubPost" />
     <p class="fs-3"><i class="mdi mdi-comment"></i> {{comments.length}} Comments</p>
 <!-- //form to make comments -->
 <CommentsForm/>
@@ -51,14 +51,12 @@ export default {
       //onMounted not grabbing logger..... unless router link is commented out in post details card
       onMounted(() => {
         getPostById(route.params.postId)
-        // logger.log('mounted...')
-      })
-      watchEffect(() => {
         getAnnouncementComments()
+        // logger.log('mounted...')
       })
         return {
             comments: computed(() => AppState.postComments),
-            activeClubPost: computed(() => AppState.activeClubPost),
+            activeClubPost: computed(() => AppState.activeClubPost)
         };
     },
     components: { CommentCard }

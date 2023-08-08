@@ -30,7 +30,7 @@
       </div>
     </section>
 <!-- //comments section -->
-    <section v-for="clubPost in clubPosts" :key="clubPost?.id" class="row bg-white elevation-5 rounded">
+    <section v-for="clubPost in clubPosts" :key="clubPost?.id" class="row bg-white elevation-5 rounded py-3 my-3">
       <PostCard :postProp="clubPost"/>
     </section>
   </div>

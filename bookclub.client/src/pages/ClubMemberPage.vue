@@ -17,15 +17,33 @@
 
 
 <script>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { AppState } from '../AppState.js';
 import MemberCard from '../components/MemberCard.vue';
+import { useRoute } from 'vue-router';
+import { membersService } from '../services/MembersService';
+import Pop from '../utils/Pop';
 
 export default {
     setup() {
-        return {
-            members: computed(() => AppState.members)
-        };
+
+      const route = useRoute()
+
+      async function getMembersByClubId(){
+        try {
+          const clubId = route.params.clubId
+    
+          await membersService.getMembersByClubId(clubId)
+        } catch (error) {
+          Pop.error(error.message)
+        }
+      }
+      onMounted(() => {
+        getMembersByClubId()
+      })
+      return {
+          members: computed(() => AppState.members)
+      };
     },
     components: { MemberCard }
 }

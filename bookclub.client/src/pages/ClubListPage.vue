@@ -21,12 +21,15 @@
               <th class="ps-2">
                 Rating
               </th>
+              <th class="ps-2">
+                Options
+              </th>
             </tr>
             <tr v-for="book in currentBooks" :key="book.id">
-              <BookListItem :bookProp="book" />
+                <BookListItem :bookProp="book" />
             </tr>
             <tr v-for="book in plannedBooks" :key="book.id">
-              <BookListItem :bookProp="book" />
+                <BookListItem :bookProp="book" />
             </tr>
             <tr v-for="book in finishedBooks" :key="book.id">
               <BookListItem :bookProp="book" />

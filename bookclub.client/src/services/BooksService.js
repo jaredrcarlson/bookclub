@@ -126,6 +126,17 @@ class BooksService {
     book.addGoogleBooksVolumeData(volumeData)
     return book
   }
+
+  async changeBookProgress(progress, userBookId) {
+    const res = await api.put(`api/userBooks/${userBookId}`, progress)
+
+    logger.log('[CHANGED BOOK STATUS]', res.data)
+    const oldBook = AppState.myBooks.findIndex(b => b.id == userBookId)
+
+    const newBook = new Book(res.data)
+
+    AppState.myBooks.splice(oldBook, 1, newBook)
+  }
 }
 
 export const booksService = new BooksService()

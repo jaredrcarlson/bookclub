@@ -19,7 +19,7 @@
     </section>
 
     <section class="row mt-5">
-      <div class="col-12">
+      <div class="col-12 mt-5">
         <p class="m-3 fs-1">
           My Clubs
         </p>
@@ -75,6 +75,9 @@
               </th>
               <th class="ps-2">
                 Rating
+              </th>
+              <th class="ps-2">
+                Options
               </th>
             </tr>
             <tr v-for="book in currentBooks" :key="book.id">

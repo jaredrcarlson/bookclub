@@ -23,7 +23,7 @@
 
 
 <script>
-import { computed, watchEffect } from "vue";
+import { computed, onMounted, watchEffect } from "vue";
 import PostCard from "../components/PostCard.vue";
 import PostForm from "../components/PostForm.vue";
 import { AppState } from "../AppState.js";
@@ -43,7 +43,7 @@ export default {
           Pop.error(error.message)
         }
       }
-      watchEffect(() => {
+      onMounted(() => {
         getClubAnnouncements();
       })
         return {
