@@ -77,7 +77,7 @@
             <div v-if="!clubsReading.length">
               <div class="p-2">There are no clubs currently reading this book.</div>
             </div>
-            <div class="row">
+            <div class="row py-2">
               <div v-for="club in clubsReading" :key="club.id" class="col-4">
                 <BookClubCard :clubProp="club" />
               </div>
@@ -87,7 +87,7 @@
             <div v-if="!clubsPlanned.length">
               <div class="p-2">There are no clubs planning to read this book.</div>
             </div>
-            <div v-else class="row">
+            <div v-else class="row py-2">
               <div v-for="club in clubsPlanned" :key="club.id" class="col-4">
                 <BookClubCard :clubProp="club" />
               </div>
@@ -97,14 +97,14 @@
             <div v-if="!clubsFinished.length">
               <div class="p-2">There are no clubs finished reading this book.</div>
             </div>
-            <div v-else class="row">
+            <div v-else class="row py-2">
               <div v-for="club in clubsFinished" :key="club.id" class="col-4">
                 <BookClubCard :clubProp="club" />
               </div>
             </div>
           </div>
           <div v-else-if="selectedTab == 'reviews'" class="bg-dark">
-            <div v-if="user.id && !userReviewedStatus">
+            <div v-if="user.id && userHasThisBook && !userReviewedStatus">
               <div class="px-3 py-2">
                 <button class="btn orange-btn" type="button" data-bs-toggle="collapse" data-bs-target="#bookReviewForm" aria-expanded="false" aria-controls="bookReviewForm">
                   Add Review
@@ -255,7 +255,7 @@ export default {
     const user = computed(() => AppState.user)
     // const account = computed(() => AppState.account)
     const book = computed(() => AppState.bookDetailsPage.book)
-    const userBooks = computed(() => AppState.bookDetailsPage.userBooks)
+    // const userBooks = computed(() => AppState.bookDetailsPage.userBooks)
     const userBook = computed(() => AppState.bookDetailsPage.userBook)
     // const userClubs = computed(() => AppState.bookDetailsPage.userClubs)
     const userCreatorAdminClubs = computed(() => AppState.bookDetailsPage.userCreatorAdminClubs)
@@ -361,7 +361,7 @@ export default {
       }
     }
     
-    async function setUserReviewedStatus() {
+    function setUserReviewedStatus() {
       try {
         const userReview = userReviews.value.filter(review => review.gbId == gbId && review.creatorId == user.value.id)
         userReviewedStatus.value = userReview.length ? true : false        
@@ -459,6 +459,7 @@ export default {
           rating: null,
           content: null
         }
+        setUserReviewedStatus()
       } catch (error) {
         Pop.error(error.message)
       }
@@ -467,6 +468,7 @@ export default {
     async function deleteReview(reviewId) {
       try {
         await bookReviewsService.deleteBookReview(reviewId)
+        setUserReviewedStatus()
       } catch (error) {
         Pop.error(error.message)
       }
@@ -478,7 +480,7 @@ export default {
         await setUserBooks()
         await setUserBook()
         await setUserClubs()
-        await setUserReviewedStatus()
+        setUserReviewedStatus()
       }
     })
         
