@@ -8,8 +8,8 @@
           </div>
           <div class="col-7 h-100">
             <div class="d-flex flex-column h-100">
-              <div class="fs-2 fw-bold">{{book.title}} {{ book.subtitle }}</div>
-              <div class="fs-5">By <span>{{ book.authors.join(', ') }}</span></div>
+              <div class="fs-4 fw-bold">{{book.title}} {{ book.subtitle }}</div>
+              <div class="fs-6">By <span>{{ book.author }}</span></div>
               <div class="mt-2 d-flex justify-content-between">
                 <div>
                   <div class="text-center fw-bold me-1">
@@ -18,61 +18,35 @@
                     <small class="text-muted">{{ bookScore.userCount }} Users</small>
                   </div>
                 </div>
-                
                 <div v-if="user.id">
-                    
                   <div class="d-flex justify-content-around">
                     <div v-if="userHasThisBook" class="text-center fw-bold pe-2">
-                      
-                      <div class="d-flex align-items-center">
-                        <div class="text-light light-blue-bg rounded px-2">My Rating</div>
-                        <select @change="updateUserBookRating()" v-model="userBookData.rating" class="form-select form-select-sm border-0 rounded-start shadow-none fw-bold text-center" aria-label=".form-select-sm rating">
-                          <optgroup class="">
-                            <option selected :value="userBookData.rating"><div class="bg-dark">{{ userBookData.rating ? userBookData.rating : 'Not Rated' }}</div></option>
-                          </optgroup>
-                          <optgroup>
-                            <option :value="0">Not Rated</option>
-                            <option v-for="i in 10" :key="i" :value="i">{{ i }}</option>
-                          </optgroup>
-                        </select>
-                      </div>
-                      
+                      <div class="text-light light-blue-bg rounded px-2">My Rating</div>
+                      <select @change="updateUserBookRating()" v-model="userBookData.rating" class="form-select form-select-sm border-0 rounded-start shadow-none fw-bold text-center" aria-label=".form-select-sm rating">
+                          <option v-for="i in 11" :key="i" :value="i-1">{{ i-1 ? i-1 : 'Not Rated' }}</option>
+                      </select>
                     </div>
-                    
                     <div v-if="userHasThisBook" class="text-center fw-bold pe-2">
-                      
-                      <div class="d-flex align-items-center">
-                        <!-- <div class="text-light light-blue-bg rounded-start px-2">Progress</div>
-                        <div v-if="userBookData.status == userBookStatus" class="border-0 rounded-end d-flex align-items-center text-light light-blue-bg"><i class="mdi mdi-book-outline fs-6 mx-2"></i></div>
-                        <div v-else @click="updateUserBookStatus()" class="selectable border-0 rounded-end d-flex align-items-center text-light orange-bg"><i class="mdi mdi-check-outline fs-6 mx-2"></i></div> -->
-                      </div>
-                      <div>
-                        <div class="text-light light-blue-bg rounded px-2">Progress</div>
-                        <select @change="updateUserBookStatus()" v-model="userBookData.status" class="form-select form-select-sm border-0 rounded-start shadow-none fw-bold text-center" aria-label=".form-select-sm status">
-                          <optgroup class="">
-                            <option selected :value="userBookData.status"><div class="bg-dark">{{ userBookData.status.charAt(0).toUpperCase() + userBookData.status.slice(1) }}</div></option>
-                          </optgroup>
-                          <optgroup>
-                            <option value="planned">Planned</option>
-                            <option value="reading">Reading</option>
-                            <option value="finished">Finished</option>
-                          </optgroup>
-                        </select>
-                      </div>
-                      
+                      <div class="text-light light-blue-bg rounded px-2">Progress</div>
+                      <select @change="updateUserBookStatus()" v-model="userBookData.status" class="form-select form-select-sm border-0 rounded-start shadow-none fw-bold text-center" aria-label=".form-select-sm status">
+                          <option value="planned">Planned</option>
+                          <option value="reading">Reading</option>
+                          <option value="finished">Finished</option>
+                      </select>
                     </div>
-
-                    <div>
-                      <button @click="openAddBookToListsModal()" type="button" class="btn orange-btn">
-                        Add To List
-                      </button>
-                      <!-- <button @click="removeFromUserBookList()" type="button" class="btn btn-danger">
-                        Remove Book
-                      </button> -->
+                    <div class="d-flex justify-content-around">
+                      <div class="me-2">
+                        <button @click="openAddBookToListsModal()" type="button" class="btn orange-btn">
+                          Add To List
+                        </button>
+                      </div>
+                      <div v-if="userHasThisBook">
+                        <button @click="removeFromUserBookList()" type="button" class="btn btn-danger">
+                          <i class="mdi mdi-trash-can-outline"></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
-
-
                 </div>
               </div> 
               <div class="mt-2 fs-5">Description</div>
@@ -283,7 +257,7 @@ export default {
     const book = computed(() => AppState.bookDetailsPage.book)
     const userBooks = computed(() => AppState.bookDetailsPage.userBooks)
     const userBook = computed(() => AppState.bookDetailsPage.userBook)
-    const userClubs = computed(() => AppState.bookDetailsPage.userClubs)
+    // const userClubs = computed(() => AppState.bookDetailsPage.userClubs)
     const userCreatorAdminClubs = computed(() => AppState.bookDetailsPage.userCreatorAdminClubs)
     const userReviews = computed(() => AppState.bookDetailsPage.userReviews)
     
@@ -347,6 +321,7 @@ export default {
       try {
         await booksService.setBookDetailsPageUserBooks()
         userHasThisBook.value = await bookExistsInUserBookList()
+        await setUserBook()
       } catch (error) {
         Pop.error(error.message)
       }
@@ -419,8 +394,7 @@ export default {
 
     async function removeFromUserBookList() {
       try {
-        const book = userBooks.value.filter(book => book.gbId == gbId)
-        await booksService.deleteUserBook(book.id)
+        await booksService.deleteUserBook(userBook.value.id)
         await setUserBooks()
       } catch (error) {
         Pop.error(error.message)
