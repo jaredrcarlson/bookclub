@@ -41,6 +41,8 @@ export const AppState = reactive({
   bookDetailsPage: {
     /** @type {import('./models/Book.js').Book} */
     book: null,
+    /** @type {import('./models/Book.js').Book[]} */
+    userBooksByGbId: [],
     clubs: {
       /** @type {import('./models/Club.js').Club[]} */
       planned: [],
