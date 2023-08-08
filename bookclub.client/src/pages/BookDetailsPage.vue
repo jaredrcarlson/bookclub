@@ -247,7 +247,6 @@ export default {
     const userClubs = ref(AppState.bookDetailsPage.userClubs)
     const userCreatorAdminClubs = ref(AppState.bookDetailsPage.userCreatorAdminClubs)
     const userReviews = ref(AppState.bookDetailsPage.userReviews)
-
     
     const clubsPlanned = ref(AppState.bookDetailsPage.clubs.planned)
     const clubsReading = ref(AppState.bookDetailsPage.clubs.reading)
@@ -465,7 +464,7 @@ export default {
     
     
     return {
-      book,
+      book: computed(() => AppState.bookDetailsPage.book),
       user,
       userBooks,
       userClubs,
