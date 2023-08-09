@@ -10,7 +10,7 @@
             {{ selectedClub.name }}
           </p>
         </div>
-        <div class="flex-grow-1 dark-blue-bg mt-3 rounded-top p-3 fs-3">
+        <div class="flex-grow-1 dark-blue-bg mt-3 rounded-top p-3 fs-4">
           <router-link :to="{name:'Club About Page'}">
             <p class="route-text" type="button" :class="route.name == 'Club About Page' ? 'selected' : ''">
               <i class="mdi mdi-bookmark"></i> About us
