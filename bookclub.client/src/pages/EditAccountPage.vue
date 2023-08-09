@@ -64,12 +64,16 @@ export default {
   setup(){
     const editable = ref({})
 
+    editable.value = {...AppState.account}
+
     return {
       editable,
+
       account: computed(() => AppState.account),
 
       async editAccount(){
         try {
+
           const accountData = editable.value
   
           await accountService.editAccount(accountData)
