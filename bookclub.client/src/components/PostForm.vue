@@ -34,9 +34,9 @@ export default {
     const route = useRoute()
 
 
-    watchEffect(() => {
-      editable.value = {...AppState.activeClubPost}
-    })
+    // watchEffect(() => {
+    //   editable.value = {...AppState.activeClubPost}
+    // })
     return {
       editable,
       handleSubmit(){

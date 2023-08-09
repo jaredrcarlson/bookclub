@@ -14,7 +14,7 @@
                 Posted {{commentProp?.createdAt}}
               </p>
               <form @submit.prevent="editComment()">
-              <textarea class="form-control mb-2" v-model="editable.body" v-if="isEditing"  rows="10"></textarea>
+              <textarea class="form-control mb-2" v-model="editable.body" v-if="isEditing"  rows="10" required minlength="3" maxlength="200"></textarea>
               <p v-else class="fs-5">{{commentProp?.body}}</p>
               <button type="submit" v-if="isEditing" class="btn orange-btn">Save Changes</button>
             </form>

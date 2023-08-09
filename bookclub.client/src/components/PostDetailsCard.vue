@@ -2,7 +2,7 @@
   <section class="row my-3">
     <div class="col-12 dark-blue-bg rounded elevation-5 text-light p-3">
       <form @submit.prevent="editPost()">
-      <input class="form-control mb-2" v-model="editable.title" v-if="isEditing" type="text">
+      <input class="form-control mb-2" v-model="editable.title" minlength="3" maxlength="100" v-if="isEditing" type="text" required>
       <h1 v-else>{{postProp?.title}}</h1>
       <div class="d-flex">
           <div class="pe-4">
@@ -15,7 +15,7 @@
             <p class="fs-5 mb-4">
               <span class="orange-text"><i v-if="postProp?.membership.role == 'creator'" class="mdi mdi-star orange-text"></i><i v-else-if="postProp?.membership.role == 'admin'" class="mdi mdi-star-outline orange-text"></i><i v-else class="mdi mdi-account orange-text"></i></span> {{postProp?.membership?.role?.toUpperCase()}}  Posted {{postProp?.createdAt}}
             </p>
-            <textarea class="form-control mb-2" v-model="editable.body" v-if="isEditing"  rows="10"></textarea>
+            <textarea class="form-control mb-2" v-model="editable.body" v-if="isEditing"  rows="10" required minlength="3" maxlength="1500"></textarea>
             <p v-else class="fs-5 post-body">{{postProp?.body}}</p>
             <button type="submit" v-if="isEditing" class="btn orange-btn">Save Changes</button>
           </div>
@@ -67,6 +67,7 @@ export default {
           const postData = editable.value
           await clubPostsService.editPost(postData)
           isEditing.value = false
+          editable.value = {}
         } catch (error) {
           Pop.error(error.message)
         }
@@ -77,7 +78,7 @@ export default {
                     if (!wantsToDelete) {
                         return;
                     }
-                    logger.log('[DELETING POST...]');
+                    // logger.log('[DELETING POST...]');
                     await clubPostsService.deletePost(postId);
                 }
                 catch (error) {
