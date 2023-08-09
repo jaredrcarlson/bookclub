@@ -19,7 +19,7 @@
 import { ref, watchEffect } from "vue";
 import Pop from "../utils/Pop.js";
 import { clubPostsService } from "../services/ClubPostsService.js";
-import { Modal } from "bootstrap";
+import { Collapse, Modal } from "bootstrap";
 import { router } from "../router.js";
 import { logger } from "../utils/Logger.js";
 import { useRoute } from "vue-router";
@@ -34,9 +34,9 @@ export default {
     const route = useRoute()
 
 
-    watchEffect(() => {
-      editable.value = {...AppState.activeClubPost}
-    })
+    // watchEffect(() => {
+    //   editable.value = {...AppState.activeClubPost}
+    // })
     return {
       editable,
       handleSubmit(){
@@ -57,7 +57,7 @@ export default {
           // logger.log('I clicked submit')
           await clubPostsService.createPost(postData)
           editable.value = {}
-          Modal.getOrCreateInstance('#exampleModal').hide()
+          Collapse.getOrCreateInstance('#formCollapse').hide()
           // router.push({EVENTUALLY THIS WILL BRING UP POST W/DETAILS})
         } catch (error) {
           Pop.error(error.message)
@@ -69,7 +69,7 @@ export default {
           postData.clubId = route.params.clubId
           await clubPostsService.editPost(postData)
           editable.value = {}
-          Modal.getOrCreateInstance('#exampleModal').hide()
+          Collapse.getOrCreateInstance('#formCollapse').hide()
         } catch (error) {
           Pop.error(error.message)
         }

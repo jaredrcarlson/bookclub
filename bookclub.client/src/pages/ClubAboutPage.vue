@@ -5,8 +5,9 @@
         <div class="p-3">
           <p class="fs-3 fw-bold">About us</p>
           <form @submit.prevent="editClub()">
-          <input placeholder="club name..." v-model="editable.name" class="form-control mb-2" v-if="isEditing" type="text" >
-          <textarea class="form-control mb-2" v-if="isEditing" v-model="editable.description" rows="10"></textarea>
+          <input placeholder="club name..." v-model="editable.name" class="form-control mb-2" v-if="isEditing" type="text" required maxlength="40" minlength="3">
+          <input placeholder="club cover photo..." v-model="editable.coverImg" class="form-control mb-2" v-if="isEditing" type="url" maxlength="300" minlength="3"  required>
+          <textarea class="form-control mb-2" minlength="3" maxlength="750" required v-if="isEditing" v-model="editable.description" rows="10"></textarea>
           <p v-else class="fs-4">
             {{ selectedClub.description }}
           </p>
@@ -107,6 +108,7 @@ export default {
           const memberData = {clubId: clubId}
 
           await membersService.becomeMember(memberData)
+          AppState.selectedClub.memberCount++
 
           Pop.success('You are now a member of this club.')
 
@@ -133,6 +135,7 @@ export default {
           logger.log(memberId)
 
           await membersService.leaveClub(memberId)
+          AppState.selectedClub.memberCount--
 
           Pop.success('You have left this club.')
 

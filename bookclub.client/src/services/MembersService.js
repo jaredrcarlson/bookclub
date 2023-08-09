@@ -17,7 +17,7 @@ class MembersService {
 
     logger.log('[BECAME A MEMBER]', res.data)
 
-    AppState.members.push(new Member(res.data))
+    // AppState.members.push(new Member(res.data))
 
     AppState.myMemberships.push(new Member(res.data))
   }

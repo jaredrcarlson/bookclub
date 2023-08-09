@@ -7,6 +7,7 @@ export class PostComment {
     this.createdAt = new Date(data.createdAt).toLocaleDateString()
     this.updatedAt = data.updatedAt
     this.creator = data.creator
+    this.membership = data.membership
   }
 }
 

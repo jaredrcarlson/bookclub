@@ -2,7 +2,7 @@
   <section class="row my-3">
     <div class="col-12 dark-blue-bg rounded elevation-5 text-light p-3">
       <form @submit.prevent="editPost()">
-      <input class="form-control mb-2" v-model="editable.title" v-if="isEditing" type="text">
+      <input class="form-control mb-2" v-model="editable.title" minlength="3" maxlength="100" v-if="isEditing" type="text" required>
       <h1 v-else>{{postProp?.title}}</h1>
       <div class="d-flex">
           <div class="pe-4">
@@ -15,7 +15,7 @@
             <p class="fs-5 mb-4">
               <span class="orange-text"><i v-if="postProp?.membership.role == 'creator'" class="mdi mdi-star orange-text"></i><i v-else-if="postProp?.membership.role == 'admin'" class="mdi mdi-star-outline orange-text"></i><i v-else class="mdi mdi-account orange-text"></i></span> {{postProp?.membership?.role?.toUpperCase()}}  Posted {{postProp?.createdAt}}
             </p>
-            <textarea class="form-control mb-2" v-model="editable.body" v-if="isEditing"  rows="10"></textarea>
+            <textarea class="form-control mb-2" v-model="editable.body" v-if="isEditing"  rows="10" required minlength="3" maxlength="1500"></textarea>
             <p v-else class="fs-5 post-body">{{postProp?.body}}</p>
             <button type="submit" v-if="isEditing" class="btn orange-btn">Save Changes</button>
           </div>
@@ -25,10 +25,10 @@
             </button>
             <ul  class="p-1 dropdown-menu">
               <li @click="deletePost(postProp?.id)" class="selectable mb-1 p-1">
-              Delete Announcement <i class="mdi mdi-delete"></i>
+              Delete Post <i class="mdi mdi-delete"></i>
               </li>
               <li @click="enableEditing()" class="selectable mb-1 p-1">
-              Edit Announcement <i class="mdi mdi-pencil"></i>
+              Edit Post <i class="mdi mdi-pencil"></i>
               </li>
 
             </ul>
@@ -46,6 +46,8 @@ import { clubPostsService } from "../services/ClubPostsService.js";
 import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
 import { AppState } from "../AppState.js";
+import { useRoute } from "vue-router";
+import { router } from "../router.js";
 
 export default {
   props: {
@@ -54,6 +56,7 @@ export default {
   setup(props){
     const isEditing = ref(false)
     const editable = ref({})
+    const route = useRoute()
     return {
       editable,
       isEditing,
@@ -67,6 +70,7 @@ export default {
           const postData = editable.value
           await clubPostsService.editPost(postData)
           isEditing.value = false
+          editable.value = {}
         } catch (error) {
           Pop.error(error.message)
         }
@@ -77,8 +81,10 @@ export default {
                     if (!wantsToDelete) {
                         return;
                     }
-                    logger.log('[DELETING POST...]');
+                    // logger.log('[DELETING POST...]');
                     await clubPostsService.deletePost(postId);
+                    router.push({name: 'Club About Page', params: {clubId: route.params.clubId}})
+
                 }
                 catch (error) {
                     Pop.error(error.message);
