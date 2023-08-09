@@ -71,7 +71,7 @@ export const AppState = reactive({
   activeNytBooks: null,
 
   /** @type {import('./models/NYTList.js').NYTList[]} */
-  nytLists: [],
+  nytLists: null,
 
   /** @type {import('./models/Member.js').Member[]} */
   members: [],
