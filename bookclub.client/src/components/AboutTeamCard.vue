@@ -1,10 +1,13 @@
 <template>
 	<div class="col-md-6 col-12">
-		<div class="team-card d-flex align-items-center px-3">
-		<i class="mdi mdi-account-circle icon-large me-2"></i>
+		<div class="team-card d-flex align-items-center p-3">
+		<!-- <i class="mdi mdi-account-circle icon-large me-2" v-if="props.picture == ''"></i> -->
+    <div class="pe-3">
+      <img :src="picture" :alt=name class="img-fluid avatar-img">
+    </div>
 		<h3>{{ name }}</h3>
 		<div class="d-flex ms-auto mt-auto">
-			<i class="mdi mdi-linkedin icon-medium"></i>
+      <a :href=linkedin><i class="mdi mdi-linkedin icon-medium"></i></a>
 			<i class="mdi mdi-github icon-medium"></i>
 		</div>
 		</div>
@@ -16,10 +19,11 @@ export default {
 	props: {
 		name: {type: String, required: true},
 		linkedin: String,
-		github: String
+		github: String,
+    picture: String
 	},
     setup(props) {
-        return {
+      return {
 		};
     },
 }
@@ -45,6 +49,14 @@ export default {
 
   .team-card h3 {
     margin-bottom: 0;
+  }
+
+  .avatar-img{
+    height: 10vh;
+    width: 10vh;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
   }
 
 </style>
