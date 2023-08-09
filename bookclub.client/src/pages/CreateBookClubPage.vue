@@ -67,7 +67,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="clubDescription" class="form-label">Club Description</label>
-                                <textarea v-model="editable.description" type="text" maxlength="1000" class="form-control" id="clubDescription" aria-describedby="helpId" placeholder="Club Description"></textarea>
+                                <textarea v-model="editable.description" type="text" maxlength="750" class="form-control" id="clubDescription" aria-describedby="helpId" placeholder="Club Description"></textarea>
                             </div>
                             <button class="ms-auto btn orange-btn">Create Club</button>
                         </form>
