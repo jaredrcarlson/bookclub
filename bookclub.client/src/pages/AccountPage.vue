@@ -216,7 +216,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .coverImg-style{
   height: 100%;
   width: 100%;
@@ -237,8 +237,13 @@ export default {
 
 .account-name {
   position: absolute;
-  bottom: -7vh;
-  left: 14vw;
+  bottom: -8vh;
+  left: 40vw;
+
+  @media (min-width: 768px) {
+    bottom: -7vh;
+    left: 14vw;
+  } 
 }
 
 .account-info-style{
