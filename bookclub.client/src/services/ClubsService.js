@@ -44,7 +44,7 @@ class ClubsService {
   async getMyClubs() {
     try {
       const res = await api.get('account/clubs')
-      // logger.log('[GOT ACCOUNT CLUBS]', res.data)
+      logger.log('[GOT ACCOUNT CLUBS]', res.data)
       AppState.myMemberships = res.data.map(pojo => new Member(pojo))
     } catch (error) {
       Pop.error(error.message)
