@@ -92,7 +92,7 @@ a:hover {
 
 
 .navbar li, .navbar a{
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 
 nav {
