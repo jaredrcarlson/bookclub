@@ -2,7 +2,7 @@
   <section class="row">
       <form @submit.prevent="handleSubmit()" action="">
         <label for="body"><p class="fs-4">Join The Conversation</p></label>
-        <textarea v-model="editable.body" class="form-control border-0 elevation-3 mb-3" name="body" id="body" cols="130" rows="10"></textarea>
+        <textarea v-model="editable.body" class="form-control border-0 elevation-3 mb-3" name="body" id="body" minlength="3" maxlength="200" required cols="130" rows="10"></textarea>
         <div class="text-end">
 
           <button class="btn light-blue-btn elevation-3 fs-4 px-4">Post</button>
