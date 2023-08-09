@@ -14,10 +14,8 @@ PostCommentSchema.virtual('creator', {
   ref: 'Account'
 })
 
-PostCommentSchema.virtual('membership', {
+PostCommentSchema.virtual('memberships', {
   ref: 'ClubMember',
-  localField: 'clubId',
-  foreignField: 'clubId',
-  match: membership => ({ creatorId: membership.creatorId }),
-  justOne: true
+  localField: 'creatorId',
+  foreignField: 'creatorId',
 })

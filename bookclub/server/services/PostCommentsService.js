@@ -7,7 +7,7 @@ class PostCommentsService {
   async getPostComments(postId) {
     const postComments = await dbContext.PostComments.find({ postId: postId })
       .populate('creator', 'name picture')
-      .populate('membership')
+      .populate('memberships')
     return postComments
   }
 
@@ -17,7 +17,7 @@ class PostCommentsService {
       throw new BadRequest(`There is no comment with the ID ${commentId}`)
     }
     await postComment.populate('creator', 'name picture')
-    await postComment.populate('membership')
+    await postComment.populate('memberships')
     return postComment
   }
 
@@ -29,7 +29,7 @@ class PostCommentsService {
     }
     const newComment = await dbContext.PostComments.create(commentData)
     await newComment.populate('creator', 'name picture')
-    await newComment.populate('membership')
+    await newComment.populate('memberships')
     return newComment
   }
 
