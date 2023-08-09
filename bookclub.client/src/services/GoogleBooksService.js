@@ -34,8 +34,6 @@ class GoogleBooksService {
 
     const gbId = res.data.items[0].id
 
-    // logger.log('[GBID]', gbId)
-
     return gbId
   }
 
