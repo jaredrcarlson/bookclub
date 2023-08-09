@@ -78,8 +78,8 @@ class ClubsService {
     const res = await api.put(`api/clubs/${clubData.id}`, clubData)
     const club = new Club(res.data)
     // logger.log('[club info?]', club)
-    const clubIndex = AppState.clubs.findIndex(c => c.id == clubData.id)
-    AppState.clubs.splice(clubIndex, 1, club)
+    // const clubIndex = AppState.clubs.findIndex(c => c.id == clubData.id)
+    AppState.selectedClub = club
   }
 
   async deleteClub(clubId) {

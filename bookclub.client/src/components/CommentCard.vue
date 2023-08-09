@@ -1,23 +1,24 @@
 <template>
         <div class="d-flex justify-content-between">
 
-          <div class="d-flex">
+          <div class="d-flex w-100">
             <div class="pe-4">
               
               <img class="avatar-img" :src="commentProp?.creator?.picture" :alt="commentProp?.creator?.name">
             </div>
             
-            <div>
-              <p class="fs-5">{{commentProp?.creator?.name}}, {{ commentProp?.creator?.role }}</p>
-              <!-- //*FIXME - Needs role populated... not accessing membership -->
+            <div class="flex-grow-1">
+              <p class="fs-5">{{commentProp?.creator?.name}}, <i v-if="commentProp.membership.role == 'creator'" class="mdi mdi-star orange-text"></i>{{ commentProp?.membership?.role.toUpperCase() }}</p>
+              
               <p class=" mb-4">
                 Posted {{commentProp?.createdAt}}
               </p>
               <form @submit.prevent="editComment()">
-              <textarea class="form-control mb-2" v-model="editable.body" v-if="isEditing"  rows="10" required minlength="3" maxlength="200"></textarea>
+              <textarea class="form-control mb-2 " v-model="editable.body" v-if="isEditing"  rows="10" required minlength="3" maxlength="200"></textarea>
               <p v-else class="fs-5">{{commentProp?.body}}</p>
               <button type="submit" v-if="isEditing" class="btn orange-btn">Save Changes</button>
             </form>
+            
             </div>
           </div>
           
@@ -77,6 +78,7 @@ export default {
       async editComment(){
         try {
           const commentData = editable.value
+          commentData.clubId = route.params.clubId
           await postCommentsService.editComment(commentData)
           isEditing.value = false
         } catch (error) {
