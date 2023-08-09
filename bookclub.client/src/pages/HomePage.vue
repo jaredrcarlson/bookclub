@@ -88,8 +88,4 @@ export default {
   object-position: center;
 }
 
-.club-card {
-  max-height: 55vh;
-}
-
 </style>

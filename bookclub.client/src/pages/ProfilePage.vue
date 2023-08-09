@@ -241,12 +241,12 @@ export default {
 }
 
 .card-img{
-  height: 50%;
+  height: 40%;
   object-fit: cover;
   object-position: center;
 }
 .card-description{
-  height: 50%;
+  height: 60%;
   display: flex;
   flex-direction: column;
 }
