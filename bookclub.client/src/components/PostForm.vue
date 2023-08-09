@@ -6,7 +6,7 @@
           </div>
           <div class="mb-2 ">
             <label for="body" class="form-label">Post Content</label>
-            <textarea v-model="editable.body" class="form-control"  type="text" minlength="3" maxlength="200" id="body" placeholder="Post Content..." required rows="10"></textarea>
+            <textarea v-model="editable.body" class="form-control"  type="text" minlength="3" maxlength="1500" id="body" placeholder="Post Content..." required rows="10"></textarea>
           </div>
           <div class="my-2">
             <button type="submit" class="btn orange-btn">Submit</button>
