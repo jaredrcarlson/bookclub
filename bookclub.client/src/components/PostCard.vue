@@ -15,19 +15,7 @@
       </p>
   </div>
   <div class="col-md-2 col-12 justify-content-evenly">
-    <div v-if="postProp?.creatorId == account?.id" class="btn-group align-items-start mb-3">
-      <button title="More Options" class="btn orange-text text-end btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="mdi mdi-circle"></i><i class="mdi mdi-circle"></i><i class="mdi mdi-circle"></i>
-      </button>
-      <ul class="p-1 dropdown-menu">
-        <li @click="deletePost(postProp?.id)" class="selectable mb-1 p-1">
-          Delete Comment <i class="mdi mdi-delete"></i>
-        </li>
-        <li data-bs-toggle="modal" data-bs-target="#exampleModal" class="selectable mb-1 p-1">
-          Edit Post <i class="mdi mdi-pencil"></i>
-        </li>
-      </ul>
-    </div>
+
       <p class="fs-5 ">
         <i i title="See Comments on this Post" class="mdi mdi-message-reply"></i> <span>{{ postProp.commentCount }}</span>
       </p>
