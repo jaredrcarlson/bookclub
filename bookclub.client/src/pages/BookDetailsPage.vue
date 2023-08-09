@@ -10,9 +10,11 @@
             <div class="d-flex flex-column h-100">
               <div class="fs-4 fw-bold">{{book.title}} {{ book.subtitle }}</div>
               <div class="fs-6">By <span>{{ book.author }}</span></div>
+              
+              <!-- SECTION SCORE / MY RATING / PROGRESS / BOOK LIST BUTTON -->
               <div class="mt-2 d-flex justify-content-between">
                 <div>
-                  <div class="text-center fw-bold me-1">
+                  <div class="text-center me-1">
                     <div class="text-light light-blue-bg rounded px-2">Score</div>
                     <div>{{ bookScore }}</div>
                     <small class="text-muted">{{ bookScoreUserCount }} Users</small>
@@ -20,15 +22,15 @@
                 </div>
                 <div v-if="user.id">
                   <div class="d-flex justify-content-around">
-                    <div v-if="userHasThisBook" class="text-center fw-bold pe-2">
+                    <div v-if="userHasThisBook" class="text-center pe-2">
                       <div class="text-light light-blue-bg rounded px-2">My Rating</div>
-                      <select @change="updateUserBookRating()" v-model="userBookData.rating" class="form-select form-select-sm border-0 rounded-start shadow-none fw-bold text-center" aria-label=".form-select-sm rating">
+                      <select @change="updateUserBookRating()" v-model="userBookData.rating" class="form-select form-select-sm border-0 rounded-start shadow-none text-center" aria-label=".form-select-sm rating">
                           <option v-for="i in 11" :key="i" :value="i-1">{{ i-1 ? i-1 : 'Not Rated' }}</option>
                       </select>
                     </div>
-                    <div v-if="userHasThisBook" class="text-center fw-bold pe-2">
+                    <div v-if="userHasThisBook" class="text-center pe-2">
                       <div class="text-light light-blue-bg rounded px-2">Progress</div>
-                      <select @change="updateUserBookStatus()" v-model="userBookData.status" class="form-select form-select-sm border-0 rounded-start shadow-none fw-bold text-center" aria-label=".form-select-sm status">
+                      <select @change="updateUserBookStatus()" v-model="userBookData.status" class="form-select form-select-sm border-0 rounded-start shadow-none text-center" aria-label=".form-select-sm status">
                           <option value="planned">Planned</option>
                           <option value="reading">Reading</option>
                           <option value="finished">Finished</option>
@@ -36,26 +38,33 @@
                     </div>
                     <div class="d-flex justify-content-around">
                       <div class="me-2">
-                        <button @click="openAddBookToListsModal()" type="button" class="btn orange-btn">
-                          Add To List
+                        <button @click="openBookListsModal()" type="button" class="btn orange-btn">
+                          <div class="d-flex align-items-center">
+                            <i class="mdi mdi-list-status fs-5 pe-2"></i>
+                            <div>Lists</div>
+                          </div>
                         </button>
                       </div>
-                      <div v-if="userHasThisBook">
+                      <!-- <div v-if="userHasThisBook">
                         <button @click="removeFromUserBookList()" type="button" class="btn btn-danger">
                           <i class="mdi mdi-trash-can-outline"></i>
                         </button>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>
-              </div> 
+              </div>
+
+              <!-- SECTION BOOK DESCRIPTION -->
               <div class="mt-2 fs-5">Description</div>
-              <small class="pe-3">{{ book.description }}</small>
+              <small v-html="book.description" class="pe-3"></small>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+     <!-- SECTION BOOK CLUBS -->
     <div class="row mt-3 g-1">
       <div class="col-3 text-center selectable">
         <div class="text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'reading', 'dark-blue-bg': selectedTab == 'reading'}" @click="selectedTab = 'reading'">Clubs Reading This Book</div>
@@ -187,9 +196,7 @@
                               <div class="ms-1 pt-1">{{ review.rating }}</div>
                             </div>
                           </div>
-                          
                         </div>
-                        
                       </div>
                       <div class="row">
                         <div class="col-12">
@@ -197,11 +204,9 @@
                             {{ review.content }}
                           </div>
                         </div>
-                        
                       </div>
                   </div>
                 </div>
-
               </div>
             </div>
           </div>
@@ -209,26 +214,32 @@
       </div>
     </div>
   </div>
-  <ModalBasic :id="'addBookToLists'">
+
+  <!-- SECTION MODAL -->
+  <ModalBasic :id="'bookLists'">
     <template v-slot:header>
-      <div class="fw-bold fs-5">Add Book To Lists</div>
+      <div class="fw-bold fs-5">Book Lists</div>
       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </template>
     <template v-slot:body>
-      <div v-for="(optionValue, optionName, i) in addBookToListsOptions" :key="i" class="form-check">
-        <div v-if="addBookToListsOptions[optionName].existsInBookList">
-          <input :id="optionName" type="checkbox" class="form-check-input" checked disabled>
+      <div v-for="(optionValue, optionName, i) in bookListsOptions" :key="i" class="form-check">
+        <div v-if="bookListsOptions[optionName].existsInBookList">
+          <input :id="optionName" v-model="bookListsOptions[optionName].selected" type="checkbox" class="form-check-input" checked>
           <label :for="optionName" class="form-check-label">{{ optionName }} Books</label>
+          <!-- <div>exists: {{ bookListsOptions[optionName].existsInBookList }}</div>
+          <div>selected: {{ bookListsOptions[optionName].selected }}</div> -->
         </div>
         <div v-else>
-          <input :id="optionName" v-model="addBookToListsOptions[optionName].selected" type="checkbox" class="form-check-input">
+          <input :id="optionName" v-model="bookListsOptions[optionName].selected" type="checkbox" class="form-check-input">
           <label :for="optionName" class="form-check-label">{{ optionName }} Books</label>
+          <!-- <div>exists: {{ bookListsOptions[optionName].existsInBookList }}</div>
+          <div>selected: {{ bookListsOptions[optionName].selected }}</div> -->
         </div>
       </div>
     </template>
     <template v-slot:footer>
       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-      <button @click="addBookToLists()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBookToLists">Submit</button>
+      <button @click="updateBookLists()" type="button" class="btn btn-primary">Submit</button>
     </template>
   </ModalBasic>
 </template>
@@ -276,7 +287,7 @@ export default {
       content: null
     })
     const userReviewedStatus = ref(true)
-    const addBookToListsOptions = ref({})
+    const bookListsOptions = ref({})
     
     async function setBook() {
       try {
@@ -340,6 +351,7 @@ export default {
       try {
         await booksService.updateUserBook(userBook.value.id, {rating: userBookData.value.rating})
         setBookScore()
+        Pop.toast('Rating updated successfully', 'success')
       } catch (error) {
         Pop.error(error.message)
       }
@@ -348,6 +360,7 @@ export default {
     async function updateUserBookStatus() {
       try {
         await booksService.updateUserBook(userBook.value.id, {status: userBookData.value.status})
+        Pop.toast('Progress updated successfully', 'success')
       } catch (error) {
         Pop.error(error.message)
       }
@@ -370,68 +383,87 @@ export default {
       }
     }
     
-    async function addBookToLists() {
-      for (const [name, option] of Object.entries(addBookToListsOptions.value)) {
-        if (option.selected) {
+    async function updateBookLists() {
+      for (const [name, option] of Object.entries(bookListsOptions.value)) {
           try {
             switch (option.bookListType) {
               case 'user': 
-                await booksService.createUserBook(book.value)
+                if (option.selected && !option.existsInBookList) {  
+                  await booksService.createUserBook(book.value)
+                  Pop.toast(`Added to ${name} Books successfully`, 'success')
+                }
+                else if (!option.selected && option.existsInBookList) {
+                  const confirmed = await Pop.confirm(`Are you sure you want to remove this book from ${name} Books?`)
+                  if (confirmed) {
+                    await booksService.deleteUserBook(option.bookId)
+                    Pop.toast(`Removed from ${name} Books successfully`, 'success')
+                  } else {
+                    option.selected = true
+                  }
+                }
                 await setUserBooks()
-              break;
+                break;
               case 'club':
-                book.value.clubId = option.clubId
-                await booksService.createClubBook(book.value)
-                await setClubs('planned')
-              break;
+                if (option.selected && !option.existsInBookList) {
+                  const bookData = {
+                    clubId: option.clubId,
+                    gbId: book.value.gbId,
+                    title: book.value.title,
+                    imgUrl: book.value.imgUrl,
+                    author: book.value.author,
+                    rating: 0,
+                    status: 'planned'
+                  }
+                  await booksService.createClubBook(bookData)
+                  Pop.toast(`Added to ${name} Books successfully`, 'success')
+                }
+                else if (!option.selected && option.existsInBookList) {
+                  const confirmed = await Pop.confirm(`Are you sure you want to remove this book from ${name} Books?`)
+                  if (confirmed) {
+                    await booksService.deleteClubBook(option.bookId)
+                    Pop.toast(`Removed from ${name} Books successfully`, 'success')
+                  } else {
+                    option.selected = true
+                  }
+                }
+                break;
             }
           } catch (error) {
             Pop.error(error.message)            
           }
-        }
       }
+      Modal.getOrCreateInstance('#bookLists').hide()
     }
 
-    async function removeFromUserBookList() {
-      try {
-        await booksService.deleteUserBook(userBook.value.id)
-        await setUserBooks()
-        setBookScore()
-      } catch (error) {
-        Pop.error(error.message)
-      }
-    }
-
-    async function openAddBookToListsModal() {
-      const exists = await bookExistsInUserBookList()
-      addBookToListsOptions.value['My'] = {
+    async function openBookListsModal() {
+      bookListsOptions.value['My'] = {
         bookListType: 'user',
-        existsInBookList: exists,
-        selected: false
+        bookId: userBook.value ? userBook.value.id : '',
+        existsInBookList: userBook.value ? true : false,
+        selected: userBook.value ? true : false
       }
-      
       userCreatorAdminClubs.value.forEach(async(club) => {
-        const exists = await bookExistsInClubBookList(club.id)
-        addBookToListsOptions.value[club.name] = {
+        const book = await getBookInClubBookList(club)
+        bookListsOptions.value[club.name] = {
           bookListType: 'club',
+          bookId: book ? book.id : '',
           clubId: club.id,
-          existsInBookList: exists,
-          selected: false
+          existsInBookList: book ? true : false,
+          selected: book ? true : false
         }
       })
 
       // userClubs.value.forEach(async(club) => {
-      //   const exists = await bookExistsInClubBookList(club.id)
+      //   const exists = await bookExistsInClubBookList(club)
       //   console.log(`${gbId} exists in ${club.name}: `, exists)
-      //   addBookToListsOptions.value[club.name] = {
+      //   bookListsOptions.value[club.name] = {
       //     bookListType: 'club',
       //     clubId: club.id,
       //     existsInBookList: exists,
       //     selected: false
       //   }
       // })
-
-      Modal.getOrCreateInstance('#addBookToLists').show()
+      Modal.getOrCreateInstance('#bookLists').show()
     }
     
     async function bookExistsInUserBookList() {
@@ -443,13 +475,22 @@ export default {
       return bookFound ? true : false
     }
     
-    async function bookExistsInClubBookList(clubId) {
-      const clubBooks = await booksService.getBooksByClubId(clubId)
+    async function bookExistsInClubBookList(club) {
+      const clubBooks = await booksService.getBooksByClubId(club.id)
       if (!clubBooks) {
         return false
       }
       const bookFound = clubBooks.find(book => book.gbId == gbId)
       return bookFound ? true : false
+    }
+
+    async function getBookInClubBookList(club) {
+      const clubBooks = await booksService.getBooksByClubId(club.id)
+      if (!clubBooks) {
+        return null
+      }
+      const book = clubBooks.find(book => book.gbId == gbId)
+      return book ? book : null
     }
 
     async function createReview() {
@@ -468,6 +509,10 @@ export default {
     
     async function deleteReview(reviewId) {
       try {
+        const confirmed = await Pop.confirm('Are you sure you want to delete this review?')
+        if (!confirmed) {
+          return
+        }
         await bookReviewsService.deleteBookReview(reviewId)
         setUserReviewedStatus()
       } catch (error) {
@@ -522,12 +567,11 @@ export default {
       clubsFinished,
       selectedTab,
       reviewData,
-      addBookToListsOptions,
+      bookListsOptions,
       updateUserBookRating,
       updateUserBookStatus,
-      openAddBookToListsModal,
-      addBookToLists,
-      removeFromUserBookList,
+      openBookListsModal,
+      updateBookLists,
       createReview,
       deleteReview
     }
