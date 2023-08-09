@@ -25,10 +25,10 @@
             </button>
             <ul  class="p-1 dropdown-menu">
               <li @click="deletePost(postProp?.id)" class="selectable mb-1 p-1">
-              Delete Announcement <i class="mdi mdi-delete"></i>
+              Delete Post <i class="mdi mdi-delete"></i>
               </li>
               <li @click="enableEditing()" class="selectable mb-1 p-1">
-              Edit Announcement <i class="mdi mdi-pencil"></i>
+              Edit Post <i class="mdi mdi-pencil"></i>
               </li>
 
             </ul>
@@ -46,6 +46,8 @@ import { clubPostsService } from "../services/ClubPostsService.js";
 import { logger } from "../utils/Logger.js";
 import Pop from "../utils/Pop.js";
 import { AppState } from "../AppState.js";
+import { useRoute } from "vue-router";
+import { router } from "../router.js";
 
 export default {
   props: {
@@ -54,6 +56,7 @@ export default {
   setup(props){
     const isEditing = ref(false)
     const editable = ref({})
+    const route = useRoute()
     return {
       editable,
       isEditing,
@@ -80,6 +83,8 @@ export default {
                     }
                     // logger.log('[DELETING POST...]');
                     await clubPostsService.deletePost(postId);
+                    router.push({name: 'Club About Page', params: {clubId: route.params.clubId}})
+
                 }
                 catch (error) {
                     Pop.error(error.message);

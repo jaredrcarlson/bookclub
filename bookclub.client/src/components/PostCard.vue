@@ -30,6 +30,8 @@ import { logger } from "../utils/Logger.js";
 import { clubPostsService } from "../services/ClubPostsService.js";
 import Pop from "../utils/Pop.js";
 import { Member } from "../models/Member.js";
+import { router } from "../router.js";
+import { useRoute } from "vue-router";
 
 export default {
   props: {
@@ -37,21 +39,22 @@ export default {
     // memberProp: { type: Member, required: true }
   },
   setup(){
+    const route = useRoute()
     return {
       account: computed(() => AppState.account),
-      async deletePost(postId) {
-                try {
-                    const wantsToDelete = await Pop.confirm("Once it's gone, it's gone. Are you sure you want to delete?");
-                    if (!wantsToDelete) {
-                        return;
-                    }
-                    logger.log('[DELETING POST...]');
-                    await clubPostsService.deletePost(postId);
-                }
-                catch (error) {
-                    Pop.error(error.message);
-                }
-            },
+      // async deletePost(postId) {
+      //           try {
+      //               const wantsToDelete = await Pop.confirm("Once it's gone, it's gone. Are you sure you want to delete?");
+      //               if (!wantsToDelete) {
+      //                   return;
+      //               }
+      //               logger.log('[DELETING POST...]');
+      //               await clubPostsService.deletePost(postId);
+      //           }
+      //           catch (error) {
+      //               Pop.error(error.message);
+      //           }
+      //       },
 
     }
   }

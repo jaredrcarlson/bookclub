@@ -4,13 +4,18 @@
       <div class="col-12">
         <p class="m-3 fs-1">
           Announcements
+          <span class="ps-5" v-if="account.id && (account?.id == clubCreator?.profile.id || account.id == clubAdmin?.profile.id)">
+              <button  type="button" data-bs-toggle="collapse" data-bs-target="#formCollapse" class="btn orange-btn">Make Post</button>
+            </span>
         </p>
       </div>
       <div class="col-12">
+          <div class="collapse" id="formCollapse">
         <p v-if="account.id && (account?.id == clubCreator?.profile.id || account.id == clubAdmin?.profile.id)" class="m-3 fs-1">
           <!-- v-if="selectedClub?.creatorId == member.creatorId" -->
           <PostForm :isAnnouncement="true"/>
         </p>
+      </div>
       </div>
     </section>
     <section class="row">
