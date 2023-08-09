@@ -37,6 +37,7 @@ export default {
         try {
           const commentData = editable.value
           commentData.postId = route.params.postId
+          commentData.clubId = route.params.clubId
           // logger.log('[Creating comment..?]')
           await postCommentsService.createComment(commentData)
           editable.value = {}
@@ -47,6 +48,7 @@ export default {
             async editComment(){
               try {
                 const commentData = editable.value
+                commentData.clubId = route.params.clubId
                 logger('editing a comment?')
                 await postCommentsService.editComment(commentData)
               } catch (error) {
