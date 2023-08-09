@@ -35,7 +35,7 @@
                 {{ membership.club.name }}
               </p>
               <p>
-                {{ membership.club.description }}
+                {{ computedDescription(membership.club.description) }}
               </p>
 
               <div class="mt-auto" v-if="loadingRef == false">
@@ -150,8 +150,18 @@ export default {
 
     return {
       loadingRef,
+      computedDescription(str) {
+        if (str.length > 100) {
+          return str.substring(0,98) + "..."
+        }
+        return str
+      },
       account: computed(() => AppState.account),
-      myMemberships: computed(() => AppState.myMemberships.filter(m => m.club )),
+      myMemberships: computed(() => {
+        if (AppState.myMemberships)
+          return AppState.myMemberships.filter(m => m.club)
+        return []
+      }),
       myBooks: computed(() => AppState.myBooks),
       finishedBooks: computed(() => {
         let finishedBooks = AppState.myBooks?.filter(b => b.status == 'finished')
