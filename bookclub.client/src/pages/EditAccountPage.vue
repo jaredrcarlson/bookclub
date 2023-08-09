@@ -25,7 +25,7 @@
             <div class="col-md-6 col-12">
               <div class="mb-3">
                 <label for="name">Name</label>
-                <input v-model="editable.name" type="text" id="name" name="name" title="Name" class="form-control" maxlength="100" minlength="1">
+                <input v-model="editable.name" type="text" id="name" name="name" title="Name" class="form-control" maxlength="100" minlength="1" required>
               </div>
               <div class="mb-3">
                 <label for="coverImg">Cover Image</label>
@@ -33,7 +33,7 @@
               </div>
               <div class="mb-3">
                 <label for="picture">Profile Picture</label>
-                <input v-model="editable.picture" type="url" id="picture" name="picture" title="Profile Picture" class="form-control" maxlength="700" minlength="1">
+                <input v-model="editable.picture" type="url" id="picture" name="picture" title="Profile Picture" class="form-control" maxlength="400" minlength="1">
               </div>
             </div>
             <div class="col-md-6 col-12">

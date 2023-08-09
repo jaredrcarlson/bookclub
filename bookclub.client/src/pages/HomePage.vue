@@ -73,7 +73,7 @@
     </section>
 
     <section class="row ghost-bg">
-      <div class="col-md-6 col-12 my-3" v-for="club in clubs" :key="club.id">
+      <div class="col-md-6 col-12 club-card my-3" v-for="club in clubs" :key="club.id">
         <BookClubCard :clubProp="club" />
       </div>
     </section>
@@ -172,6 +172,10 @@ export default {
   height: 45vh;
   object-fit: cover;
   object-position: center;
+}
+
+.club-card {
+  max-height: 45vh;
 }
 
 </style>
