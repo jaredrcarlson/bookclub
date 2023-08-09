@@ -7,7 +7,6 @@
             <input class="border-0 rounded-start bg-light form-control shadow-none" v-model="query" type="text" placeholder="Search">
             <div @click="search()" class="selectable border-0 rounded-end d-flex align-items-center text-light orange-bg"><i class="mdi mdi-magnify fs-5 mx-3"></i></div>
           </form>
-          <button class="btn btn-success">filter</button>
         </div>
       </div>
     </section>
