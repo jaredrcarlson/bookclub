@@ -4,7 +4,7 @@
       <div class="col-12 mt-3 dark-blue-bg rounded elevation-3 text-light">
         <div class="p-3">
           <p class="fs-3 fw-bold">About us</p>
-          <form action="">
+          <form @submit.prevent="editClub()">
           <input placeholder="club name..." v-model="editable.name" class="form-control mb-2" v-if="isEditing" type="text" >
           <textarea class="form-control mb-2" v-if="isEditing" v-model="editable.description" rows="10"></textarea>
           <p v-else class="fs-4">
@@ -88,9 +88,10 @@ export default {
       },
       async editClub(){
         try {
-          logger.log('did the submit button submit?')
+          // logger.log('did the submit button submit?')
           const clubData = editable.value
-          // await clubsService.editClub(clubData)
+          // logger.log('club data...', clubData)
+          await clubsService.editClub(clubData)
           isEditing.value = false
         } catch (error) {
           Pop.error(error.message)
