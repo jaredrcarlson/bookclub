@@ -17,6 +17,19 @@
 
     <section class="row mt-5">
       <div class="col-12 mt-5">
+        <p class="m-3">
+          <span class="fs-2">
+            About Me:
+          </span>
+          <span class="fs-4">
+            {{ account.bio }}
+          </span>
+        </p>
+      </div>
+    </section>
+
+    <section class="row">
+      <div class="col-12">
         <p class="m-3 fs-1">
           My Clubs
         </p>
