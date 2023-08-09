@@ -252,7 +252,7 @@ export default {
 }
 
 .membership-card{
-  height: 50vh;
+  height: 55vh;
 }
 
 .image-container {

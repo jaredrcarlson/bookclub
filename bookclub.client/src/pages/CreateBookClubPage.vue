@@ -67,9 +67,9 @@
                             </div>
                             <div class="mb-3">
                                 <label for="clubDescription" class="form-label">Club Description</label>
-                                <textarea v-model="editable.description" type="text" maxlength="750" class="form-control" id="clubDescription" aria-describedby="helpId" placeholder="Club Description"></textarea>
+                                <textarea v-model="editable.description" type="text" required minlength="3" maxlength="750" class="form-control" id="clubDescription" aria-describedby="helpId" placeholder="Club Description"></textarea>
                             </div>
-                            <button class="ms-auto btn orange-btn">Create Club</button>
+                            <button type="submit" class="ms-auto btn orange-btn">Create Club</button>
                         </form>
                     </div>
                 </section>
@@ -155,6 +155,7 @@ export default {
                         booksService.createClubBook(bookData)
                     }
                     editable.value = {}
+                    await clubsService.getMyClubs()
                     router.push({name:'Club About Page', params:{clubId: club.id}})
                 } catch (error) {
                     logger.log(error)

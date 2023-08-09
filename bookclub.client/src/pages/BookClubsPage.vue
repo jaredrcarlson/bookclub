@@ -1,12 +1,6 @@
 <template>
   <div class="container-fluid">
-    <section class="row">
-      <div class="col-12">
-        <h1>
-          Book Clubs Page
-        </h1>
-      </div>
-    </section>
+    <BookClubSearch />
   </div>
 </template>
 
