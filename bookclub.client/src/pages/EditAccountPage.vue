@@ -59,6 +59,7 @@ import { computed, ref } from 'vue';
 import { AppState } from '../AppState.js';
 import { accountService } from '../services/AccountService.js';
 import Pop from '../utils/Pop.js';
+import { router } from '../router.js';
 
 export default {
   setup(){
@@ -73,10 +74,11 @@ export default {
 
       async editAccount(){
         try {
-
           const accountData = editable.value
-  
+
           await accountService.editAccount(accountData)
+
+          router.push({name: 'Account'})
         } catch (error) {
           Pop.error(error.message)
         }
