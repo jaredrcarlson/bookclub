@@ -5,16 +5,28 @@
         <div class="p-3">
           <p class="fs-3 fw-bold">About us</p>
           <form @submit.prevent="editClub()">
-          <input placeholder="club name..." v-model="editable.name" class="form-control mb-2" v-if="isEditing" type="text" required maxlength="40" minlength="3">
-          <input placeholder="club cover photo..." v-model="editable.coverImg" class="form-control mb-2" v-if="isEditing" type="url" maxlength="300" minlength="3"  required>
-          <textarea class="form-control mb-2" minlength="3" maxlength="750" required v-if="isEditing" v-model="editable.description" rows="10"></textarea>
-          <p v-else class="fs-4">
-            {{ selectedClub.description }}
-          </p>
-          <button type="submit" v-if="isEditing" class="btn light-blue-btn">Save Changes</button>
-        </form>
+            <input placeholder="club name..." v-model="editable.name" class="form-control mb-2" v-if="isEditing" type="text" required maxlength="40" minlength="3">
+            <input placeholder="club cover photo..." v-model="editable.coverImg" class="form-control mb-2" v-if="isEditing" type="url" maxlength="300" minlength="3"  required>
+            <textarea class="form-control mb-2" minlength="3" maxlength="750" required v-if="isEditing" v-model="editable.description" rows="10"></textarea>
+            <p v-else class="fs-4">
+              {{ selectedClub.description }}
+            </p>
+            <button type="submit" v-if="isEditing" class="btn light-blue-btn">Save Changes</button>
+          </form>
+          <div>
+            <p class="fs-4">
+              <span class="pe-2 fw-semibold">Currently Reading:</span>
+              <span v-for="(b, index) in currentBooks" :key="b.id" class="pe-2">
+                <router-link :to="{name: 'Book Details', params:{gbId: b.gbId}}">
+                  <span class="text-light">
+                    {{ b.title }} by {{ b.author }} <span v-if="index != currentBooks.length-1">,</span>
+                  </span>
+                </router-link>
+              </span>
+            </p>
+          </div>
           <div class="d-flex justify-content-between mt-5 align-items-end">
-
+            
             <p class="fs-3">
               <i class="mdi mdi-account"></i> {{ selectedClub.memberCount }}
             </p>
@@ -22,8 +34,8 @@
               <span class="pe-5">
                 Created at: {{ selectedClub.createdAt.toLocaleDateString() }}
               </span>
-              
             </p>
+
             <div v-if="loadingRef == false && account.id && Array.isArray(myMemberships) && (selectedClub.creatorId != account.id)">
               <button class="btn orange-btn fs-3" @click="leaveClub()" title="Leave Club" v-if="inClub">
                 <i class="mdi mdi-account-minus"></i> Leave Club
@@ -55,6 +67,7 @@ import Pop from '../utils/Pop.js';
 import { logger } from '../utils/Logger.js';
 import { router } from '../router.js';
 import { clubsService } from "../services/ClubsService.js";
+import { booksService } from '../services/BooksService.js';
 
 export default {
   setup(){
@@ -65,13 +78,27 @@ export default {
 
     let loadingRef = ref(false)
 
-    watchEffect(() =>{
-      
-    })
+    async function getBooksByClubId() {
+        try {
+            const clubId = route.params.clubId;
+            await booksService.getBooksByClubId(clubId);
+        }
+        catch (error) {
+            Pop.error(error.message);
+        }
+    }
+
+    watchEffect(() => {
+        getBooksByClubId(route.params.clubId);
+    });
 
     return {
       editable,
       isEditing,
+      currentBooks: computed(() => {
+        let currentBooks = AppState.books.filter(b => b.status == 'reading');
+        return currentBooks;
+      }),
       selectedClub: computed(() => AppState.selectedClub),
       inClub: computed(() => {
         const foundClub = AppState.myMemberships.find(c => c.clubId == route.params.clubId)
