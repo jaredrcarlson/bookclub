@@ -11,9 +11,9 @@
       </div>
     </section>
 
-    <section class="row mt-5">
-      <div class="col-12 px-4">
-        <p class="ps-2 fs-1">
+    <section class="row mt-5 pt-5">
+      <div class="col-10 mx-auto">
+        <p class="fs-1">
           Edit Your Account
         </p>
       </div>

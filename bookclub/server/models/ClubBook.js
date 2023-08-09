@@ -6,6 +6,7 @@ export const ClubBookSchema = new Schema({
   title: { type: String, required: true },
   imgUrl: { type: String },
   author: { type: String, required: true },
+  rating: { type: Number, required: true, min: 0, max: 10, default: 0 },
   status: { type: String, enum: ['planned', 'reading', 'finished'], required: true, default: 'planned' }
 }, { timestamps: true, toJSON: { virtuals: true } })
 

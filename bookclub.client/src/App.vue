@@ -87,12 +87,14 @@ body {
   color: #183a48;
 }
 
-header {
-  height: 15vh;
-}
+@media screen and (min-width: 768px) {
+  header {
+    height: 15vh;
+  }
 
-main {
-  height: 85vh;
+  main {
+    height: 85vh;
+  }
 }
 
 </style>

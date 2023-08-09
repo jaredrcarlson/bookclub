@@ -41,7 +41,7 @@ class ClubBooksService {
     if (userId != club.creatorId) {
       throw new Forbidden('This Club Book can only be modified by the Club Creator.')
     }
-    const updateFields = ['title', 'imgUrl', 'author', 'status']
+    const updateFields = ['status', 'rating']
     updateFields.forEach(field => {
       if (field in clubBookData) {
         clubBook[field] = clubBookData[field]

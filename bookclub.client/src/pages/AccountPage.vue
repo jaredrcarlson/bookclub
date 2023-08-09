@@ -6,10 +6,7 @@
           <img class="img-fluid account-img me-4" :src=account.picture :alt=account.name>
           <div class="account-name">
             <p class="fs-2 pe-2 m-0">
-                {{ account.name }}
-                <router-link :to="{name: 'Edit Account Page'}">
-                  <i class="mdi mdi-pencil-box-outline fs-3 mt-md-2 mt-1 text-dark" type="button" title="Edit Account"></i>
-                </router-link>
+              {{ account.name }}
             </p>
           </div>
           <img v-if="!account.coverImg" class="coverImg-style img-fluid" src="https://images.unsplash.com/photo-1551043047-1d2adf00f3fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" :alt=account.name>
@@ -76,23 +73,32 @@
         <div style="overflow-x: auto;" class="ms-3">
           <table id="books">
             <tr>
-              <th class="ps-2 w-100 ">
+              <th class="ps-2">
                 Title
               </th>
               <th class="ps-2">
                 Progress
               </th>
-              <th class="ps-2">
+              <th class="ps-2 text-center">
                 Rating
               </th>
-              <th>Timestamp</th>
+              <th class="ps-2 text-end">
+                Timestamp
+              </th>
               <th></th>
+            </tr>
+            <tr>
+              <td class="large-text-style fs-4 orange-text">Currently Reading</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
             <tr v-for="book in currentBooks" :key="book.id">
               <UserBookListItem :bookProp="book" />
             </tr>
             <tr>
-              <td>Planning</td>
+              <td class="large-text-style fs-4 orange-text">Planning to Read</td>
               <td></td>
               <td></td>
               <td></td>
@@ -102,7 +108,7 @@
               <UserBookListItem :bookProp="book" />
             </tr>
             <tr>
-              <td>Finished</td>
+              <td class="large-text-style fs-4 orange-text">Finished Books</td>
               <td></td>
               <td></td>
               <td></td>
@@ -116,7 +122,7 @@
       </div>
     </section>
     
-    <section class="row mb-4">
+    <!-- <section class="row mb-4">
       <div class="col-12">
         <p class="m-3 fs-1">
           My Badges
@@ -128,7 +134,7 @@
       <div class="col-12">
         placeholder
       </div>
-    </section>
+    </section> -->
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark dark-blue-bg">
+  <nav class="navbar navbar-expand-md navbar-dark dark-blue-bg">
     <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
       <div class="d-flex flex-column align-items-center">
         <h1>
@@ -13,35 +13,30 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav ms-auto text-end align-items-center">
+      <ul class="navbar-nav ms-auto align-items-md-center">
         <li>
-          <router-link :to="{ name: 'About Us' }" class="btn text-light selectable">
+          <router-link :to="{ name: 'About Us' }" class="text-light selectable py-1 px-2">
             About Us
           </router-link>
         </li>
-        <li class="nav-item dropdown mx-2">
-          <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
-            Books
-          </a>
-          <ul class="dropdown-menu dropdown-menu-dark text-center py-3">
-            <router-link :to="{ name: 'Book Search' }">
-              <li class="dropdown-item px-4 mb-2">
-                Search Books
-              </li>
-            </router-link>
-            <router-link :to="{ name: 'NYT Best Sellers'}">
-              <li class="dropdown-item px-4 mb-2">
-                NYT Best Sellers
-              </li>
-            </router-link>
-            <li>
-              <!-- <router-link :to="{ name: 'Books' }" class="btn text-light selectable"> -->
-                Your Book List (To Do)
-              <!-- </router-link> -->
-            </li>
-          </ul>
+        <li class="nav-item dropdown mx-md-2 p-2">
+            <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
+              Books
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-center py-3">
+              <router-link :to="{ name: 'Book Search' }">
+                <li class="dropdown-item px-4 mb-2">
+                  Search Books
+                </li>
+              </router-link>
+              <router-link :to="{ name: 'NYT Best Sellers'}">
+                <li class="dropdown-item px-4 mb-2">
+                  NYT Best Sellers
+                </li>
+              </router-link>
+            </ul>
         </li>
-        <li class="nav-item dropdown me-2">
+        <li class="nav-item dropdown me-md-2 px-2">
           <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown">
             Book Clubs
           </a>
@@ -59,7 +54,7 @@
           </ul>
         </li>
         <!-- LOGIN COMPONENT HERE -->
-        <Login />
+        <Login class="px-2" />
       </ul>
     </div>
   </nav>

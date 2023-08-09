@@ -59,22 +59,30 @@
         <div style="overflow-x: auto;" class="ms-3">
           <table id="books">
             <tr>
-              <th class="ps-2 w-100 ">
+              <th class="ps-2">
                 Title
               </th>
               <th class="ps-2">
                 Progress
               </th>
-              <th class="ps-2">
+              <th class="ps-2 text-center">
                 Rating
               </th>
-              <th>Timestamp</th>
+              <th class="ps-2 text-end">
+                Timestamp
+              </th>
+            </tr>
+            <tr>
+              <td class="large-text-style fs-4 orange-text">Currently Reading</td>
+              <td></td>
+              <td></td>
+              <td></td>
             </tr>
             <tr v-for="book in currentBooks" :key="book.id">
               <UserBookListItem :bookProp="book" />
             </tr>
             <tr>
-              <td>Planning</td>
+              <td class="large-text-style fs-4 orange-text">Planning to Read</td>
               <td></td>
               <td></td>
               <td></td>
@@ -83,7 +91,7 @@
               <UserBookListItem :bookProp="book" />
             </tr>
             <tr>
-              <td>Finished</td>
+              <td class="large-text-style fs-4 orange-text">Finished Books</td>
               <td></td>
               <td></td>
               <td></td>
@@ -96,7 +104,7 @@
       </div>
     </section>
     
-    <section class="row mb-4">
+    <!-- <section class="row mb-4">
       <div class="col-12">
         <p class="m-3 fs-1">
           Badges
@@ -108,7 +116,7 @@
       <div class="col-12">
         placeholder
       </div>
-    </section>
+    </section> -->
   </div>
 
 </template>

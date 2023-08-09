@@ -23,12 +23,12 @@
     </td>
     <td v-else-if="bookProp.status == 'planned'">
       <span class="status-text-style">
-        Planned
+        Planning to Read
       </span>
     </td>
     <td v-else>
       <span class="status-text-style">
-        Reading
+        Currently Reading
       </span>
     </td>
     <td v-if="bookProp.creatorId == account?.id">
@@ -39,8 +39,9 @@
         </option>
       </select>
     </td>
-    <td v-else>
-      <span class="large-text-style">{{ bookProp.rating }}/10</span>
+    <td v-else class="text-center">
+      <span v-if="bookProp.rating == 0" class="large-text-style">Unrated</span>
+      <span v-else class="large-text-style">{{ bookProp.rating }}/10</span>
     </td>
     <td>
       <p v-if="progressSelect == 'finished'" class="mb-0 text-end sub-text-style"> 
@@ -100,7 +101,7 @@ export default {
       { rating: 6, description : 'Good'},
       { rating: 7, description : 'Very Good'},
       { rating: 8, description : 'Great'},
-      { rating: 9, description : 'Oustanding'},
+      { rating: 9, description : 'Outstanding'},
       { rating: 10, description : 'Masterpiece'}],
       async editUserBook(){
         try {

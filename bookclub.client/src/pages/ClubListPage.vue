@@ -15,21 +15,44 @@
               <th class="ps-2">
                 Title
               </th>
-              <th class="ps-2">
+              <th class="ps-2 text-center">
                 Progress
               </th>
-              <th class="ps-2">
+              <th class="ps-2 text-center">
                 Rating
               </th>
-              <th class="ps-2" v-if="inClub && inClub?.role == 'admin' || inClub?.role =='creator'">
-                Options
+              <th class="ps-2 text-end">
+                Timestamp
               </th>
+              <th class="ps-2" v-if="inClub && inClub?.role == 'admin' || inClub?.role =='creator'">
+              </th>
+            </tr>
+            <tr>
+              <td class="large-text-style fs-4 orange-text">Currently Reading</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td v-if="inClub && inClub?.role == 'admin' || inClub?.role =='creator'"></td>
             </tr>
             <tr v-for="book in currentBooks" :key="book.id">
               <ClubBookListItem :bookProp="book" />
             </tr>
+            <tr>
+              <td class="large-text-style fs-4 orange-text">Planning to Read</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td v-if="inClub && inClub?.role == 'admin' || inClub?.role =='creator'"></td>
+            </tr>
             <tr v-for="book in plannedBooks" :key="book.id">
               <ClubBookListItem :bookProp="book" />
+            </tr>
+            <tr>
+              <td class="large-text-style fs-4 orange-text">Finished Books</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td v-if="inClub && inClub?.role == 'admin' || inClub?.role =='creator'"></td>
             </tr>
             <tr v-for="book in finishedBooks" :key="book.id">
               <ClubBookListItem :bookProp="book" />

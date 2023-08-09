@@ -12,9 +12,9 @@
       </div>
     </section>
     <section class="row">
-      <div v-for="book in books" :key="book.id" class="col-2 my-1">
+      <div v-for="book in books" :key="book.id" class="col-md-1 col-6 my-1">
         <router-link :to="{name: 'Book Details', params: { gbId: book.gbId }}">
-          <img class="img-fluid" :src="book.imgUrl" :title="book.title">
+          <img class="img-fluid book-img" :src="book.imgUrl" :title="book.title">
         </router-link>           
       </div>
     </section>
@@ -68,5 +68,10 @@ export default {
 
 
 <style lang="scss" scoped>
+
+.book-img {
+  width: 100%;
+  height: 100%;
+}
 
 </style>

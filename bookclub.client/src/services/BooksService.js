@@ -63,6 +63,14 @@ class BooksService {
     return book
   }
 
+  async deleteClubBook(clubBookId) {
+    const res = await api.delete(`api/clubBooks/${clubBookId}`)
+    let bookIndex = AppState.books.findIndex(book => book.id == clubBookId)
+    if (bookIndex != -1) {
+      AppState.books.splice(bookIndex, 1)
+    }
+  }
+
   async clearBooks() {
     AppState.books = []
   }
