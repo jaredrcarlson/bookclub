@@ -46,13 +46,13 @@ export default {
 
 <style lang="scss" scoped>
 .card-img{
-  height:50%;
+  height:40%;
   object-fit: cover;
   object-position: center;
 }
 
 .card-content {
-  height: 50%;
+  height: 60%;
 }
 
 </style>

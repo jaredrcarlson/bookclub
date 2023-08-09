@@ -50,8 +50,7 @@
               <p>
                 {{ computedDescription(membership.club.description) }}
               </p>
-
-              <div class="mt-auto" v-if="loadingRef == false">
+              <div class="mt-auto" v-if="loadingRef == false && membership.role != 'creator'">
                 <button class="btn orange-btn" @click="leaveClub(membership.id)" title="Leave Club">
                   <i class="mdi mdi-account-minus"></i> Leave Club
                 </button>
@@ -251,18 +250,18 @@ export default {
 }
 
 .card-img{
-  height: 50%;
+  height: 40%;
   object-fit: cover;
   object-position: center;
 }
 .card-description{
-  height: 50%;
+  height: 60%;
   display: flex;
   flex-direction: column;
 }
 
 .membership-card{
-  height: 50vh;
+  height: 55vh;
 }
 
 .image-container {
