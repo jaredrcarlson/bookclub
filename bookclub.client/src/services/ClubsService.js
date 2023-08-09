@@ -44,7 +44,7 @@ class ClubsService {
   async getMyClubs() {
     try {
       const res = await api.get('account/clubs')
-      // logger.log('[GOT ACCOUNT CLUBS]', res.data)
+      logger.log('[GOT ACCOUNT CLUBS]', res.data)
       AppState.myMemberships = res.data.map(pojo => new Member(pojo))
     } catch (error) {
       Pop.error(error.message)
@@ -74,11 +74,12 @@ class ClubsService {
   }
 
   async editClub(clubData) {
-    logger.log('is it reaching the service?')
+    // logger.log('is it reaching the service?')
     const res = await api.put(`api/clubs/${clubData.id}`, clubData)
     const club = new Club(res.data)
-    const clubIndex = AppState.clubs.findIndex(c => c.id == clubData.id)
-    AppState.clubs.splice(clubIndex, 1, club)
+    // logger.log('[club info?]', club)
+    // const clubIndex = AppState.clubs.findIndex(c => c.id == clubData.id)
+    AppState.selectedClub = club
   }
 
   async deleteClub(clubId) {

@@ -3,7 +3,7 @@ import { Schema } from "mongoose";
 export const ClubSchema = new Schema({
   creatorId: { type: Schema.Types.ObjectId, ref: 'Account', required: true },
   name: { type: String, minLength: 3, maxLength: 40, required: true, unique: true },
-  description: { type: String, minLength: 3, maxLength: 200, required: true },
+  description: { type: String, minLength: 3, maxLength: 750, required: true },
   coverImg: { type: String, minLength: 3, maxLength: 300, required: true },
 
 }, { timestamps: true, toJSON: { virtuals: true } })

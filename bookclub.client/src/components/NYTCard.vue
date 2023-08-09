@@ -8,16 +8,16 @@
           </button>
           <ul class="dropdown-menu dropdown-menu-width">
             <li class="px-3 selectable" @click="sortList('Paperback Trade Fiction')">Paperback Trade Fiction</li>
-            <li class="px-3 selectable" @click="sortList('Young Adult Hardcover')">Young Adult Hardcover</li>
+            <li class="px-3 selectable" @click="sortList('Young Adult Paperback')">Young Adult Paperback</li>
             <li class="px-3 selectable" @click="sortList('Graphic Books and Manga')">Graphic Books and Manga</li>
             <li class="px-3 selectable" @click="sortList('Paperback Nonfiction')">Paperback Nonfiction</li>
-            <li class="px-3 selectable" @click="sortList('Advice, How-To & Miscellaneous')">Advice, How-To & Miscellanious</li>
+            <li class="px-3 selectable" @click="sortList('Advice, How-To & Miscellaneous')">Advice, How-To & Miscellaneous</li>
           </ul>
         </div>
       </div>
       <div class="col-md-9 col-12 my-3 text-center">
         <h1>
-          New York Times Best Sellers
+          The New York Times Best Sellers
         </h1>
       </div>
     </section>

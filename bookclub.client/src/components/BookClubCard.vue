@@ -1,15 +1,13 @@
 <template>
-  <router-link :to="`/bookclubdetails/${clubProp.id}/clubabout`">
-    <div class="mx-3">
-      <div>
-        <img class="img-fluid card-img" :src=clubProp.coverImg alt="card img">
-      </div>
-      <div class="dark-blue-bg p-3 text-light">
+  <router-link class="h-100" :to="`/bookclubdetails/${clubProp.id}/clubabout`">
+    <div class="mx-3 h-100">
+      <img class="img-fluid card-img" :src=clubProp.coverImg alt="card img">
+      <div class="card-content dark-blue-bg p-3 text-light">
         <p class="fs-5">
           {{ clubProp.name }}
         </p>
         <p>
-          {{ clubProp.description }}
+          {{ computedDescription(clubProp.description) }}
         </p>
         <div class="d-flex justify-content-between">
           <span>
@@ -34,6 +32,12 @@ export default {
   },
   setup(){
     return {
+      computedDescription(str) {
+        if (str.length > 100) {
+          return str.substring(0,126) + "..."
+        }
+        return str
+      },
     }
   }
 }
@@ -42,8 +46,13 @@ export default {
 
 <style lang="scss" scoped>
 .card-img{
-  height:20vh;
+  height:50%;
   object-fit: cover;
   object-position: center;
 }
+
+.card-content {
+  height: 50%;
+}
+
 </style>

@@ -10,6 +10,7 @@ class NewYorkTimesService {
 
     logger.log('[GOT NYT BEST SELLERS LISTS]', res.data)
     AppState.nytLists = res.data.results.lists.map(pojo => new NYTList(pojo))
+
   }
 
   sortList(listName) {

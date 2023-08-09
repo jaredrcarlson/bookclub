@@ -25,7 +25,7 @@
             <div class="col-md-6 col-12">
               <div class="mb-3">
                 <label for="name">Name</label>
-                <input v-model="editable.name" type="text" id="name" name="name" title="Name" class="form-control" maxlength="100" minlength="1">
+                <input v-model="editable.name" type="text" id="name" name="name" title="Name" class="form-control" maxlength="100" minlength="1" required>
               </div>
               <div class="mb-3">
                 <label for="coverImg">Cover Image</label>
@@ -33,7 +33,7 @@
               </div>
               <div class="mb-3">
                 <label for="picture">Profile Picture</label>
-                <input v-model="editable.picture" type="url" id="picture" name="picture" title="Profile Picture" class="form-control" maxlength="700" minlength="1">
+                <input v-model="editable.picture" type="url" id="picture" name="picture" title="Profile Picture" class="form-control" maxlength="400" minlength="1">
               </div>
             </div>
             <div class="col-md-6 col-12">
@@ -59,20 +59,26 @@ import { computed, ref } from 'vue';
 import { AppState } from '../AppState.js';
 import { accountService } from '../services/AccountService.js';
 import Pop from '../utils/Pop.js';
+import { router } from '../router.js';
 
 export default {
   setup(){
     const editable = ref({})
 
+    editable.value = {...AppState.account}
+
     return {
       editable,
+
       account: computed(() => AppState.account),
 
       async editAccount(){
         try {
           const accountData = editable.value
-  
+
           await accountService.editAccount(accountData)
+
+          router.push({name: 'Account'})
         } catch (error) {
           Pop.error(error.message)
         }

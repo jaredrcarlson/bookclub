@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid">
+  <div  v-if="account.id" class="container-fluid">
     <section class="row">
       <div class="col-12 p-0">
         <div class="image-container">
@@ -17,6 +17,19 @@
 
     <section class="row mt-5">
       <div class="col-12 mt-5">
+        <p class="m-3">
+          <span class="fs-2">
+            About Me:
+          </span>
+          <span class="fs-4">
+            {{ account.bio }}
+          </span>
+        </p>
+      </div>
+    </section>
+
+    <section class="row">
+      <div class="col-12">
         <p class="m-3 fs-1">
           My Clubs
         </p>
@@ -24,8 +37,8 @@
     </section>
 
     <section class="row mb-4" v-if="Array.isArray(myMemberships) && account.id">
-      <div class="col-md-4 col-12 my-3" v-for="membership in myMemberships" :key="membership.id">
-          <div class="membership-card mx-3">
+      <div  class="col-md-4 col-12 my-3" v-for="membership in myMemberships" :key="membership.id" >
+          <div  class="membership-card mx-3">
             <router-link :to="({name: 'Club About Page', params: {clubId: membership.club.id}})">
                 <img class="img-fluid card-img" :src=membership.club.coverImg alt="card img">
             </router-link>
@@ -35,7 +48,7 @@
                 {{ membership.club.name }}
               </p>
               <p>
-                {{ membership.club.description }}
+                {{ computedDescription(membership.club.description) }}
               </p>
 
               <div class="mt-auto" v-if="loadingRef == false">
@@ -150,8 +163,18 @@ export default {
 
     return {
       loadingRef,
+      computedDescription(str) {
+        if (str.length > 100) {
+          return str.substring(0,98) + "..."
+        }
+        return str
+      },
       account: computed(() => AppState.account),
-      myMemberships: computed(() => AppState.myMemberships),
+      myMemberships: computed(() => {
+        if (AppState.myMemberships)
+          return AppState.myMemberships.filter(m => m.club)
+        return []
+      }),
       myBooks: computed(() => AppState.myBooks),
       finishedBooks: computed(() => {
         let finishedBooks = AppState.myBooks?.filter(b => b.status == 'finished')

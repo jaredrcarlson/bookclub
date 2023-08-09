@@ -5,28 +5,28 @@
       Login
     </button>
     <div v-else>
-      <div class="dropdown my-2 my-lg-0">
-        <div type="button" data-bs-toggle="dropdown" v-if="account.picture || user.picture">
-          <img :src="account.picture || user.picture" alt="account photo" height="55" class="rounded" />
-        </div>
-        <div class="dropdown-menu dropdown-menu-lg-end dropdown-menu-start p-0" aria-labelledby="authDropdown">
-          <div class="list-group">
+      <div class="dropdown my-2 my-lg-0" data-bs-theme="dark">
+        <li class="nav-item dropdown me-md-2 px-2" aria-labelledby="authDropdown">
+          <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" v-if="account.picture || user.picture">
+            <img :src="account.picture || user.picture" alt="account photo" class="account-img" />
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-lg-end text-center py-3">
             <router-link :to="{ name: 'Account' }">
-              <div class="list-group-item dropdown-item list-group-item-action">
+              <li class="dropdown-item px-4 mb-2">
                 My Profile
-              </div>
+              </li>
             </router-link>
-            <router-link :to="{name: 'Edit Account Page'}">
-              <div class="list-group-item dropdown-item list-group-item-action">
+            <router-link :to="{ name: 'Edit Account Page' }" v-if="account.id">
+              <li class="dropdown-item px-4 mb-2">
                 Edit Account
-              </div>
+              </li>
             </router-link>
-            <div class="list-group-item dropdown-item list-group-item-action text-danger selectable" @click="logout">
+            <li class="list-group-item dropdown-item list-group-item-action text-danger selectable" @click="logout">
               <i class="mdi mdi-logout"></i>
               Logout
-            </div>
-          </div>
-        </div>
+            </li>
+          </ul>
+        </li>
       </div>
     </div>
   </span>
@@ -56,6 +56,23 @@ export default {
 
 button {
   font-size: 1.35rem;
+}
+.account-img{
+  height: 7vh;
+  width: 7vh;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media(min-width: 768px){
+  .account-img{
+  height: 5vh;
+  width: 5vh;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
 }
 
 </style>

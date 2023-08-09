@@ -59,15 +59,15 @@
                         <form @submit.prevent="createClub" class="d-flex flex-column">
                             <div class="mb-3">
                                 <label for="clubName" class="form-label">Club Name</label>
-                                <input v-model="editable.name" type="text" required minlength="2" maxlength="50" class="form-control" id="" aria-describedby="helpId" placeholder="Club Name">
+                                <input v-model="editable.name" type="text" required minlength="3" maxlength="40" class="form-control" id="" aria-describedby="helpId" placeholder="Club Name">
                             </div>
                             <div class="mb-3">
                                 <label for="clubImageURL" class="form-label">Club Cover Image</label>
-                                <input v-model="editable.coverImg" type="url" required minlength="3" maxlength="400" class="form-control" id="clubImageURL" aria-describedby="helpId" placeholder="Club Image URL">
+                                <input v-model="editable.coverImg" type="url" required minlength="3" maxlength="300" class="form-control" id="clubImageURL" aria-describedby="helpId" placeholder="Club Image URL">
                             </div>
                             <div class="mb-3">
                                 <label for="clubDescription" class="form-label">Club Description</label>
-                                <textarea v-model="editable.description" type="text" maxlength="1000" class="form-control" id="clubDescription" aria-describedby="helpId" placeholder="Club Description"></textarea>
+                                <textarea v-model="editable.description" type="text" maxlength="750" class="form-control" id="clubDescription" aria-describedby="helpId" placeholder="Club Description"></textarea>
                             </div>
                             <button class="ms-auto btn orange-btn">Create Club</button>
                         </form>

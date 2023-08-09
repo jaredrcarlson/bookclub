@@ -17,6 +17,19 @@
 
     <section class="row mt-5">
       <div class="col-12 mt-5">
+        <p class="m-3">
+          <span class="fs-2">
+            About Me:
+          </span>
+          <span class="fs-4">
+            {{ profile.bio }}
+          </span>
+        </p>
+      </div>
+    </section>
+
+    <section class="row mt-5">
+      <div class="col-12 mt-5">
         <p class="m-3 fs-1">
           Clubs
         </p>
@@ -172,7 +185,11 @@ export default {
     return {
       route,
       profile: computed(() => AppState.profile),
-      profileMemberships: computed(() => AppState.profileMemberships),
+      profileMemberships: computed(() => {
+        if (AppState.profileMemberships)
+          return AppState.profileMemberships.filter(m => m.club)
+        return []
+      }),
       profileBooks: computed(() => AppState.profileBooks),
       finishedBooks: computed(() => {
         let finishedBooks = AppState.profileBooks?.filter(b => b.status == 'finished')

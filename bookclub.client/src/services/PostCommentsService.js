@@ -8,12 +8,8 @@ class PostCommentsService {
     const res = await api.post('api/comments', commentData)
     logger.log('[creating comment...svc]', res.data)
     const postComment = new PostComment(res.data)
-    AppState.postComments.push(commentData)
-    return postComment
-  }
-
-  setCommentToEdit(commentToEdit) {
-    AppState.activeComment = commentToEdit
+    AppState.postComments.push(postComment)
+    // return postComment
   }
 
   async editComment(commentData) {
