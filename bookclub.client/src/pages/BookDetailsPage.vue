@@ -236,7 +236,7 @@
 <script>
 import { useRoute } from 'vue-router';
 import { booksService } from '../services/BooksService.js';
-import { computed, onMounted, ref, watchEffect } from 'vue';
+import { computed, onMounted, onUnmounted, ref, watchEffect } from 'vue';
 import { AppState } from '../AppState.js';
 import Pop from '../utils/Pop.js';
 import { bookReviewsService } from '../services/BookReviewsService.js';
@@ -475,6 +475,14 @@ export default {
       }
     }
 
+    function clearBooks() {
+        try {
+            booksService.clearBooks()
+        } catch (error) {
+            Pop.error(error.message)
+        }
+    }
+
     watchEffect(async() => {
       user
       if(user.value.id) {
@@ -490,6 +498,10 @@ export default {
       await setBookScore()
       await setAllClubs()
       await setReviews()
+    })
+
+    onUnmounted(() => {
+        clearBooks()
     })
     
     

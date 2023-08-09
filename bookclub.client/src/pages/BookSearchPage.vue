@@ -24,9 +24,11 @@
 
 
 <script>
-import { computed, ref } from 'vue';
+import { computed, onUnmounted, ref } from 'vue';
 import { booksService } from '../services/BooksService.js';
 import { AppState } from '../AppState.js';
+import { logger } from '../utils/Logger';
+import Pop from '../utils/Pop';
 
 export default {
   setup(){
@@ -40,6 +42,18 @@ export default {
     function setActiveBook(book) {
       activeBook.value = book
     }
+
+    function clearBooks() {
+            try {
+                booksService.clearBooks()
+            } catch (error) {
+                logger.log(error)
+                Pop.error(error.message)
+            }
+        }
+    onUnmounted(() => {
+        clearBooks()
+    })
 
     return {
       query,

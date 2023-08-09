@@ -90,7 +90,7 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue';
+import { ref, computed, onUnmounted } from 'vue';
 import { booksService } from '../services/BooksService'
 import { clubsService } from '../services/ClubsService'
 import { AppState } from '../AppState';
@@ -103,6 +103,17 @@ export default {
         const searchQuery = ref("")
         const editable = ref({})
         const booksToAdd = computed(() => AppState.booksToAdd)
+        function clearBooks() {
+            try {
+                booksService.clearBooks()
+            } catch (error) {
+                logger.log(error)
+                Pop.error(error.message)
+            }
+        }
+        onUnmounted(() => {
+            clearBooks()
+        })
         return {
             async searchBooks(){
                 try {

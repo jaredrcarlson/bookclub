@@ -63,6 +63,10 @@ class BooksService {
     return book
   }
 
+  async clearBooks() {
+    AppState.books = []
+  }
+
   async getMyBooks() {
     try {
       const res = await api.get('account/books')
