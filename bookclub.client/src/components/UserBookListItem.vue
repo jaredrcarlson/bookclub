@@ -65,7 +65,7 @@
       </div>
     </td> -->
     <td v-if="bookProp.creatorId == account?.id">
-      <i @click="deleteUserBook" class="trash mdi mdi-trash-can fs-3"></i>
+      <i @click="deleteUserBook" class="trash mdi mdi-trash-can fs-3" title="Delete Book from List"></i>
     </td>
 </template>
 
