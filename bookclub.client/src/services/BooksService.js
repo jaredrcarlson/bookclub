@@ -75,6 +75,9 @@ class BooksService {
     AppState.books = []
   }
 
+  clearSelectedBook() {
+    AppState.selectedBook = null
+  }
   async getMyBooks() {
     try {
       const res = await api.get('account/books')

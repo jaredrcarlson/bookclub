@@ -115,6 +115,7 @@ export default {
         function clearBooks() {
             try {
                 booksService.clearBooks()
+                booksService.clearSelectedBook()
             } catch (error) {
                 logger.log(error)
                 Pop.error(error.message)
