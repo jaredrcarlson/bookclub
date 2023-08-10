@@ -59,4 +59,8 @@ export default {
     object-position: center;
   }
 
+  a:hover{
+    
+  }
+
 </style>

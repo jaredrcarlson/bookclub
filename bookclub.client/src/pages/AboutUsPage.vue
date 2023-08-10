@@ -35,8 +35,8 @@
           <h2 class="text-center">Meet the Team!</h2>
             <section class="row">
               <AboutTeamCard :name="'Rebecca VandeWater'" :linkedin="'https://www.linkedin.com/in/rebecca-a-vandewater/'" :github="'https://github.com/RebeccaVandeWater'" :picture="RebeccaPicture" />
-              <AboutTeamCard :name="'Arrington Mata'" :linkedin="'https://www.linkedin.com/in/arrington-mata/'" :picture="MataPicture"/>
-              <AboutTeamCard :name="'Bailey Johnson'"/>
+              <AboutTeamCard :name="'Arrington Mata'" :linkedin="'https://www.linkedin.com/in/arrington-mata/'" :github="'https://github.com/ArrMata'" :picture="MataPicture"/>
+              <AboutTeamCard :name="'Bailey Johnson'" :linkedin="'https://www.linkedin.com/in/bailey-johnson-bb28b86b/'" :github="'https://github.com/bjohnson93'" :picture="BaileyPicture"/>
               <AboutTeamCard :name="'Jared Carlson'"/>
           </section>
         </div>
@@ -48,12 +48,15 @@
 
 <script>
 import RebeccaPicture from '../assets/img/r-vande.jpg'
+import BaileyPicture from '../assets/img/bjohnson.jpg'
 import MataPicture from '../assets/img/a-mata.jpg'
 import AboutTeamCard from '../components/AboutTeamCard.vue'
 export default {
     setup() {
         return {
-          RebeccaPicture
+          RebeccaPicture,
+          BaileyPicture,
+          MataPicture
         };
     },
     components: { AboutTeamCard }
