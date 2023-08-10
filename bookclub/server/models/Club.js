@@ -19,5 +19,6 @@ ClubSchema.virtual('memberCount', {
   localField: '_id',
   foreignField: 'clubId',
   count: true,
+  match: membership => ({ status: 'joined' }),
   ref: 'ClubMember'
 })
