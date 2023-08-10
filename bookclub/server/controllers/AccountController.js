@@ -4,6 +4,7 @@ import BaseController from '../utils/BaseController'
 import { userBooksService } from '../services/UserBooksService.js'
 import { clubsService } from '../services/ClubsService'
 import { clubMembersService } from '../services/ClubMembersService'
+import { userEventsService } from '../services/UserEventsService.js'
 
 export class AccountController extends BaseController {
   constructor() {
@@ -14,8 +15,8 @@ export class AccountController extends BaseController {
       .get('', this.getUserAccount)
       .get('/books', this.getUserBooks)
       .get('/clubs', this.getUserClubs)
+      .get('/userEvents', this.getUserEvents)
   }
-
 
   async getUserAccount(req, res, next) {
     try {
@@ -41,6 +42,18 @@ export class AccountController extends BaseController {
       const userId = req.userInfo.id
       const userClubs = await clubMembersService.getUserClubs(userId)
       return res.send(userClubs)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async getUserEvents(req, res, next) {
+    try {
+      const userId = req.userInfo.id
+
+      const userEvents = await userEventsService.getUserEvents(userId)
+
+      return res.send(userEvents)
     } catch (error) {
       next(error)
     }
