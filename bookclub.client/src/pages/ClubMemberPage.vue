@@ -7,13 +7,33 @@
         </p>
       </div>
     </section>
-    <section class="row justify-content-around">
+    <section v-if="inClub.role == 'creator'" class="row justify-content-around">
+      <div class="col-12">
+        <p class="m-3 fs-4">
+          Pending Join Requests
+        </p>
+      </div>
       <div class="col-md-5 col-12 dark-blue-bg my-2 rounded" v-for="member in pendingMembers" :key="member.id">
         <MemberCard :memberProp="member" />
       </div>
     </section>
     <section class="row justify-content-around">
-      <div class="col-md-5 col-12 dark-blue-bg my-2 rounded" v-for="member in members" :key="member.id">
+      <div class="col-12">
+        <p class="m-3 fs-4">
+          Members
+        </p>
+      </div>
+      <div class="col-md-5 col-12 dark-blue-bg my-2 rounded" v-for="member in joinedMembers" :key="member.id">
+        <MemberCard :memberProp="member" />
+      </div>
+    </section>
+    <section v-if="inClub.role == 'creator'" class="row justify-content-around">
+      <div class="col-12">
+        <p class="m-3 fs-4">
+          Blocked Users
+        </p>
+      </div>
+      <div class="col-md-5 col-12 dark-blue-bg my-2 rounded" v-for="member in blockedMembers" :key="member.id">
         <MemberCard :memberProp="member" />
       </div>
     </section>
@@ -49,14 +69,15 @@ export default {
       return {
           members: computed(() => AppState.members),
           inClub: computed(() => {
-            const foundClub = AppState.myMemberships.find(c => c.clubId == route.params.clubId)
-            // logger.log(foundClub)
-            // logger.log(AppState.myMemberships)
+            let foundClub = {}
+            if (Array.isArray(AppState.myMemberships)){
+              foundClub = AppState.myMemberships.find(c => c.clubId == route.params.clubId)
+            }
             return foundClub ? foundClub : {}
           }),
-          joinedMembers: computed(() => AppState.members.filter(m => m.status = 'joined')),
-          blockedMembers: computed(() => AppState.members.filter(m => m.status = 'blocked')),
-          pendingMembers: computed(() => AppState.members.filter(m => m.status = 'status')),
+          joinedMembers: computed(() => AppState.members.filter(m => m.status == 'joined')),
+          blockedMembers: computed(() => AppState.members.filter(m => m.status == 'blocked')),
+          pendingMembers: computed(() => AppState.members.filter(m => m.status == 'pending')),
       };
     },
     components: { MemberCard }
