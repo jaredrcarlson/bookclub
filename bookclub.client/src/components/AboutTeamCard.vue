@@ -9,7 +9,6 @@
 		<div class="d-flex ms-auto mt-auto">
       <a class="text-light" :href=linkedin><i class="mdi mdi-linkedin icon-medium"></i></a>
       <a class="text-light" :href=github><i class="mdi mdi-github icon-medium"></i></a>
-			
 		</div>
 		</div>
 	</div>
