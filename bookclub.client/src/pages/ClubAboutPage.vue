@@ -37,10 +37,16 @@
             </p>
 
             <div v-if="loadingRef == false && account.id && Array.isArray(myMemberships) && (selectedClub.creatorId != account.id)">
-              <button class="btn orange-btn fs-3" @click="leaveClub()" title="Leave Club" v-if="inClub">
+              <button class="btn orange-btn fs-3" @click="leaveClub()" title="Leave Club" v-if="inClub.status == 'joined'">
                 <i class="mdi mdi-account-minus"></i> Leave Club
               </button>
-              <button class="btn orange-btn fs-3" @click="becomeMember()" title="Join Club" v-else>
+              <button class="btn orange-btn fs-3" @click="removeRequest()" title="Remove request to join Club" v-else-if="inClub.status == 'pending'">
+                <i class="mdi mdi-account-minus"></i> Remove Request
+              </button>
+              <button class="btn light-blue-btn fs-3" @click="addRequest()" title="Request to join club" v-else-if="selectedClub.private">
+                <i class="mdi mdi-account-plus"></i> Request to Join
+              </button>
+              <button class="btn light-blue-btn fs-3" @click="becomeMember()" title="Join Club" v-else>
                 <i class="mdi mdi-account-plus"></i> Join Club
               </button>
             </div>
@@ -102,9 +108,9 @@ export default {
       selectedClub: computed(() => AppState.selectedClub),
       inClub: computed(() => {
         const foundClub = AppState.myMemberships.find(c => c.clubId == route.params.clubId)
-        logger.log(foundClub)
-        logger.log(AppState.myMemberships)
-        return foundClub
+        // logger.log(foundClub)
+        // logger.log(AppState.myMemberships)
+        return foundClub ? foundClub : {}
       }),
       account: computed(() => AppState.account),
       myMemberships: computed(() => AppState.myMemberships),
@@ -144,6 +150,24 @@ export default {
           Pop.error(error.message)
         }
       },
+      async addRequest(){
+        try {
+
+          loadingRef.value = true
+
+          const clubId = route.params.clubId
+
+          const memberData = {clubId: clubId}
+
+          await membersService.becomeMember(memberData)
+          
+          Pop.toast('You have requested to join this club.', 'success', 'bottom-end')
+          
+          loadingRef.value = false
+        } catch (error) {
+          Pop.error(error.message)
+        }
+      },
 
       async leaveClub(){
         try {
@@ -154,12 +178,11 @@ export default {
           }
 
           loadingRef.value = true
-
-          const memberToRemove = AppState.members.find(m => m.creatorId == AppState.account.id)
-
+          
+          const memberToRemove = AppState.myMemberships.find(m => m.clubId == route.params.clubId)
           const memberId = memberToRemove.id
 
-          logger.log(memberId)
+          // logger.log(memberId)
 
           await membersService.leaveClub(memberId)
           AppState.selectedClub.memberCount--
@@ -169,6 +192,28 @@ export default {
           loadingRef.value = false
 
           router.push({name: 'Home'})
+        } catch (error) {
+          Pop.error(error.message)
+        }
+      },
+      async removeRequest(){
+        try {
+          const removeConfirm = await Pop.confirm('Are you sure you want to remove this request?')
+
+          if(!removeConfirm){
+            return
+          }
+
+          loadingRef.value = true
+
+          const memberToRemove = AppState.myMemberships.find(m => m.clubId == route.params.clubId)
+          const memberId = memberToRemove.id
+
+          // logger.log(memberId)
+
+          await membersService.leaveClub(memberId)
+          Pop.toast('Your request has been removed', 'success', 'bottom-end')
+          loadingRef.value = false
         } catch (error) {
           Pop.error(error.message)
         }
