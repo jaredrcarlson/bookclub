@@ -15,7 +15,6 @@ class ClubMembersService {
       throw new Forbidden('Only the owner of the club can promote and demote members.')
     }
     if (body.role != 'admin' && body.role != 'member' && body.role != undefined) {
-      logger.log(body.role)
       throw new Forbidden('You can only make a member a role of member or admin.')
     }
     if (body.status != 'joined' && body.status != 'blocked' && body.status != undefined) {

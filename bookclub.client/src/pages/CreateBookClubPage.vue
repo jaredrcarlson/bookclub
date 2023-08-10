@@ -39,7 +39,8 @@
                     </div>
                 </section>
             </div>
-            <div class="col-12 p-3 form-section text-white dark-blue-bg">
+        
+            <div class="col-12 p-3 form-section text-white dark-blue-bg h-100">
                 <section class="row">
                     <div class="col-12 form-header flex-shrink-1">
                         <h2>Create a Club</h2>
@@ -114,6 +115,7 @@ export default {
         function clearBooks() {
             try {
                 booksService.clearBooks()
+                booksService.clearSelectedBook()
             } catch (error) {
                 logger.log(error)
                 Pop.error(error.message)

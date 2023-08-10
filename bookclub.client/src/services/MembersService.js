@@ -29,8 +29,22 @@ class MembersService {
     AppState.myMemberships = AppState.myMemberships.filter(m => m.id != memberId)
   }
 
+  async deleteMember(memberId) {
+    const res = await api.delete(`api/members/${memberId}`)
+
+    logger.log('[DELETED CLUB MEMBER]', res.data)
+    AppState.members = AppState.members.filter(m => m.id != memberId)
+  }
+
   async getMembershipsByUserId() {
     const res = await api.get('api/members')
+    return res.data
+  }
+
+  async alterStatus(memberId, status) {
+    const res = await api.put(`api/members/${memberId}`, { status })
+    const index = AppState.members.findIndex(m => m.id == memberId)
+    AppState.members.splice(index, 1, new Member(res.data))
     return res.data
   }
 }
