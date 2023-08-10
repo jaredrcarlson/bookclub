@@ -24,8 +24,12 @@
                   <div class="d-flex justify-content-around">
                     <div v-if="userHasThisBook" class="text-center pe-2">
                       <div class="text-light light-blue-bg rounded px-2">My Rating</div>
-                      <select @change="updateUserBookRating()" v-model="userBookData.rating" class="form-select form-select-sm border-0 rounded-start shadow-none text-center" aria-label=".form-select-sm rating">
-                          <option v-for="i in 11" :key="i" :value="i-1">{{ i-1 ? i-1 : 'Not Rated' }}</option>
+                      <select @change="updateUserBookRating()" v-model="userBookData.rating" class="form-select form-select-sm border-0 rounded-start shadow-none" aria-label=".form-select-sm rating">
+                        <option value="0">Not Rated</option>
+                        <option v-for="option in ratingOptions" :key="option.rating" :value="option.rating">
+                          {{ option.rating }} - {{ option.description }}
+                        </option>  
+                        <!-- <option v-for="i in 11" :key="i" :value="i-1">{{ i-1 ? i-1 : 'Not Rated' }}</option> -->
                       </select>
                     </div>
                     <div v-if="userHasThisBook" class="text-center pe-2">
@@ -67,16 +71,16 @@
      <!-- SECTION BOOK CLUBS -->
     <div class="row mt-3 g-1">
       <div class="col-3 text-center selectable">
-        <div class="text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'reading', 'dark-blue-bg': selectedTab == 'reading'}" @click="selectedTab = 'reading'">Clubs Reading This Book</div>
+        <div class="text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'reading', 'dark-blue-bg': selectedTab == 'reading'}" @click="selectTab('reading')">Clubs Reading This Book</div>
       </div>
       <div class="col-3 text-center selectable">
-        <div class="text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'planned', 'dark-blue-bg': selectedTab == 'planned'}" @click="selectedTab = 'planned'">Clubs Planning To Read This Book</div>
+        <div class="text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'planned', 'dark-blue-bg': selectedTab == 'planned'}" @click="selectTab('planned')">Clubs Planning To Read This Book</div>
       </div>
       <div class="col-4 text-center selectable">
-        <div class="text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'finished', 'dark-blue-bg': selectedTab == 'finished'}" @click="selectedTab = 'finished'">Clubs That Have Read This Book</div>
+        <div class="text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'finished', 'dark-blue-bg': selectedTab == 'finished'}" @click="selectTab('finished')">Clubs That Have Read This Book</div>
       </div>
       <div class="col-2 text-center selectable">
-        <div class="text-light px-2 pt-1"  :class="{ 'bg-dark': selectedTab != 'reviews', 'dark-blue-bg': selectedTab == 'reviews'}" @click="selectedTab = 'reviews'">User Reviews</div>
+        <div class="text-light px-2 pt-1"  :class="{ 'bg-dark': selectedTab != 'reviews', 'dark-blue-bg': selectedTab == 'reviews'}" @click="selectTab('reviews')">User Reviews</div>
       </div>
     </div>
     <div class="row">
@@ -314,7 +318,7 @@ export default {
       rating: 0,
       status: 'planned'
     })
-    const selectedTab = ref('reading')
+    const selectedTab = ref('reviews')
     const reviewData = ref({
       gbId: gbId,
       rating: null,
@@ -323,6 +327,19 @@ export default {
     const reviewEditMode = ref(false)
     const userReviewedStatus = ref(true)
     const bookListsOptions = ref({})
+
+    const ratingOptions = [
+      {rating: 1, description : 'Horrendous'},
+      {rating: 2, description : 'Terrible'},
+      { rating: 3, description : 'Bad'},
+      { rating: 4, description : 'Meh'},
+      { rating: 5, description : 'Average'},
+      { rating: 6, description : 'Good'},
+      { rating: 7, description : 'Very Good'},
+      { rating: 8, description : 'Great'},
+      { rating: 9, description : 'Outstanding'},
+      { rating: 10, description : 'Masterpiece'}
+    ]
     
     async function setBook() {
       try {
@@ -344,6 +361,15 @@ export default {
       await setClubs('planned')
       await setClubs('reading')
       await setClubs('finished')
+    }
+
+    async function selectTab(clubBookStatus) {
+      selectedTab.value = clubBookStatus
+      if (selectedTab.value == 'reviews') {
+        await setReviews()
+      } else {
+        await setClubs(clubBookStatus)
+      }
     }
 
     async function setClubs(status) {
@@ -587,8 +613,8 @@ export default {
     onMounted(async() => {
       await setBook()
       await setBookScore()
-      await setAllClubs()
-      await setReviews()
+      //await setAllClubs()
+      //await setReviews()
     })
 
     onUnmounted(() => {
@@ -615,6 +641,7 @@ export default {
       reviewData,
       bookListsOptions,
       reviewEditMode,
+      ratingOptions,
       updateUserBookRating,
       updateUserBookStatus,
       openBookListsModal,
@@ -622,7 +649,8 @@ export default {
       createReview,
       editReview,
       updateReview,
-      deleteReview
+      deleteReview,
+      selectTab
     }
   }
 }
