@@ -136,23 +136,8 @@
 
     <section class="row justify-content-center">
       <div class="col-10 my-3">
-        <FullCalendarCard />
       </div>
     </section>
-    
-    <!-- <section class="row mb-4">
-      <div class="col-12">
-        <p class="m-3 fs-1">
-          My Badges
-        </p>
-      </div>
-    </section>
-
-    <section class="row mb-4">
-      <div class="col-12">
-        placeholder
-      </div>
-    </section> -->
   </div>
 </template>
 
@@ -162,7 +147,6 @@ import { AppState } from '../AppState';
 import Pop from '../utils/Pop.js';
 import { logger } from '../utils/Logger.js';
 import { membersService } from '../services/MembersService.js';
-import FullCalendarCard from '../components/FullCalendarCard.vue';
 export default {
     setup() {
         let loadingRef = ref(false);
@@ -193,6 +177,7 @@ export default {
                 let currentBooks = AppState.myBooks?.filter(b => b.status == 'reading');
                 return currentBooks;
             }),
+
             async leaveClub(memberId) {
                 try {
                     const removeConfirm = await Pop.confirm('Are you sure you want to leave this club?');
@@ -211,7 +196,6 @@ export default {
             }
         };
     },
-    components: { FullCalendarCard }
 }
 </script>
 

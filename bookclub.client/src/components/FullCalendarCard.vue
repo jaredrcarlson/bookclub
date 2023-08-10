@@ -1,27 +1,53 @@
 <template>
   <div>
-    <FullCalendar :options="calendarOptions"/>
+    
   </div>
 </template>
 
-<script>
 
-import FullCalendar from '@fullcalendar/vue3'
+<script>
+import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction'
+import interactionPlugIn from '@fullcalendar/interaction'
 
 export default {
-  components:{
-    FullCalendar
-  },
-
   setup(){
-    return {
-      calendarOptions:{
-        plugins: [dayGridPlugin, interactionPlugin],
-        initialView: 'dayGridMonth'
+
+    let calendar = new Calendar({
+      plugins:[dayGridPlugin, interactionPlugIn],
+      initialview: 'dayGridMonth',
+      headerToolbar:{
+        left: 'prev,next today',
+        center: 'addEventButton',
+        right: 'dayGridMonth'
+      },
+      customButtons:{
+        addEventButton:{
+          text: 'Add a New Event',
+          click: function(){
+            let dateStr = prompt('Enter a date in YYYY-MM-DD format')
+
+            let date = new Date(dateStr).toDateString
+
+            if(!isNaN(date.valueOf())){
+              calendar.addEvent({
+                title: 'New Event',
+                start: date,
+                allDay: true
+              });
+              alert('Push to mongoDb')
+            }
+            else{
+              alert('Enter a valid Date.');
+            }
+          }
+        }
       }
-    }
+    })
+
+    calendar.render()
+
+    return {}
   }
 }
 </script>
