@@ -8,7 +8,7 @@
       </div>
     </section>
     <section class="row justify-content-around">
-      <div class="col-md-5 col-12 dark-blue-bg my-2 rounded" v-for="member in pendingMembers" v-if="" :key="member.id">
+      <div class="col-md-5 col-12 dark-blue-bg my-2 rounded" v-for="member in pendingMembers" :key="member.id">
         <MemberCard :memberProp="member" />
       </div>
     </section>
