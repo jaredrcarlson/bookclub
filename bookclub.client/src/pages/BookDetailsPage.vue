@@ -4,7 +4,7 @@
       <div class="col-12">
         <div v-if="book" class="row mt-4">
           <div class="col-5 d-flex justify-content-center">
-            <img class="img-fluid" :src="book.imgUrlLarge" alt="">
+            <img class="img-fluid book-img" :src="book.imgUrlLarge" alt="">
           </div>
           <div class="col-7 h-100">
             <div class="d-flex flex-column h-100">
@@ -55,8 +55,10 @@
               </div>
 
               <!-- SECTION BOOK DESCRIPTION -->
-              <div class="mt-2 fs-5">Description</div>
-              <small v-html="book.description" class="pe-3"></small>
+              <div class="description-section">
+                <div class="mt-2 fs-5 fw-bold">Description</div>
+                <small v-html="book.description" class="pe-3"></small>
+              </div>
             </div>
           </div>
         </div>
@@ -66,13 +68,13 @@
      <!-- SECTION BOOK CLUBS -->
     <div class="row mt-3 g-1">
       <div class="col-3 text-center selectable">
-        <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'reading', 'dark-blue-bg': selectedTab == 'reading'}" @click="selectTab('reading')">Clubs Reading This Book</div>
+        <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'reading', 'dark-blue-bg': selectedTab == 'reading'}" @click="selectTab('reading')">Clubs Currently Reading</div>
       </div>
       <div class="col-3 text-center selectable">
-        <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'planned', 'dark-blue-bg': selectedTab == 'planned'}" @click="selectTab('planned')">Clubs Planning To Read This Book</div>
+        <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'planned', 'dark-blue-bg': selectedTab == 'planned'}" @click="selectTab('planned')">Clubs Planning To Read</div>
       </div>
       <div class="col-4 text-center selectable">
-        <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'finished', 'dark-blue-bg': selectedTab == 'finished'}" @click="selectTab('finished')">Clubs That Have Read This Book</div>
+        <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'finished', 'dark-blue-bg': selectedTab == 'finished'}" @click="selectTab('finished')">Clubs Finished Reading</div>
       </div>
       <div class="col-2 text-center selectable">
         <div class="tab-text text-light px-2 pt-1"  :class="{ 'bg-dark': selectedTab != 'reviews', 'dark-blue-bg': selectedTab == 'reviews'}" @click="selectTab('reviews')">User Reviews</div>
@@ -653,6 +655,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.book-img {
+  max-height: 70dvh;
+}
+
+.description-section {
+  max-height: 50dvh;
+  overflow-y: scroll;
+}
+
 .user-img {
   height: 8vh;
   width: 8vh;

@@ -5,6 +5,7 @@ class BookReviewsService {
 
   async getReviewByGbid(gbId) {
     const reviews = await dbContext.BookReviews.find({ gbId }).populate('creator', 'name picture')
+    reviews.reverse()
     return reviews
   }
 
