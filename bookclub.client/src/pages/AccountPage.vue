@@ -133,6 +133,12 @@
         </div>
       </div>
     </section>
+
+    <section class="row justify-content-center">
+      <div class="col-10 my-3">
+        <FullCalendarCard />
+      </div>
+    </section>
     
     <!-- <section class="row mb-4">
       <div class="col-12">
@@ -156,62 +162,56 @@ import { AppState } from '../AppState';
 import Pop from '../utils/Pop.js';
 import { logger } from '../utils/Logger.js';
 import { membersService } from '../services/MembersService.js';
+import FullCalendarCard from '../components/FullCalendarCard.vue';
 export default {
-  setup() {
-    let loadingRef = ref(false)
-
-    return {
-      loadingRef,
-      computedDescription(str) {
-        if (str.length > 100) {
-          return str.substring(0,98) + "..."
-        }
-        return str
-      },
-      account: computed(() => AppState.account),
-      myMemberships: computed(() => {
-        if (AppState.myMemberships)
-          return AppState.myMemberships.filter(m => m.club)
-        return []
-      }),
-      myBooks: computed(() => AppState.myBooks),
-      finishedBooks: computed(() => {
-        let finishedBooks = AppState.myBooks?.filter(b => b.status == 'finished')
-        return finishedBooks
-      }),
-      plannedBooks: computed(() => {
-        let plannedBooks = AppState.myBooks?.filter(b => b.status == 'planned')
-        return plannedBooks
-      }),
-      currentBooks: computed(() => {
-        let currentBooks = AppState.myBooks?.filter(b => b.status == 'reading')
-        return currentBooks
-      }),
-
-      async leaveClub(memberId){
-        try {
-          const removeConfirm = await Pop.confirm('Are you sure you want to leave this club?')
-
-          if(!removeConfirm){
-            return
-          }
-
-          loadingRef.value = true
-
-          logger.log(memberId)
-
-          await membersService.leaveClub(memberId)
-
-          Pop.success('You have left this club.')
-
-          loadingRef.value = false
-
-        } catch (error) {
-          Pop.error(error.message)
-        }
-      }
-    }
-  }
+    setup() {
+        let loadingRef = ref(false);
+        return {
+            loadingRef,
+            computedDescription(str) {
+                if (str.length > 100) {
+                    return str.substring(0, 98) + "...";
+                }
+                return str;
+            },
+            account: computed(() => AppState.account),
+            myMemberships: computed(() => {
+                if (AppState.myMemberships)
+                    return AppState.myMemberships.filter(m => m.club);
+                return [];
+            }),
+            myBooks: computed(() => AppState.myBooks),
+            finishedBooks: computed(() => {
+                let finishedBooks = AppState.myBooks?.filter(b => b.status == 'finished');
+                return finishedBooks;
+            }),
+            plannedBooks: computed(() => {
+                let plannedBooks = AppState.myBooks?.filter(b => b.status == 'planned');
+                return plannedBooks;
+            }),
+            currentBooks: computed(() => {
+                let currentBooks = AppState.myBooks?.filter(b => b.status == 'reading');
+                return currentBooks;
+            }),
+            async leaveClub(memberId) {
+                try {
+                    const removeConfirm = await Pop.confirm('Are you sure you want to leave this club?');
+                    if (!removeConfirm) {
+                        return;
+                    }
+                    loadingRef.value = true;
+                    logger.log(memberId);
+                    await membersService.leaveClub(memberId);
+                    Pop.success('You have left this club.');
+                    loadingRef.value = false;
+                }
+                catch (error) {
+                    Pop.error(error.message);
+                }
+            }
+        };
+    },
+    components: { FullCalendarCard }
 }
 </script>
 
