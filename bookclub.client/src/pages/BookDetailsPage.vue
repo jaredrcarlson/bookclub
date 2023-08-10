@@ -17,26 +17,26 @@
                   <div class="text-center me-1">
                     <div class="text-light light-blue-bg rounded px-2">Score</div>
                     <div>{{ bookScore }}</div>
-                    <small class="text-muted">{{ bookScoreUserCount }} Users</small>
+                    <small v-if="bookScoreUserCount == 1" class="text-muted">{{ bookScoreUserCount }} User</small>
+                    <small v-else class="text-muted">{{ bookScoreUserCount }} Users</small>
                   </div>
                 </div>
                 <div v-if="user.id">
                   <div class="d-flex justify-content-around">
                     <div v-if="userHasThisBook" class="text-center pe-2">
                       <div class="text-light light-blue-bg rounded px-2">My Rating</div>
-                      <select @change="updateUserBookRating()" v-model="userBookData.rating" class="form-select form-select-sm border-0 rounded-start shadow-none" aria-label=".form-select-sm rating">
+                      <select @change="updateUserBookRating()" v-model="userBookData.rating" class="form-select form-select-sm ghost-bg border-0 rounded-start shadow-none" aria-label=".form-select-sm rating">
                         <option value="0">Not Rated</option>
                         <option v-for="option in ratingOptions" :key="option.rating" :value="option.rating">
                           {{ option.rating }} - {{ option.description }}
                         </option>  
-                        <!-- <option v-for="i in 11" :key="i" :value="i-1">{{ i-1 ? i-1 : 'Not Rated' }}</option> -->
                       </select>
                     </div>
                     <div v-if="userHasThisBook" class="text-center pe-2">
                       <div class="text-light light-blue-bg rounded px-2">Progress</div>
-                      <select @change="updateUserBookStatus()" v-model="userBookData.status" class="form-select form-select-sm border-0 rounded-start shadow-none text-center" aria-label=".form-select-sm status">
-                          <option value="planned">Planned</option>
-                          <option value="reading">Reading</option>
+                      <select @change="updateUserBookStatus()" v-model="userBookData.status" class="form-select form-select-sm ghost-bg border-0 rounded-start shadow-none" aria-label=".form-select-sm status">
+                          <option value="planned">Plan To Read</option>
+                          <option value="reading">Currently Reading</option>
                           <option value="finished">Finished</option>
                       </select>
                     </div>
@@ -49,11 +49,6 @@
                           </div>
                         </button>
                       </div>
-                      <!-- <div v-if="userHasThisBook">
-                        <button @click="removeFromUserBookList()" type="button" class="btn btn-danger">
-                          <i class="mdi mdi-trash-can-outline"></i>
-                        </button>
-                      </div> -->
                     </div>
                   </div>
                 </div>
@@ -71,16 +66,16 @@
      <!-- SECTION BOOK CLUBS -->
     <div class="row mt-3 g-1">
       <div class="col-3 text-center selectable">
-        <div class="text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'reading', 'dark-blue-bg': selectedTab == 'reading'}" @click="selectTab('reading')">Clubs Reading This Book</div>
+        <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'reading', 'dark-blue-bg': selectedTab == 'reading'}" @click="selectTab('reading')">Clubs Reading This Book</div>
       </div>
       <div class="col-3 text-center selectable">
-        <div class="text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'planned', 'dark-blue-bg': selectedTab == 'planned'}" @click="selectTab('planned')">Clubs Planning To Read This Book</div>
+        <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'planned', 'dark-blue-bg': selectedTab == 'planned'}" @click="selectTab('planned')">Clubs Planning To Read This Book</div>
       </div>
       <div class="col-4 text-center selectable">
-        <div class="text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'finished', 'dark-blue-bg': selectedTab == 'finished'}" @click="selectTab('finished')">Clubs That Have Read This Book</div>
+        <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'finished', 'dark-blue-bg': selectedTab == 'finished'}" @click="selectTab('finished')">Clubs That Have Read This Book</div>
       </div>
       <div class="col-2 text-center selectable">
-        <div class="text-light px-2 pt-1"  :class="{ 'bg-dark': selectedTab != 'reviews', 'dark-blue-bg': selectedTab == 'reviews'}" @click="selectTab('reviews')">User Reviews</div>
+        <div class="tab-text text-light px-2 pt-1"  :class="{ 'bg-dark': selectedTab != 'reviews', 'dark-blue-bg': selectedTab == 'reviews'}" @click="selectTab('reviews')">User Reviews</div>
       </div>
     </div>
     <div class="row">
@@ -129,30 +124,34 @@
                     <form @submit.prevent="createReview()">
                       <div class="row mb-3">
                         <div class="col-3 d-flex align-items-center">
-                          <img class="user-img" :src="user.picture" :alt="user.name" :title="user.name">
+                          <img class="user-img" :src="account.picture || user.picture" :alt="user.name" :title="user.name">
                           <div class="ms-2 fw-bold">{{ user.name }}</div>
                         </div>
-                        <div class="col-6">
+                        <div class="col-5">
                         </div>
-                        <div class="col-2">
+                        <div class="col-4">
                           <div class="my-0 ps-2 form-text">Recommendation</div>
-                          <select v-model="reviewData.rating" class="form-select" aria-label="Rating" required>
-                            <option value="Recommended">Recommend</option>
-                            <option value="Mixed Feelings">Mixed Feelings</option>
-                            <option value="Not Recommended">Not Recommended</option>
-                          </select>
-                        </div>
-                        <div class="col-1"></div>
-                      </div>
-                      <div class="row">
-                        <div class="col-11">
-                          <textarea v-model="reviewData.content" class="mb-2 pb-2 form-control" rows="3" placeholder="add review..." required></textarea>
-                        </div>
-                        <div class="col-1">
-                          <div class="pt-2 btn-custom">
-                            <button type="submit" class="btn orange-btn"><i class="mdi mdi-send-circle-outline fs-1"></i></button>
+                          <div class="d-flex align-items-center justify-content-around">
+                            <div class="me-2">
+                              <select v-model="reviewData.rating" class="form-select" aria-label="Rating" required>
+                                <option value="Recommended">Recommend</option>
+                                <option value="Mixed Feelings">Mixed Feelings</option>
+                                <option value="Not Recommended">Not Recommended</option>
+                              </select>
+                            </div>
+                            <div class="">
+                              <button type="submit" class="py-0 px-2 btn btn-sm btn-success">
+                                <i class="mdi mdi-send-circle-outline fs-4"></i>
+                              </button>
+                            </div>
                           </div>
                         </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-12">
+                          <textarea v-model="reviewData.content" class="mb-2 pb-2 form-control" rows="3" placeholder="add review..." required></textarea>
+                        </div>
+                        
                       </div>
                     </form>
                   </div>
@@ -174,58 +173,65 @@
                             <small class="text-secondary">Posted {{ review.createdAt.toLocaleDateString('en-us', { year:"numeric", month:"short", day:"numeric"}) }}</small>
                           </div>
                         </div>
-                        <div class="col-6"></div>
-                        <div class="col-3">
-
-                          <div class="d-flex align-items-center justify-content-around">
-                            
+                        <div class="col-9 d-flex flex-column align-items-end">
+                          <div class="d-flex align-items-center">
                             <div v-if="reviewEditMode">
-                              <div class="my-0 ps-2 form-text text-light">Recommendation</div>
-                              <select v-model="reviewData.rating" class="form-select" aria-label="Rating" required>
-                                <option value="Recommended">Recommend</option>
-                                <option value="Mixed Feelings">Mixed Feelings</option>
-                                <option value="Not Recommended">Not Recommended</option>
-                              </select>
+                                <!-- <div class="my-0 ps-2 form-text text-light">Recommendation</div> -->
+                                <div class="d-flex align-items-center">
+                                  <div>
+                                    <select v-model="reviewData.rating" class="form-select form-control input-sm" aria-label="Rating" required>
+                                      <option value="Recommended">Recommend</option>
+                                      <option value="Mixed Feelings">Mixed Feelings</option>
+                                      <option value="Not Recommended">Not Recommended</option>
+                                    </select>
+                                  </div>
+                                  <div class="">
+                                    <button class="mx-2 btn btn-sm btn-secondary py-0 px-2" @click="reviewEditMode = false">
+                                      <i class="mdi mdi-close-outline fs-4"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-success py-0 px-2 " @click="updateReview()">
+                                      <i class="mdi mdi-check-outline fs-4"></i>
+                                    </button>
+                                  </div>
+                                </div>
                             </div>
                             <div v-else>
                               <div v-if="review.rating == 'Recommended'">
                                 <div class="px-2 d-flex align-items-center justify-content-center text-light light-blue-bg rounded">
-                                  <i class="mdi mdi-star fs-5"></i>
+                                  <i class="mdi mdi-star fs-4"></i>
                                   <div class="ms-1">{{ review.rating }}</div>
                                 </div>
                               </div>
                               <div v-else-if="review.rating == 'Mixed Feelings'">
                                 <div class="px-2 d-flex align-items-center justify-content-center text-light bg-secondary rounded">
-                                  <i class="mdi mdi-star-half-full fs-5"></i>
+                                  <i class="mdi mdi-star-half-full fs-4"></i>
                                   <div class="ms-1">{{ review.rating }}</div>
                                 </div>
                               </div>
                               <div v-else-if="review.rating == 'Not Recommended'">
                                 <div class="px-2 d-flex align-items-center justify-content-center text-dark bg-danger rounded">
-                                  <i class="mdi mdi-star-outline fs-5"></i>
+                                  <i class="mdi mdi-star-outline fs-4"></i>
                                   <div class="ms-1">{{ review.rating }}</div>
                                 </div>
                               </div>
                             </div>
-                            
-                            
                             <div v-if="reviewEditMode">
-                              <div class="">
+                              <!-- <div class="">
                                 <button class="btn btn-sm btn-success" @click="updateReview()">
                                   <i class="mdi mdi-check-outline"></i>
                                 </button>
-                              </div>
+                              </div> -->
                             </div>
                             <div v-else>
                               <div v-if="user.id == review.creatorId" class="d-flex">
-                                <div class="mx-1">
-                                  <button class="btn btn-sm btn-secondary" @click="editReview(review)">
-                                    <i class="mdi mdi-pencil-outline"></i>
+                                <div class="mx-2">
+                                  <button class="btn btn-sm btn-secondary py-0 px-2" @click="editReview(review)">
+                                    <i class="mdi mdi-pencil-outline fs-4"></i>
                                   </button>
                                 </div>
                                 <div class="">
-                                  <button class="btn btn-sm btn-danger" @click="deleteReview()">
-                                  <i class="mdi mdi-trash-can-outline"></i>
+                                  <button class="btn btn-sm btn-danger py-0 px-2" @click="deleteReview(review)">
+                                  <i class="mdi mdi-trash-can-outline fs-4"></i>
                                   </button>
                                 </div>
                               </div>
@@ -299,7 +305,7 @@ export default {
   setup(){
     const route = useRoute()
     const gbId = route.params.gbId
-    
+    const account = computed(() => AppState.account)
     const user = computed(() => AppState.user)
     const book = computed(() => AppState.bookDetailsPage.book)
     const userBook = computed(() => AppState.bookDetailsPage.userBook)
@@ -344,6 +350,8 @@ export default {
     async function setBook() {
       try {
         await booksService.setBookDetailsPageBook(gbId)
+        await setBookScore()
+        await setReviews()
       } catch (error) {
         Pop.error(error.message)
       }
@@ -357,10 +365,11 @@ export default {
       }
     }
 
-    async function setAllClubs() {
-      await setClubs('planned')
-      await setClubs('reading')
-      await setClubs('finished')
+    async function setUser() {
+      await setUserBooks()
+      await setUserBook()
+      await setUserClubs()
+      setUserReviewedStatus()
     }
 
     async function selectTab(clubBookStatus) {
@@ -375,14 +384,6 @@ export default {
     async function setClubs(status) {
       try {
         await clubsService.setBookDetailsPageClubs(gbId, status)
-      } catch (error) {
-        Pop.error(error.message)
-      }
-    }
-
-    async function setReviews() {
-      try {
-        await bookReviewsService.setBookDetailsPageReviews(gbId)
       } catch (error) {
         Pop.error(error.message)
       }
@@ -536,15 +537,6 @@ export default {
       return bookFound ? true : false
     }
     
-    // async function bookExistsInClubBookList(club) {
-    //   const clubBooks = await booksService.getBooksByClubId(club.id)
-    //   if (!clubBooks) {
-    //     return false
-    //   }
-    //   const bookFound = clubBooks.find(book => book.gbId == gbId)
-    //   return bookFound ? true : false
-    // }
-
     async function getBookInClubBookList(club) {
       const clubBooks = await booksService.getBooksByClubId(club.id)
       if (!clubBooks) {
@@ -552,6 +544,15 @@ export default {
       }
       const book = clubBooks.find(book => book.gbId == gbId)
       return book ? book : null
+    }
+
+    async function setReviews() {
+      try {
+        await bookReviewsService.setBookDetailsPageReviews(gbId)
+        setUserReviewedStatus()
+      } catch (error) {
+        Pop.error(error.message)
+      }
     }
 
     async function createReview() {
@@ -579,13 +580,13 @@ export default {
       }
     }
     
-    async function deleteReview(reviewId) {
+    async function deleteReview(review) {
       try {
         const confirmed = await Pop.confirm('Are you sure you want to delete this review?')
         if (!confirmed) {
           return
         }
-        await bookReviewsService.deleteBookReview(reviewId)
+        await bookReviewsService.deleteBookReview(review.id)
         setUserReviewedStatus()
       } catch (error) {
         Pop.error(error.message)
@@ -603,18 +604,12 @@ export default {
     watchEffect(async() => {
       user
       if(user.value.id) {
-        await setUserBooks()
-        await setUserBook()
-        await setUserClubs()
-        setUserReviewedStatus()
+        await setUser()
       }
     })
         
     onMounted(async() => {
       await setBook()
-      await setBookScore()
-      //await setAllClubs()
-      //await setReviews()
     })
 
     onUnmounted(() => {
@@ -624,6 +619,7 @@ export default {
     
     return {
       book,
+      account,
       user,
       userBook,
       userBookRating,
@@ -656,7 +652,6 @@ export default {
 }
 </script>
 
-
 <style lang="scss" scoped>
 .user-img {
   height: 8vh;
@@ -666,6 +661,10 @@ export default {
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
+}
+
+.tab-text {
+  font-size: 1.2dvw;
 }
 
 </style>
