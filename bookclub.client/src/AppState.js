@@ -25,6 +25,9 @@ export const AppState = reactive({
   /** @type {import('./models/Member.js').Member | null} */
   myMemberships: null,
 
+  /** @type {import('./models/UserEvent.js').UserEvent | null} */
+  myEvents: null,
+
   /** @type {import('./models/Book.js').Book[]} */
   books: [],
 
