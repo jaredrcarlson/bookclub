@@ -27,7 +27,7 @@
         <MemberCard :memberProp="member" />
       </div>
     </section>
-    <section v-if="inClub.role == 'creator'" class="row justify-content-around">
+    <!-- <section v-if="inClub.role == 'creator'" class="row justify-content-around">
       <div class="col-12">
         <p class="m-3 fs-4">
           Blocked Users
@@ -36,7 +36,7 @@
       <div class="col-md-5 col-12 dark-blue-bg my-2 rounded" v-for="member in blockedMembers" :key="member.id">
         <MemberCard :memberProp="member" />
       </div>
-    </section>
+    </section> -->
   </div>
 </template>
 
