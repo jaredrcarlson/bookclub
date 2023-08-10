@@ -35,6 +35,7 @@ export default {
 
 body {
   font-family: 'Poppins', sans-serif;
+  background-color: #EBF2FA;
 }
 
 .ghost-bg{
