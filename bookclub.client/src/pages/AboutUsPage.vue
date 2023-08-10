@@ -53,7 +53,6 @@ export default {
     setup() {
         return {
           RebeccaPicture,
-          MataPicture
         };
     },
     components: { AboutTeamCard }
