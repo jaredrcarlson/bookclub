@@ -74,7 +74,7 @@ class ClubPostsService {
       throw new Forbidden("You can't delete a post you did not make!")
     }
     await postToRemove.remove()
-    await dbContext.PostComments.deleteMany({ clubId: postToRemove.clubId })
+    await dbContext.PostComments.deleteMany({ postId: postToRemove.id })
     return postToRemove
   }
 
