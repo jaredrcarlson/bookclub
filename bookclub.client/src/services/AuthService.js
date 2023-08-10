@@ -7,6 +7,7 @@ import { api } from './AxiosService'
 import { socketService } from './SocketService'
 import { clubsService } from './ClubsService.js'
 import { booksService } from './BooksService.js'
+import { userEventsService } from './UserEventsService.js'
 
 export const AuthService = initialize({
   domain,
@@ -31,6 +32,7 @@ AuthService.on(AuthService.AUTH_EVENTS.AUTHENTICATED, async function () {
   // NOTE if there is something you want to do once the user is authenticated, place that here
   await clubsService.getMyClubs()
   await booksService.getMyBooks()
+  await userEventsService.getMyEvents()
 })
 
 async function refreshAuthToken(config) {
