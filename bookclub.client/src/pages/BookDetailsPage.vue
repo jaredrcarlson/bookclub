@@ -170,37 +170,71 @@
                             <small class="text-secondary">Posted {{ review.createdAt.toLocaleDateString('en-us', { year:"numeric", month:"short", day:"numeric"}) }}</small>
                           </div>
                         </div>
-                        <div class="col-6 d-flex align-items-center justify-content-end">
-                          <div v-if="user.id == review.creatorId">
-                            <div class="">
-                              <button class="btn btn-sm orange-btn" @click="deleteReview(review.id)">Delete</button>
+                        <div class="col-6"></div>
+                        <div class="col-3">
+
+                          <div class="d-flex align-items-center justify-content-around">
+                            
+                            <div v-if="reviewEditMode">
+                              <div class="my-0 ps-2 form-text text-light">Recommendation</div>
+                              <select v-model="reviewData.rating" class="form-select" aria-label="Rating" required>
+                                <option value="Recommended">Recommend</option>
+                                <option value="Mixed Feelings">Mixed Feelings</option>
+                                <option value="Not Recommended">Not Recommended</option>
+                              </select>
                             </div>
-                          </div>
-                        </div>
-                        <div class="col-3 d-flex align-items-center justify-content-end">
-                          <div v-if="review.rating == 'Recommended'">
-                            <div class="px-2 d-flex align-items-center justify-content-center text-light light-blue-bg rounded">
-                              <i class="mdi mdi-star fs-4"></i>
-                              <div class="ms-1 pt-1">{{ review.rating }}</div>
+                            <div v-else>
+                              <div v-if="review.rating == 'Recommended'">
+                                <div class="px-2 d-flex align-items-center justify-content-center text-light light-blue-bg rounded">
+                                  <i class="mdi mdi-star fs-5"></i>
+                                  <div class="ms-1">{{ review.rating }}</div>
+                                </div>
+                              </div>
+                              <div v-else-if="review.rating == 'Mixed Feelings'">
+                                <div class="px-2 d-flex align-items-center justify-content-center text-light bg-secondary rounded">
+                                  <i class="mdi mdi-star-half-full fs-5"></i>
+                                  <div class="ms-1">{{ review.rating }}</div>
+                                </div>
+                              </div>
+                              <div v-else-if="review.rating == 'Not Recommended'">
+                                <div class="px-2 d-flex align-items-center justify-content-center text-dark bg-danger rounded">
+                                  <i class="mdi mdi-star-outline fs-5"></i>
+                                  <div class="ms-1">{{ review.rating }}</div>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                          <div v-else-if="review.rating == 'Mixed Feelings'">
-                            <div class="px-2 d-flex align-items-center justify-content-center text-light bg-secondary rounded">
-                              <i class="mdi mdi-star-half-full fs-4"></i>
-                              <div class="ms-1 pt-1">{{ review.rating }}</div>
+                            
+                            
+                            <div v-if="reviewEditMode">
+                              <div class="">
+                                <button class="btn btn-sm btn-success" @click="updateReview()">
+                                  <i class="mdi mdi-check-outline"></i>
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                          <div v-else-if="review.rating == 'Not Recommended'">
-                            <div class="px-2 d-flex align-items-center justify-content-center text-dark bg-danger rounded">
-                              <i class="mdi mdi-star-outline fs-4"></i>
-                              <div class="ms-1 pt-1">{{ review.rating }}</div>
+                            <div v-else>
+                              <div v-if="user.id == review.creatorId" class="d-flex">
+                                <div class="mx-1">
+                                  <button class="btn btn-sm btn-secondary" @click="editReview(review)">
+                                    <i class="mdi mdi-pencil-outline"></i>
+                                  </button>
+                                </div>
+                                <div class="">
+                                  <button class="btn btn-sm btn-danger" @click="deleteReview()">
+                                  <i class="mdi mdi-trash-can-outline"></i>
+                                  </button>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-12">
-                          <div class="px-2">
+                          <div v-if="reviewEditMode" class="px-2">
+                            <textarea v-model="reviewData.content" class="mb-2 pb-2 form-control" rows="3" required></textarea>
+                          </div>
+                          <div v-else class="px-2">
                             {{ review.content }}
                           </div>
                         </div>
@@ -286,6 +320,7 @@ export default {
       rating: null,
       content: null
     })
+    const reviewEditMode = ref(false)
     const userReviewedStatus = ref(true)
     const bookListsOptions = ref({})
     
@@ -475,14 +510,14 @@ export default {
       return bookFound ? true : false
     }
     
-    async function bookExistsInClubBookList(club) {
-      const clubBooks = await booksService.getBooksByClubId(club.id)
-      if (!clubBooks) {
-        return false
-      }
-      const bookFound = clubBooks.find(book => book.gbId == gbId)
-      return bookFound ? true : false
-    }
+    // async function bookExistsInClubBookList(club) {
+    //   const clubBooks = await booksService.getBooksByClubId(club.id)
+    //   if (!clubBooks) {
+    //     return false
+    //   }
+    //   const bookFound = clubBooks.find(book => book.gbId == gbId)
+    //   return bookFound ? true : false
+    // }
 
     async function getBookInClubBookList(club) {
       const clubBooks = await booksService.getBooksByClubId(club.id)
@@ -495,13 +530,24 @@ export default {
 
     async function createReview() {
       try {
-        await bookReviewsService.createBookReview(reviewData.value)
-        reviewData.value = {
-          gbId: gbId,
-          rating: null,
-          content: null
-        }
+        const newBookReview = await bookReviewsService.createBookReview(reviewData.value)
+        reviewData.value = newBookReview
         setUserReviewedStatus()
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
+    function editReview(review) {
+      reviewData.value = review
+      reviewEditMode.value = true
+    }
+
+    async function updateReview() {
+      try {
+        await bookReviewsService.updateBookReview(reviewData.value)
+        reviewEditMode.value = false
+        Pop.toast('Book Review updated successfully', 'success')
       } catch (error) {
         Pop.error(error.message)
       }
@@ -568,11 +614,14 @@ export default {
       selectedTab,
       reviewData,
       bookListsOptions,
+      reviewEditMode,
       updateUserBookRating,
       updateUserBookStatus,
       openBookListsModal,
       updateBookLists,
       createReview,
+      editReview,
+      updateReview,
       deleteReview
     }
   }

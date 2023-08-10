@@ -13,6 +13,14 @@ class BookReviewsService {
     const res = await api.post('api/bookReviews', bookReviewData)
     const newBookReview = new BookReview(res.data)
     AppState.bookDetailsPage.userReviews.unshift(newBookReview)
+    return newBookReview
+  }
+
+  async updateBookReview(bookReviewData) {
+    const res = await api.put(`api/bookReviews/${bookReviewData.id}`, bookReviewData)
+    const updatedBookReview = new BookReview(res.data)
+    const reviewIndex = AppState.bookDetailsPage.userReviews.find(review => review.id == updatedBookReview.id)
+    AppState.bookDetailsPage.userReviews.splice(reviewIndex, 1, updatedBookReview)
   }
 
   async deleteBookReview(bookReviewId) {
