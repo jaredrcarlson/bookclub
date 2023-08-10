@@ -49,12 +49,14 @@
 <script>
 import RebeccaPicture from '../assets/img/r-vande.jpg'
 import BaileyPicture from '../assets/img/bjohnson.jpg'
+import MataPicture from '../assets/img/a-mata.jpg'
 import AboutTeamCard from '../components/AboutTeamCard.vue'
 export default {
     setup() {
         return {
           RebeccaPicture,
           BaileyPicture,
+          MataPicture
         };
     },
     components: { AboutTeamCard }
