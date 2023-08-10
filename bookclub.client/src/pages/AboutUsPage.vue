@@ -36,7 +36,7 @@
             <section class="row">
               <AboutTeamCard :name="'Rebecca VandeWater'" :linkedin="'https://www.linkedin.com/in/rebecca-a-vandewater/'" :picture="RebeccaPicture" />
               <AboutTeamCard :name="'Arrington Mata'"/>
-              <AboutTeamCard :name="'Bailey Johnson'"/>
+              <AboutTeamCard :name="'Bailey Johnson'" :linkedin="'https://www.linkedin.com/in/bailey-johnson-bb28b86b/'" :picture="BaileyPicture"/>
               <AboutTeamCard :name="'Jared Carlson'"/>
           </section>
         </div>
@@ -48,6 +48,7 @@
 
 <script>
 import RebeccaPicture from '../assets/img/r-vande.jpg'
+import BaileyPicture from '../assets/img/bjohnson.jpg'
 import AboutTeamCard from '../components/AboutTeamCard.vue'
 export default {
     setup() {
