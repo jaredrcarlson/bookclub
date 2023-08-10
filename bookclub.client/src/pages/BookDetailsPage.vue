@@ -8,8 +8,9 @@
           </div>
           <div class="col-7 h-100">
             <div class="d-flex flex-column h-100">
-              <div class="fs-4 fw-bold">{{book.title}} {{ book.subtitle }}</div>
-              <div class="fs-6">By <span>{{ book.author }}</span></div>
+              <div class="fs-2 fw-bold">{{book.title}}</div>
+              <div class="fs-5 fw-bold">{{ book.subtitle }}</div>
+              <div class="fs-5">By <span>{{ book.author }}</span></div>
               
               <!-- SECTION SCORE / MY RATING / PROGRESS / BOOK LIST BUTTON -->
               <div class="mt-2 d-flex justify-content-between">
@@ -87,7 +88,7 @@
             <div v-if="!clubsReading.length">
               <div class="p-2">There are no clubs currently reading this book.</div>
             </div>
-            <div class="row py-2">
+            <div v-else class="row py-2">
               <div v-for="club in clubsReading" :key="club.id" class="col-4">
                 <BookClubCard :clubProp="club" />
               </div>
@@ -301,12 +302,13 @@ import { clubsService } from '../services/ClubsService.js';
 import BookClubCard from '../components/BookClubCard.vue';
 import ModalBasic from '../components/ModalBasic.vue';
 import { Modal } from 'bootstrap';
+import { logger } from '../utils/Logger.js';
 
 export default {
   components: { BookClubCard, ModalBasic },
   setup(){
     const route = useRoute()
-    const gbId = route.params.gbId
+    let gbId = route.params.gbId
     const account = computed(() => AppState.account)
     const user = computed(() => AppState.user)
     const book = computed(() => AppState.bookDetailsPage.book)
@@ -440,7 +442,7 @@ export default {
     
     function setUserReviewedStatus() {
       try {
-        const userReview = userReviews.value.filter(review => review.gbId == gbId && review.creatorId == user.value.id)
+        const userReview = userReviews.value.filter(review => review.gbId == gbId.value && review.creatorId == user.value.id)
         userReviewedStatus.value = userReview.length ? true : false        
       } catch (error) {
         Pop.error(error.message)
@@ -535,7 +537,7 @@ export default {
       if (!userBooks) {
         return false
       }
-      const bookFound = userBooks.find(book => book.gbId == gbId)
+      const bookFound = userBooks.find(book => book.gbId == gbId.value)
       return bookFound ? true : false
     }
     
@@ -544,7 +546,7 @@ export default {
       if (!clubBooks) {
         return null
       }
-      const book = clubBooks.find(book => book.gbId == gbId)
+      const book = clubBooks.find(book => book.gbId == gbId.value)
       return book ? book : null
     }
 
@@ -609,9 +611,14 @@ export default {
         await setUser()
       }
     })
+
+    watchEffect(async() => {
+      gbId = route.params.gbId
+      await setBook()
+    })
         
     onMounted(async() => {
-      await setBook()
+      // await setBook()
     })
 
     onUnmounted(() => {
