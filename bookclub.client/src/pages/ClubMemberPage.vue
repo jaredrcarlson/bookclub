@@ -8,6 +8,11 @@
       </div>
     </section>
     <section class="row justify-content-around">
+      <div class="col-md-5 col-12 dark-blue-bg my-2 rounded" v-for="member in pendingMembers" :key="member.id">
+        <MemberCard :memberProp="member" />
+      </div>
+    </section>
+    <section class="row justify-content-around">
       <div class="col-md-5 col-12 dark-blue-bg my-2 rounded" v-for="member in members" :key="member.id">
         <MemberCard :memberProp="member" />
       </div>
@@ -42,7 +47,16 @@ export default {
         getMembersByClubId()
       })
       return {
-          members: computed(() => AppState.members)
+          members: computed(() => AppState.members),
+          inClub: computed(() => {
+            const foundClub = AppState.myMemberships.find(c => c.clubId == route.params.clubId)
+            // logger.log(foundClub)
+            // logger.log(AppState.myMemberships)
+            return foundClub ? foundClub : {}
+          }),
+          joinedMembers: computed(() => AppState.members.filter(m => m.status = 'joined')),
+          blockedMembers: computed(() => AppState.members.filter(m => m.status = 'blocked')),
+          pendingMembers: computed(() => AppState.members.filter(m => m.status = 'status')),
       };
     },
     components: { MemberCard }

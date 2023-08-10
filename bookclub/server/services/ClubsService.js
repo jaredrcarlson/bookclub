@@ -63,6 +63,10 @@ class ClubsService {
       throw new Forbidden("You aren't the creator of this club, you can NOT delete it.")
     }
     await clubToDelete.remove()
+    await dbContext.ClubMembers.deleteMany({ clubId: clubId })
+    await dbContext.Posts.deleteMany({ clubId: clubId })
+    await dbContext.PostComments.deleteMany({ clubId: clubId })
+    await dbContext.ClubBooks.deleteMany({ clubId: clubId })
   }
 }
 export const clubsService = new ClubsService()

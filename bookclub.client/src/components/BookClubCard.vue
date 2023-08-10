@@ -3,8 +3,10 @@
     <div class="mx-3 h-100">
       <img class="img-fluid card-img" :src=clubProp.coverImg alt="card img">
       <div class="card-content dark-blue-bg p-3 text-light">
-        <p class="fs-5">
-          {{ clubProp.name }}
+        <p class="fs-4">
+          {{ clubProp.name }} 
+          <span v-if="clubProp.private" class="badge orange-bg">Private Club</span>
+          <span v-else class="badge light-blue-bg">Public Club</span>
         </p>
         <p>
           {{ computedDescription(clubProp.description) }}

@@ -69,15 +69,15 @@
                                 <label for="clubDescription" class="form-label">Club Description</label>
                                 <textarea v-model="editable.description" type="text" required minlength="3" maxlength="750" class="form-control" id="clubDescription" aria-describedby="helpId" placeholder="Club Description"></textarea>
                             </div>
-                            <div class="mb-3">
+                            <div class="d-flex justify-content-between">
                                 <div class="form-check">
-                                <input v-model="editable.private" class="form-check-input" type="checkbox" value="" id="clubPrivate">
+                                <input v-model="editable.private" class="form-check-input" type="checkbox"  id="clubPrivate">
                                 <label class="form-check-label" for="clubPrivate">
                                     Is this a Private Club?
                                 </label>
                                 </div>
+                                <button type="submit" class="ms-auto btn orange-btn">Create Club</button>
                             </div>
-                            <button type="submit" class="ms-auto btn orange-btn">Create Club</button>
                         </form>
                     </div>
                 </section>

@@ -17,7 +17,7 @@
             </p>
           </router-link>
 
-          <router-link :to="{name: 'Club Announcement Page'}">
+          <router-link v-if="!selectedClub.private || (selectedClub.private && clubMembership.status == 'joined')" :to="{name: 'Club Announcement Page'}">
             <p class="route-text" type="button" :class="route.name == 'Club Announcement Page' ? 'selected' : ''">
               <i class="mdi mdi-flag-variant"></i> Announcements
             </p>
@@ -29,7 +29,7 @@
             </p>
           </router-link>
 
-          <router-link :to="{name: 'Club Discussion Page'}">
+          <router-link v-if="!selectedClub.private || (selectedClub.private && clubMembership.status == 'joined')" :to="{name: 'Club Discussion Page'}">
             <p class="route-text" type="button" :class="route.name == 'Club Discussion Page' ? 'selected' : ''">
               <i class="mdi mdi-forum"></i> Discussion Board
             </p>
@@ -72,6 +72,7 @@ import Pop from '../utils/Pop.js';
 export default {
   setup(){
     const route = useRoute()
+    const myMemberships = computed(() => AppState.myMemberships)
 
     async function getClubById(){
       try {
@@ -87,8 +88,17 @@ export default {
       getClubById(route.params.clubId)
     })
 
+
+
     return {
       route,
+      clubMembership: computed(() => {
+        if (Array.isArray(myMemberships.value)){
+          const membership = myMemberships.value.find(m => m.clubId == AppState.selectedClub.id)
+          return membership ? membership : {} 
+        }
+        return {}
+      }),
       selectedClub: computed(() => AppState.selectedClub)
     }
   }
