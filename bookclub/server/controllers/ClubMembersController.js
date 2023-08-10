@@ -1,6 +1,7 @@
 import { Auth0Provider } from "@bcwdev/auth0provider";
 import BaseController from "../utils/BaseController.js";
 import { clubMembersService } from "../services/ClubMembersService.js";
+import { clubsService } from "../services/ClubsService.js";
 
 export class ClubMembersController extends BaseController {
   constructor() {
@@ -19,6 +20,13 @@ export class ClubMembersController extends BaseController {
     try {
       const memberData = req.body
       memberData.creatorId = req.userInfo.id
+      const club = await clubsService.getClubById(req.body.clubId)
+      if (club.private) {
+        memberData.status = "pending"
+      }
+      else {
+        memberData.status = "joined"
+      }
       const member = await clubMembersService.becomeMember(memberData)
       return res.send(member)
     } catch (error) {

@@ -1,21 +1,28 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
+import { logger } from "../utils/Logger.js"
+import { clubPostsService } from "./ClubPostsService.js"
 import { clubsService } from "./ClubsService.js"
 
 class ClubMembersService {
   async editMemberRole(body, userId, memberId) {
     const clubMember = await this.getClubMemberById(memberId)
     const club = await clubsService.getClubById(clubMember.clubId)
-    if (userId == memberId) {
+    if (userId == clubMember.creatorId) {
       throw new Forbidden('You cannot adjust your own role.')
     }
     if (userId != club.creatorId.toString()) {
       throw new Forbidden('Only the owner of the club can promote and demote members.')
     }
-    if (body.role != 'admin' && body.role != 'member') {
+    if (body.role != 'admin' && body.role != 'member' && body.role != undefined) {
+      logger.log(body.role)
       throw new Forbidden('You can only make a member a role of member or admin.')
     }
+    if (body.status != 'joined' && body.status != 'blocked' && body.status != undefined) {
+      throw new BadRequest('You can only accept a join request or block it.')
+    }
     clubMember.role = body.role || clubMember.role
+    clubMember.status = body.status || clubMember.status
     clubMember.save()
     return clubMember
   }
@@ -43,7 +50,7 @@ class ClubMembersService {
   }
 
   async becomeCreator(clubId, creatorId) {
-    await dbContext.ClubMembers.create({ clubId, creatorId, role: 'creator' })
+    await dbContext.ClubMembers.create({ clubId, creatorId, role: 'creator', status: 'joined' })
   }
 
   async removeMember(memberId, userId) {
@@ -51,8 +58,12 @@ class ClubMembersService {
     if (!memberToDelete) {
       throw new BadRequest('There is no such member to delete...')
     }
-    if (memberToDelete.creatorId.toString() != userId) {
-      throw new Forbidden('You can not delete a member other than yourself!')
+    const club = await clubsService.getClubById(memberToDelete.clubId)
+    if (club.creatorId.toString() == memberToDelete.creatorId.toString()) {
+      throw new Forbidden("You can't leave a club you created.")
+    }
+    if (club.creatorId.toString() != userId && memberToDelete.creatorId.toString() != userId) {
+      throw new Forbidden("You cannot delete another person's membership, unless you are the owner of the club.")
     }
     await memberToDelete.remove()
     return memberToDelete

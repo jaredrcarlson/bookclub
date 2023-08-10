@@ -10,9 +10,9 @@ export class ClubPostsController extends BaseController {
     super('api/posts')
     this.router
       //routes
+      .use(Auth0Provider.tryAttachUserInfo)
       .get('/:postId/comments', this.getPostComments)
       .get('/:postId', this.getPostById)
-
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createPost)
       .put('/:postId', this.updatePost)
@@ -21,7 +21,8 @@ export class ClubPostsController extends BaseController {
   async getPostById(req, res, next) {
     try {
       const postId = req.params.postId
-      const clubPost = await clubPostsService.getPostById(postId)
+      const uid = req.userInfo ? req.userInfo.id : ''
+      const clubPost = await clubPostsService.getPostById(postId, uid)
       return res.send(clubPost)
     } catch (error) {
       next(error)
@@ -30,7 +31,8 @@ export class ClubPostsController extends BaseController {
   async getPostComments(req, res, next) {
     try {
       const postId = req.params.postId
-      const postComments = await postCommentsService.getPostComments(postId)
+      const uid = req.userInfo ? req.userInfo.id : ''
+      const postComments = await postCommentsService.getPostComments(postId, uid)
       return res.send(postComments)
     } catch (error) {
       next(error)

@@ -2,13 +2,18 @@ import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
 import { clubMembersService } from "./ClubMembersService.js"
 import { clubPostsService } from "./ClubPostsService.js"
+import { clubsService } from "./ClubsService.js"
 
 class PostCommentsService {
-  async getPostComments(postId) {
-    const postComments = await dbContext.PostComments.find({ postId: postId })
-      .populate('creator', 'name picture')
-      .populate('membership')
-    return postComments
+  async getPostComments(postId, uid) {
+    const clubId = (await clubPostsService.getPostById(postId, uid)).clubId
+    const club = await clubsService.getClubById(clubId)
+    if (!club.private || await clubPostsService.isAllowed(clubId, uid)) {
+      const postComments = await dbContext.PostComments.find({ postId: postId })
+        .populate('creator', 'name picture')
+        .populate('membership')
+      return postComments
+    }
   }
 
   async getCommentById(commentId) {
@@ -23,7 +28,7 @@ class PostCommentsService {
 
   async createComment(commentData) {
     const memberships = await clubMembersService.getUserClubs(commentData.creatorId)
-    const clubId = (await clubPostsService.getPostById(commentData.postId)).clubId.toString()
+    const clubId = (await clubPostsService.getPostById(commentData.postId, commentData.creatorId)).clubId.toString()
     if (!memberships.find(m => m.clubId.toString() == clubId)) {
       throw new BadRequest("You cannot post a comment in clubs you are not a member of.")
     }

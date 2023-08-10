@@ -13,11 +13,11 @@ export class ClubsController extends BaseController {
       //routes
       .get('', this.getClubs)
       .get('/:clubId', this.getClubById)
+      .get('/:clubId/clubBooks', this.getClubBooks)
       .get('/:clubId/members', this.getClubMembers)
+      .use(Auth0Provider.tryAttachUserInfo)
       .get('/:clubId/posts', this.getClubPosts)
       .get('/:clubId/announcements', this.getClubAnnouncements)
-      .get('/:clubId/clubBooks', this.getClubBooks)
-
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createClub)
       .put('/:clubId', this.updateClub)
@@ -26,7 +26,8 @@ export class ClubsController extends BaseController {
   async getClubAnnouncements(req, res, next) {
     try {
       const clubId = req.params.clubId
-      const announcements = await clubPostsService.getClubPostAnnouncements(clubId)
+      const uid = req.userInfo ? req.userInfo.id : ''
+      const announcements = await clubPostsService.getClubPostAnnouncements(clubId, uid)
       return res.send(announcements)
     } catch (error) {
       next(error)
@@ -59,6 +60,7 @@ export class ClubsController extends BaseController {
   async getClubMembers(req, res, next) {
     try {
       const clubId = req.params.clubId
+      const uid = req.userInfo ? req.userInfo.id : ''
       const clubMembers = await clubMembersService.getClubMembers(clubId)
       return res.send(clubMembers)
     } catch (error) {
@@ -68,7 +70,8 @@ export class ClubsController extends BaseController {
   async getClubPosts(req, res, next) {
     try {
       const clubId = req.params.clubId
-      const clubPosts = await clubPostsService.getClubPosts(clubId)
+      const uid = req.userInfo ? req.userInfo.id : ''
+      const clubPosts = await clubPostsService.getClubPosts(clubId, uid)
       return res.send(clubPosts)
     } catch (error) {
       next(error)

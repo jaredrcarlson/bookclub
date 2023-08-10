@@ -1,32 +1,52 @@
 import { dbContext } from "../db/DbContext.js"
 import { BadRequest, Forbidden } from "../utils/Errors.js"
+import { clubMembersService } from "./ClubMembersService.js"
+import { clubsService } from "./ClubsService.js"
 
 class ClubPostsService {
-  async getClubPosts(clubId) {
-    const clubPosts = await dbContext.Posts.find({ clubId: clubId, isAnnouncement: false })
-      .populate('creator', 'name picture')
-      .populate('commentCount')
-      .populate('membership')
 
-    return clubPosts
+  async isAllowed(clubId, uid) {
+    const clubMembers = await clubMembersService.getClubMembers(clubId)
+    const foundMembership = clubMembers.find(m => m.creatorId == uid)
+    if (!foundMembership || foundMembership.status == 'pending' || foundMembership.status == 'blocked') {
+      throw new Forbidden("You cannot access a private club unless you are a member")
+    }
+    return true
   }
-  async getPostById(postId) {
+
+  async getClubPosts(clubId, uid) {
+    const club = await clubsService.getClubById(clubId)
+    if (!club.private || await this.isAllowed(clubId, uid)) {
+      const clubPosts = await dbContext.Posts.find({ clubId: clubId, isAnnouncement: false })
+        .populate('creator', 'name picture')
+        .populate('commentCount')
+        .populate('membership')
+      return clubPosts
+    }
+  }
+  async getPostById(postId, uid) {
     const clubPost = await dbContext.Posts.findById(postId)
     if (!clubPost) {
       throw new BadRequest(`There is no such post with the id of ${postId}`)
     }
-    await clubPost.populate('creator', 'name picture')
-    await clubPost.populate('commentCount')
-    await clubPost.populate('membership')
-    return clubPost
+    const club = await clubsService.getClubById(clubPost.clubId)
+    if (!club.private || await this.isAllowed(club.id, uid)) {
+      await clubPost.populate('creator', 'name picture')
+      await clubPost.populate('commentCount')
+      await clubPost.populate('membership')
+      return clubPost
+    }
   }
 
-  async getClubPostAnnouncements(clubId) {
-    const clubPosts = await dbContext.Posts.find({ clubId, isAnnouncement: true })
-      .populate('creator', 'name picture')
-      .populate('membership')
-      .populate('commentCount')
-    return clubPosts
+  async getClubPostAnnouncements(clubId, uid) {
+    const club = await clubsService.getClubById(clubId)
+    if (!club.private || await this.isAllowed(clubId, uid)) {
+      const clubPosts = await dbContext.Posts.find({ clubId: clubId, isAnnouncement: true })
+        .populate('creator', 'name picture')
+        .populate('commentCount')
+        .populate('membership')
+      return clubPosts
+    }
   }
 
   async createPost(postData) {
