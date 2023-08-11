@@ -37,9 +37,11 @@
             </p>
 
             <div v-if="loadingRef == false && account.id && Array.isArray(myMemberships) && (selectedClub.creatorId != account.id)">
-              <button v-if="inClub.status == 'blocked'" title="You've been blocked!" disabled class="btn btn-danger"><i class="mdi mdi-cancel"></i>You've been Blocked!</button>
               <button class="btn orange-btn fs-3" @click="leaveClub()" title="Leave Club" v-if="inClub.status == 'joined'">
                 <i class="mdi mdi-account-minus"></i> Leave Club
+              </button>
+              <button class="btn orange-btn fs-3" title="You've been blocked!" disabled v-else-if="inClub.status == 'blocked'">
+                <i class="mdi mdi-cancel"></i> Blocked from Club
               </button>
               <button class="btn orange-btn fs-3" @click="removeRequest()" title="Remove request to join Club" v-else-if="inClub.status == 'pending'">
                 <i class="mdi mdi-account-minus"></i> Remove Request

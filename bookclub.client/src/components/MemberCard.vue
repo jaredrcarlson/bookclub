@@ -15,7 +15,7 @@
         </div>
         <div class="col-2 text-end">
           <div  class="m-0 fs-3 dropdown">
-            <i class="mdi mdi-dots-vertical" type="button" data-bs-toggle="dropdown"></i>
+            <i class="mdi mdi-dots-vertical" type="button" data-bs-toggle="dropdown" v-if="memberProp.creatorId != selectedClub.creatorId"></i>
             <div v-if="memberProp.status == 'pending'" class="dropdown-menu">
               <button @click="alterStatus('joined')" class="dropdown-item">
                 <i class="mdi mdi-check"></i> Approve Request
@@ -23,10 +23,18 @@
               <button @click="removeMembership" class="dropdown-item">
                 <i class="mdi mdi-close-thick"></i> Deny Request
               </button>
+              <button @click="alterStatus('blocked')" class="dropdown-item">
+                <i class="mdi mdi-cancel"></i> Block User
+              </button>
             </div>  
-            <div v-if="memberProp.status == 'joined' && memberProp.creatorId != selectedClub.creatorId" class="dropdown-menu">
+            <div v-if="memberProp.status == 'joined'" class="dropdown-menu">
               <button @click="removeMembership" class="dropdown-item">
                 <i class="mdi mdi-close-thick"></i> Kick Member
+              </button>
+            </div>  
+            <div v-if="memberProp.status == 'blocked'" class="dropdown-menu">
+              <button @click="removeMembership" class="dropdown-item">
+                <i class="mdi mdi-lock-open-variant"></i> Unblock User
               </button>
             </div>  
           </div>
@@ -51,8 +59,8 @@ export default {
     return {
       selectedClub: computed(() => AppState.selectedClub),
       async removeMembership() {
-        try {
-         await membersService.deleteMember(props.memberProp.id)
+        try { 
+          await membersService.deleteMember(props.memberProp.id)
         } catch (error) {
           Pop.error(error.message)
         }
