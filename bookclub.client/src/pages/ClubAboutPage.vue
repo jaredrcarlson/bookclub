@@ -8,7 +8,7 @@
             <input placeholder="club name..." v-model="editable.name" class="form-control mb-2" v-if="isEditing" type="text" required maxlength="40" minlength="3">
             <input placeholder="club cover photo..." v-model="editable.coverImg" class="form-control mb-2" v-if="isEditing" type="url" maxlength="300" minlength="3"  required>
             <textarea class="form-control mb-2" minlength="3" maxlength="750" required v-if="isEditing" v-model="editable.description" rows="10"></textarea>
-            <p v-else class="fs-4">
+            <p v-else class="fs-4 club-description">
               {{ selectedClub.description }}
             </p>
             <button type="submit" v-if="isEditing" class="btn light-blue-btn">Save Changes</button>
@@ -256,5 +256,9 @@ export default {
 
 
 <style lang="scss" scoped>
+
+  .club-description {
+    white-space: pre-line;
+  }
 
 </style>
