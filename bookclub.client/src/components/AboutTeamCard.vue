@@ -3,10 +3,10 @@
     <div class="col-12 col-md-3">
       <img :src="picture" :alt=name class="img-fluid avatar-img">
     </div>
-    <div class="col-12 col-md-7">
+    <div class="col-12 col-md-6">
       <h3>{{ name }}</h3>
     </div>
-    <div class="d-flex col-12 col-md-2">
+    <div class="d-flex col-12 col-md-3">
       <a class="text-light" :href=linkedin><i class="mdi mdi-linkedin icon-medium"></i></a>
       <a class="text-light" :href=github><i class="mdi mdi-github icon-medium"></i></a>
     </div>
@@ -56,10 +56,6 @@ export default {
     border-radius: 50%;
     object-fit: cover;
     object-position: center;
-  }
-
-  a:hover{
-    
   }
 
 </style>
