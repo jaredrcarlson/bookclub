@@ -51,7 +51,7 @@
                             <ul v-if="booksToAdd.length > 0" class="book-list">
                                 <li v-for="(book, index) in booksToAdd" :key="book.gbid+book.title" class="d-flex justify-content-between align-items-center">
                                     <p><span>{{ book.title }}  {{ book.subtitle}}</span> by  <span v-for="author in book.authors" :key="author">{{ author }}</span></p>
-                                    <i @click="removeBookFromList(index)" class="mdi mdi-trash-can-outline fs-3"></i>
+                                    <i @click="removeBookFromList(index)" class="mdi trash mdi-trash-can-outline fs-3"></i>
                                 </li>
                             </ul>
                         </div>
@@ -247,6 +247,14 @@ export default {
 textarea {
     resize: none;
     height: 25dvh;
+}
+
+.trash {
+  color: red;
+}
+.trash:hover {
+  color: rgb(180, 1, 1);
+  cursor: pointer;
 }
 
 </style>
