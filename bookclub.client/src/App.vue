@@ -38,6 +38,7 @@ body {
   background-color: #EBF2FA;
 }
 
+
 .ghost-bg{
   background-color: #EBF2FA;
 }
@@ -92,7 +93,7 @@ body {
   header {
     height: 15vh;
   }
-
+  
   main {
     height: 85vh;
   }

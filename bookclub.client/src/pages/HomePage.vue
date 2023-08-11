@@ -25,7 +25,6 @@
 
       </div>
     </section>
-    <!-- <v-tour name="myTour" :steps="steps"></v-tour> -->
     <section class="row">
 
       <div class="col-12 d-flex p-0">
@@ -38,7 +37,7 @@
       <NYTCard id="v-step-2"/>
     </section>
 
-<section  class="row">
+<section  class="row justify-content-center">
   <div class="mt-3" id="v-step-3"></div>
 
   <BookClubSearch />
@@ -89,13 +88,6 @@ export default {
                 originalPlacement: 'top-start',
               }
             },
-            // {
-            //   target: '#v-step-1',
-            //   content: 'Or you can click here to create your own BookClub',
-            //   params: {
-            //     placement: 'top'
-            //   }
-            // },
             {
               target: '#v-step-2',
               content: 'Here is a display of the New York Times Best Sellers that you can Scroll through',
@@ -122,9 +114,6 @@ export default {
             }
         };
     },
-    // mounted: function(){
-    //   this.$tours['myTour'].start()
-    // },
     components: { NYTCard, BookClubSearch }
 }
 </script>
