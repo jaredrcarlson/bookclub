@@ -12,35 +12,38 @@
               <div class="fs-5 fw-bold">{{ book.subtitle }}</div>
               <div class="fs-5">By <span>{{ book.author }}</span></div>
               
-              <!-- SECTION SCORE / MY RATING / PROGRESS / BOOK LIST BUTTON -->
+              <!-- SECTION BOOK DETAILS -->
               <div class="mt-2 d-flex justify-content-between">
-                <div>
-                  <div class="text-center me-1">
-                    <div class="text-light light-blue-bg rounded px-2">Score</div>
-                    <div>{{ bookScore }}</div>
-                    <small v-if="bookScoreUserCount == 1" class="text-muted">{{ bookScoreUserCount }} User</small>
-                    <small v-else class="text-muted">{{ bookScoreUserCount }} Users</small>
-                  </div>
+                <!-- BOOK SCORE -->
+                <div class="text-center me-1 mb-2">
+                  <div class="text-light light-blue-bg rounded px-2">Score</div>
+                  <div class="fw-bold">{{ bookScore }}</div>
+                  <small v-if="bookScoreUserCount == 1" class="text-muted">{{ bookScoreUserCount }} User</small>
+                  <small v-else class="fw-bold text-muted">{{ bookScoreUserCount }} Users</small>
                 </div>
+                <!-- USER (SHOW / HIDE) <==> (LOGIN / LOGOUT) -->
                 <div v-if="user.id">
                   <div class="d-flex justify-content-around">
+                    <!-- USER > BOOK RATING -->
                     <div v-if="userHasThisBook" class="text-center pe-2">
                       <div class="text-light light-blue-bg rounded px-2">My Rating</div>
-                      <select @change="updateUserBookRating()" v-model="userBookData.rating" class="form-select form-select-sm ghost-bg border-0 rounded-start shadow-none" aria-label=".form-select-sm rating">
+                      <select @change="updateUserBookRating()" v-model="userBookData.rating" class="fw-bold form-select form-select-sm ghost-bg border-0 rounded-start shadow-none selectable" aria-label=".form-select-sm rating">
                         <option value="0">Not Rated</option>
                         <option v-for="option in ratingOptions" :key="option.rating" :value="option.rating">
                           {{ option.rating }} - {{ option.description }}
                         </option>  
                       </select>
                     </div>
+                    <!-- USER > MY PROGRESS -->
                     <div v-if="userHasThisBook" class="text-center pe-2">
                       <div class="text-light light-blue-bg rounded px-2">Progress</div>
-                      <select @change="updateUserBookStatus()" v-model="userBookData.status" class="form-select form-select-sm ghost-bg border-0 rounded-start shadow-none" aria-label=".form-select-sm status">
+                      <select @change="updateUserBookStatus()" v-model="userBookData.status" class="fw-bold form-select form-select-sm ghost-bg border-0 rounded-start shadow-none selectable" aria-label=".form-select-sm status">
                           <option value="planned">Plan To Read</option>
                           <option value="reading">Currently Reading</option>
                           <option value="finished">Finished</option>
                       </select>
                     </div>
+                    <!-- USER > [ADD TO, REMOVE FROM] BOOK LISTS -->
                     <div class="d-flex justify-content-around">
                       <div class="me-2">
                         <button @click="openBookListsModal()" type="button" class="btn orange-btn">
@@ -54,8 +57,7 @@
                   </div>
                 </div>
               </div>
-
-              <!-- SECTION BOOK DESCRIPTION -->
+              <!-- BOOK DESCRIPTION -->
               <div class="description-section">
                 <div class="mt-2 fs-5 fw-bold">Description</div>
                 <small v-html="book.description" class="pe-3"></small>
@@ -66,24 +68,33 @@
       </div>
     </div>
 
-     <!-- SECTION BOOK CLUBS -->
+
+    <!-- SECTION NAVIGATION TABS -->
     <div class="row mt-3 g-1">
+      <!-- CLUBS CURRENTLY READING BOOK -->
       <div class="col-3 text-center selectable">
         <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'reading', 'dark-blue-bg': selectedTab == 'reading'}" @click="selectTab('reading')">Clubs Currently Reading</div>
       </div>
+      <!-- CLUBS PLANNING TO READ BOOK -->
       <div class="col-3 text-center selectable">
         <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'planned', 'dark-blue-bg': selectedTab == 'planned'}" @click="selectTab('planned')">Clubs Planning To Read</div>
       </div>
+      <!-- CLUBS FINISHED READING BOOK -->
       <div class="col-4 text-center selectable">
         <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'finished', 'dark-blue-bg': selectedTab == 'finished'}" @click="selectTab('finished')">Clubs Finished Reading</div>
       </div>
+      <!-- USER BOOK REVIEWS -->
       <div class="col-2 text-center selectable">
         <div class="tab-text text-light px-2 pt-1"  :class="{ 'bg-dark': selectedTab != 'reviews', 'dark-blue-bg': selectedTab == 'reviews'}" @click="selectTab('reviews')">User Reviews</div>
       </div>
     </div>
+
+
+    <!-- SECTION NAVIGATION TAB CONTENT -->
     <div class="row">
       <div class="col-12">
         <div class="dark-blue-bg p-2">
+          <!-- CLUBS CURRENTLY READING BOOK -->
           <div v-if="selectedTab == 'reading'" class="bg-dark">
             <div v-if="!clubsReading.length">
               <div class="p-2">There are no clubs currently reading this book.</div>
@@ -94,6 +105,7 @@
               </div>
             </div>
           </div>
+          <!-- CLUBS PLANNING TO READ BOOK -->
           <div v-else-if="selectedTab == 'planned'" class="bg-dark">
             <div v-if="!clubsPlanned.length">
               <div class="p-2">There are no clubs planning to read this book.</div>
@@ -104,6 +116,7 @@
               </div>
             </div>
           </div>
+          <!-- CLUBS FINISHED READING BOOK -->
           <div v-else-if="selectedTab == 'finished'" class="bg-dark">
             <div v-if="!clubsFinished.length">
               <div class="p-2">There are no clubs finished reading this book.</div>
@@ -114,6 +127,7 @@
               </div>
             </div>
           </div>
+          <!-- USER BOOK REVIEWS -->
           <div v-else-if="selectedTab == 'reviews'" class="bg-dark">
             <div v-if="user.id && userHasThisBook && !userReviewedStatus">
               <div class="px-3 py-2">
@@ -154,7 +168,6 @@
                         <div class="col-12">
                           <textarea v-model="reviewData.content" class="mb-2 pb-2 form-control" rows="3" placeholder="add review..." required></textarea>
                         </div>
-                        
                       </div>
                     </form>
                   </div>
@@ -179,7 +192,6 @@
                         <div class="col-9 d-flex flex-column align-items-end">
                           <div class="d-flex align-items-center">
                             <div v-if="reviewEditMode">
-                                <!-- <div class="my-0 ps-2 form-text text-light">Recommendation</div> -->
                                 <div class="d-flex align-items-center">
                                   <div>
                                     <select v-model="reviewData.rating" class="form-select form-control input-sm" aria-label="Rating" required>
@@ -189,10 +201,10 @@
                                     </select>
                                   </div>
                                   <div class="">
-                                    <button class="mx-2 btn btn-sm btn-secondary py-0 px-2" @click="reviewEditMode = false">
+                                    <button class="mx-2 btn btn-sm btn-secondary py-0 px-2" @click="reviewEditMode = false" title="Cancel Changes">
                                       <i class="mdi mdi-close-outline fs-4"></i>
                                     </button>
-                                    <button class="btn btn-sm btn-success py-0 px-2 " @click="updateReview()">
+                                    <button class="btn btn-sm btn-success py-0 px-2 " @click="updateReview()" title="Save Changes">
                                       <i class="mdi mdi-check-outline fs-4"></i>
                                     </button>
                                   </div>
@@ -218,22 +230,15 @@
                                 </div>
                               </div>
                             </div>
-                            <div v-if="reviewEditMode">
-                              <!-- <div class="">
-                                <button class="btn btn-sm btn-success" @click="updateReview()">
-                                  <i class="mdi mdi-check-outline"></i>
-                                </button>
-                              </div> -->
-                            </div>
-                            <div v-else>
+                            <div v-if="!reviewEditMode">
                               <div v-if="user.id == review.creatorId" class="d-flex">
                                 <div class="mx-2">
-                                  <button class="btn btn-sm btn-secondary py-0 px-2" @click="editReview(review)">
+                                  <button class="btn btn-sm btn-secondary py-0 px-2" @click="editReview(review)" title="Edit Review">
                                     <i class="mdi mdi-pencil-outline fs-4"></i>
                                   </button>
                                 </div>
                                 <div class="">
-                                  <button class="btn btn-sm btn-danger py-0 px-2" @click="deleteReview(review)">
+                                  <button class="btn btn-sm btn-danger py-0 px-2" @click="deleteReview(review)" title="Delete Review">
                                   <i class="mdi mdi-trash-can-outline fs-4"></i>
                                   </button>
                                 </div>
@@ -262,7 +267,7 @@
     </div>
   </div>
 
-  <!-- SECTION MODAL -->
+  <!-- SECTION MODAL - [ADD TO, REMOVE FROM] BOOK LISTS -->
   <ModalBasic :id="'bookLists'">
     <template v-slot:header>
       <div class="fw-bold fs-5">Book Lists</div>
@@ -273,14 +278,10 @@
         <div v-if="bookListsOptions[optionName].existsInBookList">
           <input :id="optionName" v-model="bookListsOptions[optionName].selected" type="checkbox" class="form-check-input" checked>
           <label :for="optionName" class="form-check-label">{{ optionName }} Books</label>
-          <!-- <div>exists: {{ bookListsOptions[optionName].existsInBookList }}</div>
-          <div>selected: {{ bookListsOptions[optionName].selected }}</div> -->
         </div>
         <div v-else>
           <input :id="optionName" v-model="bookListsOptions[optionName].selected" type="checkbox" class="form-check-input">
           <label :for="optionName" class="form-check-label">{{ optionName }} Books</label>
-          <!-- <div>exists: {{ bookListsOptions[optionName].existsInBookList }}</div>
-          <div>selected: {{ bookListsOptions[optionName].selected }}</div> -->
         </div>
       </div>
     </template>
@@ -294,7 +295,7 @@
 <script>
 import { useRoute } from 'vue-router';
 import { booksService } from '../services/BooksService.js';
-import { computed, onMounted, onUnmounted, ref, watchEffect } from 'vue';
+import { computed, onUnmounted, ref, watchEffect } from 'vue';
 import { AppState } from '../AppState.js';
 import Pop from '../utils/Pop.js';
 import { bookReviewsService } from '../services/BookReviewsService.js';
@@ -309,34 +310,28 @@ export default {
   setup(){
     const route = useRoute()
     let gbId = route.params.gbId
+    
+    const userBookData = ref({rating: 0, status: 'planned'})
+    const selectedTab = ref('reviews')
+    const reviewData = ref({gbId: gbId, rating: null, content: null })
+    const reviewEditMode = ref(false)
+    const userReviewedStatus = ref(true)
+    const bookListsOptions = ref({})
+    
     const account = computed(() => AppState.account)
     const user = computed(() => AppState.user)
     const book = computed(() => AppState.bookDetailsPage.book)
     const userBook = computed(() => AppState.bookDetailsPage.userBook)
-    // const userClubs = computed(() => AppState.bookDetailsPage.userClubs)
+    const userHasThisBook = computed(() => AppState.bookDetailsPage.userBook ? true : false)
     const userCreatorAdminClubs = computed(() => AppState.bookDetailsPage.userCreatorAdminClubs)
     const userReviews = computed(() => AppState.bookDetailsPage.userReviews)
     const clubsPlanned = computed(() => AppState.bookDetailsPage.clubs.planned)
     const clubsReading = computed(() => AppState.bookDetailsPage.clubs.reading)
     const clubsFinished = computed(() => AppState.bookDetailsPage.clubs.finished)
-    const userHasThisBook = ref(false)
     const bookScore = computed(() => Number(AppState.bookDetailsPage.bookScore).toFixed(2))
     const bookScoreUserCount = computed(() => AppState.bookDetailsPage.bookScoreUserCount)
     const userBookRating = computed(() => AppState.bookDetailsPage.userBook ? AppState.bookDetailsPage.userBook.rating : 0)
     const userBookStatus = computed(() => AppState.bookDetailsPage.userBook ? AppState.bookDetailsPage.userBook.status : 'planned')
-    const userBookData = ref({
-      rating: 0,
-      status: 'planned'
-    })
-    const selectedTab = ref('reviews')
-    const reviewData = ref({
-      gbId: gbId,
-      rating: null,
-      content: null
-    })
-    const reviewEditMode = ref(false)
-    const userReviewedStatus = ref(true)
-    const bookListsOptions = ref({})
 
     const ratingOptions = [
       {rating: 1, description : 'Horrendous'},
@@ -351,11 +346,12 @@ export default {
       { rating: 10, description : 'Masterpiece'}
     ]
     
-    async function setBook() {
+    // SECTION BOOK DATA
+    async function initBookData() {
       try {
         await booksService.setBookDetailsPageBook(gbId)
         await setBookScore()
-        await setReviews()
+        await setBookReviews()
       } catch (error) {
         Pop.error(error.message)
       }
@@ -369,34 +365,27 @@ export default {
       }
     }
 
-    async function setUser() {
+    async function setBookReviews() {
+      try {
+        await bookReviewsService.setBookDetailsPageReviews(gbId)
+        setUserReviewedStatus()
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
+
+    // SECTION USER DATA
+    async function initUserData() {
       await setUserBooks()
       await setUserBook()
       await setUserClubs()
       setUserReviewedStatus()
     }
 
-    async function selectTab(clubBookStatus) {
-      selectedTab.value = clubBookStatus
-      if (selectedTab.value == 'reviews') {
-        await setReviews()
-      } else {
-        await setClubs(clubBookStatus)
-      }
-    }
-
-    async function setClubs(status) {
-      try {
-        await clubsService.setBookDetailsPageClubs(gbId, status)
-      } catch (error) {
-        Pop.error(error.message)
-      }
-    }
-    
     async function setUserBooks() {
       try {
         await booksService.setBookDetailsPageUserBooks()
-        userHasThisBook.value = await bookExistsInUserBookList()
         await setUserBook()
       } catch (error) {
         Pop.error(error.message)
@@ -413,6 +402,25 @@ export default {
       }
     }
 
+    async function setUserClubs() {
+      try {
+        await clubsService.setBookDetailsPageUserClubs(user.value.id)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
+    function setUserReviewedStatus() {
+      if (!('id' in user.value)) { return }
+      try {
+        const userReview = userReviews.value.filter(review => review.gbId == gbId && review.creatorId == user.value.id)
+        userReviewedStatus.value = userReview.length ? true : false        
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
+    // --- UPDATE USER [RATING, STATUS]
     async function updateUserBookRating() {
       try {
         await booksService.updateUserBook(userBook.value.id, {rating: userBookData.value.rating})
@@ -432,23 +440,39 @@ export default {
       }
     }
 
-    async function setUserClubs() {
-      try {
-        await clubsService.setBookDetailsPageUserClubs(user.value.id)
-      } catch (error) {
-        Pop.error(error.message)
+    // --- [ADD TO, REMOVE FROM] BOOK LISTS
+    async function openBookListsModal() {
+      // ------ ADD OPTION FOR USER'S PERSONAL BOOK LIST
+      bookListsOptions.value['My'] = {
+        bookListType: 'user',
+        bookId: userHasThisBook.value ? userBook.value.id : '',
+        existsInBookList: userHasThisBook.value,
+        selected: userHasThisBook
       }
+      // ------ ADD OPTION FOR CLUB BOOK LISTS where USER MEMBERSHIP ROLE is [CREATOR, ADMIN]
+      userCreatorAdminClubs.value.forEach(async(club) => {
+        const book = await getBookInClubBookList(club)
+        bookListsOptions.value[club.name] = {
+          bookListType: 'club',
+          bookId: book ? book.id : '',
+          clubId: club.id,
+          existsInBookList: book ? true : false,
+          selected: book ? true : false
+        }
+      })
+      Modal.getOrCreateInstance('#bookLists').show()
     }
-    
-    function setUserReviewedStatus() {
-      try {
-        const userReview = userReviews.value.filter(review => review.gbId == gbId.value && review.creatorId == user.value.id)
-        userReviewedStatus.value = userReview.length ? true : false        
-      } catch (error) {
-        Pop.error(error.message)
+        
+    // FIXME this could be making too many API calls
+    async function getBookInClubBookList(club) {
+      const clubBooks = await booksService.getBooksByClubId(club.id)
+      if (!clubBooks) {
+        return null
       }
+      const book = clubBooks.find(book => book.gbId == gbId)
+      return book ? book : null
     }
-    
+
     async function updateBookLists() {
       for (const [name, option] of Object.entries(bookListsOptions.value)) {
           try {
@@ -501,64 +525,7 @@ export default {
       Modal.getOrCreateInstance('#bookLists').hide()
     }
 
-    async function openBookListsModal() {
-      bookListsOptions.value['My'] = {
-        bookListType: 'user',
-        bookId: userBook.value ? userBook.value.id : '',
-        existsInBookList: userBook.value ? true : false,
-        selected: userBook.value ? true : false
-      }
-      userCreatorAdminClubs.value.forEach(async(club) => {
-        const book = await getBookInClubBookList(club)
-        bookListsOptions.value[club.name] = {
-          bookListType: 'club',
-          bookId: book ? book.id : '',
-          clubId: club.id,
-          existsInBookList: book ? true : false,
-          selected: book ? true : false
-        }
-      })
-
-      // userClubs.value.forEach(async(club) => {
-      //   const exists = await bookExistsInClubBookList(club)
-      //   console.log(`${gbId} exists in ${club.name}: `, exists)
-      //   bookListsOptions.value[club.name] = {
-      //     bookListType: 'club',
-      //     clubId: club.id,
-      //     existsInBookList: exists,
-      //     selected: false
-      //   }
-      // })
-      Modal.getOrCreateInstance('#bookLists').show()
-    }
-    
-    async function bookExistsInUserBookList() {
-      const userBooks = await booksService.getMyBooks()
-      if (!userBooks) {
-        return false
-      }
-      const bookFound = userBooks.find(book => book.gbId == gbId.value)
-      return bookFound ? true : false
-    }
-    
-    async function getBookInClubBookList(club) {
-      const clubBooks = await booksService.getBooksByClubId(club.id)
-      if (!clubBooks) {
-        return null
-      }
-      const book = clubBooks.find(book => book.gbId == gbId.value)
-      return book ? book : null
-    }
-
-    async function setReviews() {
-      try {
-        await bookReviewsService.setBookDetailsPageReviews(gbId)
-        setUserReviewedStatus()
-      } catch (error) {
-        Pop.error(error.message)
-      }
-    }
-
+    // --- [ADD, EDIT, DELETE] USER BOOK REVIEW
     async function createReview() {
       try {
         const newBookReview = await bookReviewsService.createBookReview(reviewData.value)
@@ -597,6 +564,27 @@ export default {
       }
     }
 
+
+    // SECTION NAVIGATION TABS [CLUBS READING, CLUBS PLANNED, CLUBS FINISHED, USER REVIEWS]
+    async function selectTab(clubBookStatus) {
+      selectedTab.value = clubBookStatus
+      if (selectedTab.value == 'reviews') {
+        await setBookReviews()
+      } else {
+        await setClubsTab(clubBookStatus)
+      }
+    }
+
+    async function setClubsTab(status) {
+      try {
+        await clubsService.setBookDetailsPageClubs(gbId, status)
+      } catch (error) {
+        Pop.error(error.message)
+      }
+    }
+
+    
+    // SECTION CLEANUP
     function clearBooks() {
         try {
             booksService.clearBooks()
@@ -608,17 +596,14 @@ export default {
     watchEffect(async() => {
       user
       if(user.value.id) {
-        await setUser()
+        await initUserData()
       }
     })
 
     watchEffect(async() => {
       gbId = route.params.gbId
-      await setBook()
-    })
-        
-    onMounted(async() => {
-      // await setBook()
+      await initBookData()
+      await selectTab('reviews')
     })
 
     onUnmounted(() => {
