@@ -96,7 +96,11 @@ export default {
       steps: [
         {
           target: '#v-step-10',
-          content: "Over here you can the club's navigation to see the booklist, memberlist, announcement page, and discussion page"
+          content: "Over here you can the club's navigation to see the booklist, memberlist, announcement page, and discussion page",
+          params: {
+                placement: 'right',
+                originalPlacement: 'right',
+              }
         },
       ],
       tourCallBacks: {

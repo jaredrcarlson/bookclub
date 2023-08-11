@@ -47,7 +47,7 @@ export default {
   setup(){
     return {
       nytLists: computed(() => AppState.nytLists),
-      myList: computed(() => AppState.nytLists.filter((list) => list.name == "Paperback Trade Fiction" || list.name == "Advice, How-To & Miscellaneous" || list.name == 'Graphic Books and Manga' || list.name == 'Paperback Nonfiction' || list.name == 'Young Adult Hardcover')),
+      myList: computed(() => AppState.nytLists.filter((list) => list.name == "Paperback Trade Fiction" || list.name == "Advice, How-To & Miscellaneous" || list.name == 'Graphic Books and Manga' || list.name == 'Paperback Nonfiction' || list.name == 'Young Adult Paperback')),
       async searchGbApi(isbnCode){
         const gbId = await googleBooksService.searchByCode(isbnCode)
 
