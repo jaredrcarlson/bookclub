@@ -26,7 +26,12 @@ class ClubBooksService {
   }
 
   async getClubBooksByGbId(gbId) {
-    const clubBooks = await dbContext.ClubBooks.find({ gbId }).populate('club')
+    const clubBooks = await dbContext.ClubBooks.find({ gbId }).populate({
+      path: 'club',
+      populate: {
+        path: 'memberCount'
+      }
+    })
     return clubBooks
   }
 

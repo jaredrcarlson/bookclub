@@ -303,7 +303,6 @@ import { clubsService } from '../services/ClubsService.js';
 import BookClubCard from '../components/BookClubCard.vue';
 import ModalBasic from '../components/ModalBasic.vue';
 import { Modal } from 'bootstrap';
-import { logger } from '../utils/Logger.js';
 
 export default {
   components: { BookClubCard, ModalBasic },
