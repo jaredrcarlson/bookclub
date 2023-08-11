@@ -252,7 +252,7 @@
                           <div v-if="reviewEditMode" class="px-2">
                             <textarea v-model="userReviewData.content" class="mb-2 pb-2 form-control" rows="3" required></textarea>
                           </div>
-                          <div v-else class="px-2">
+                          <div v-else class="px-2 newline-break">
                             {{ review.content }}
                           </div>
                         </div>
@@ -676,5 +676,9 @@ export default {
 
 .card-height{
   height: 40vh;
+}
+
+.newline-break {
+  white-space: pre-line;
 }
 </style>
