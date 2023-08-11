@@ -21,6 +21,11 @@
                 Edit Account
               </li>
             </router-link>
+            <div @click="resetTour()" v-if="account.id">
+              <li class="selectable dropdown-item px-4 mb-2">
+                Tour JABB Site
+              </li>
+            </div>
             <li class="list-group-item dropdown-item list-group-item-action text-danger selectable" @click="logout">
               <i class="mdi mdi-logout"></i>
               Logout
@@ -36,8 +41,11 @@
 import { computed } from 'vue'
 import { AppState } from '../AppState'
 import { AuthService } from '../services/AuthService'
+import { accountService } from "../services/AccountService.js"
+import { useRouter } from "vue-router"
 export default {
   setup() {
+    const router = useRouter()
     return {
       user: computed(() => AppState.user),
       account: computed(() => AppState.account),
@@ -46,6 +54,10 @@ export default {
       },
       async logout() {
         AuthService.logout({ returnTo: window.location.origin })
+      },
+      resetTour(){
+        accountService.editAccount({needsTour: true}),
+        router.push({name: 'Home'})
       }
     }
   }
