@@ -114,9 +114,6 @@ export default {
             },
           ],
           tourCallBacks: {
-            onFinish: (() => {
-              router.push({name: 'Book Details Details', params: {clubId: AppState.clubs[0].id}})
-            }),
             onSkip: (() => accountService.editAccount({needsTour: false}))
           },
           account: computed(() => AppState.account),
