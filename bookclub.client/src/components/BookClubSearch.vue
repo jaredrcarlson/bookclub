@@ -107,7 +107,7 @@ export default {
 <style lang="scss" scoped>
 
 .club-card {
-  max-height: 55vh;
+  max-height: 40vh;
 }
 
 </style>
