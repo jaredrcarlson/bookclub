@@ -69,7 +69,7 @@ class ClubPostsService {
   }
 
   async removePost(postId, userId) {
-    const postToRemove = await this.getPostById(postId)
+    const postToRemove = await this.getPostById(postId, userId)
     if (postToRemove.creatorId.toString() != userId) {
       throw new Forbidden("You can't delete a post you did not make!")
     }
