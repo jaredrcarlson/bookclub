@@ -30,7 +30,6 @@ class GoogleBooksService {
         q: `+isbn:${isbnCode}`
       }
     })
-
     logger.log('[GOT GOOGLE BOOK BY ISBN CODE]', res.data)
 
     let gbId = null
