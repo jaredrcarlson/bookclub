@@ -1,6 +1,6 @@
   <template>
   <div class="container-fluid">
-    <section class="row">
+    <section class="row" id="v-step-0">
       <div class="col-12 mt-3 dark-blue-bg rounded elevation-3 text-light">
         <div class="p-3">
           <p class="fs-3 fw-bold">About us</p>
@@ -62,6 +62,7 @@
       </div>
     </section>
   </div>
+  <Tour v-if="account.needsTour" :steps="steps" :callbacks="tourCallBacks" />
 </template>
 
 
@@ -75,6 +76,7 @@ import { logger } from '../utils/Logger.js';
 import { router } from '../router.js';
 import { clubsService } from "../services/ClubsService.js";
 import { booksService } from '../services/BooksService.js';
+import { accountService } from "../services/AccountService.js";
 
 export default {
   setup(){
@@ -100,6 +102,19 @@ export default {
     });
 
     return {
+      steps: [
+        {
+          target: '#v-step-0',
+          header: {
+            title: "Here's a section About the club here to gain user interest"
+          },
+          content: "This includes buttons for a user to join or leave the club, or if you're the creator of the club, you can Edit or Delete your club."
+        },
+      ],
+      tourCallBacks: {
+        onFinish: (() => accountService.editAccount({needsTour: false})),
+        onSkip: (() => accountService.editAccount({needsTour: false}))
+      },
       editable,
       isEditing,
       currentBooks: computed(() => {

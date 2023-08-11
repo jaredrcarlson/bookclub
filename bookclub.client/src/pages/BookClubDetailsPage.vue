@@ -1,6 +1,6 @@
 <template>
-<div class="container-fluid h-100" v-if="selectedClub">
-    <section class="row h-100">
+<div  class="container-fluid h-100" v-if="selectedClub">
+    <section  class="row h-100">
       <div class="col-md-4 col-12 d-flex flex-column">
         <div>
           <img class="img-fluid card-img" :src=selectedClub.coverImg alt="card img">
@@ -10,7 +10,7 @@
             {{ selectedClub.name }}
           </p>
         </div>
-        <div class="flex-grow-1 dark-blue-bg mt-3 rounded-top p-3 fs-4">
+        <div id="v-step-10" class="flex-grow-1 dark-blue-bg mt-3 rounded-top p-3 fs-4">
           <router-link :to="{name:'Club About Page'}">
             <p class="route-text" type="button" :class="route.name == 'Club About Page' ? 'selected' : ''">
               <i class="mdi mdi-bookmark"></i> About us
@@ -58,6 +58,7 @@
       </div>
     </section>
   </div>
+  <Tour v-if="account.needsTour" :steps="steps" :callbacks="tourCallBacks" />
 </template>
 
 
@@ -67,6 +68,7 @@ import { clubsService } from '../services/ClubsService.js';
 import { computed, onMounted, watchEffect } from 'vue';
 import { AppState } from '../AppState.js';
 import Pop from '../utils/Pop.js';
+import { accountService } from "../services/AccountService.js";
 
 
 export default {
@@ -91,7 +93,19 @@ export default {
 
 
     return {
+      steps: [
+        {
+          target: '#v-step-10',
+          content: "Over here you can the club's navigation to see the booklist, memberlist, announcement page, and discussion page"
+        },
+      ],
+      tourCallBacks: {
+        onFinish: (() => accountService.editAccount({needsTour: false})),
+        onSkip: (() => accountService.editAccount({needsTour: false}))
+      },
       route,
+      selectedClub: computed(() => AppState.selectedClub),
+      account: computed(() => AppState.account),
       clubMembership: computed(() => {
         if (Array.isArray(myMemberships.value)){
           const membership = myMemberships.value.find(m => m.clubId == AppState.selectedClub.id)
@@ -99,7 +113,7 @@ export default {
         }
         return {}
       }),
-      selectedClub: computed(() => AppState.selectedClub)
+      
     }
   }
 }

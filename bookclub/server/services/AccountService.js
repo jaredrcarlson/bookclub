@@ -42,7 +42,8 @@ function sanitizeBody(body) {
     name: body.name,
     picture: body.picture,
     bio: body.bio,
-    coverImg: body.coverImg
+    coverImg: body.coverImg,
+    needsTour: body.needsTour
   }
   return writable
 }

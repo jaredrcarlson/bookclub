@@ -54,6 +54,10 @@
       "titleBar.inactiveBackground": "#1d335499",
       "titleBar.inactiveForeground": "#e7e7e799"
     },
-    "peacock.color": "#1D3354"
+    "peacock.color": "#1D3354",
+    "cSpell.words": [
+      "bookclub",
+      "Bookclubs"
+    ]
   }
 }

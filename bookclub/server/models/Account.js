@@ -9,7 +9,8 @@ export const AccountSchema = new Schema(
     picture: { type: String },
     // NOTE If you wish to add additional properties do so here
     bio: { type: String, maxlength: 1500, minlength: 0 },
-    coverImg: { type: String, maxlength: 700, minlength: 1 }
+    coverImg: { type: String, maxlength: 700, minlength: 1 },
+    needsTour: { type: Boolean, default: true }
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )
