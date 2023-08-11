@@ -43,7 +43,7 @@
             <div class="col-12 p-3 form-section text-white dark-blue-bg h-100">
                 <section class="row">
                     <div class="col-12 form-header flex-shrink-1">
-                        <h2>Create a Club</h2>
+                        <h2 id="v-step-2">Create a Club</h2>
                     </div>
                     <div class="col-md-5 col-12 px-4">
                         <h4 class="mb-2">Current Book List</h4>
