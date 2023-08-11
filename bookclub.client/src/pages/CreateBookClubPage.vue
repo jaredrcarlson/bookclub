@@ -106,12 +106,13 @@ import { clubsService } from '../services/ClubsService'
 import { AppState } from '../AppState';
 import Pop from '../utils/Pop';
 import { logger } from '../utils/Logger';
-import { router } from '../router.js';
 import { accountService } from "../services/AccountService.js";
+import { useRouter } from 'vue-router';
 
 export default {
     setup() {
         const searchQuery = ref("")
+        const router = useRouter()
         const editable = ref({})
         const booksToAdd = computed(() => AppState.booksToAdd)
         function clearBooks() {
