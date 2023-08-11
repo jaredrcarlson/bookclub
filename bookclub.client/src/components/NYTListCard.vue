@@ -3,8 +3,8 @@
     <section class="row mx-2">
       <h2>{{ l.name }}</h2>
     </section>
-    <section class="dark-blue-bg elevation-3 mx-2 row justify-content-between p-3">
-      <div class="col-md-2 col-12 ghost-bg p-1 pb-3 pb-md-0" v-for="b in l.books" :key="b.rank">
+    <section class="dark-blue-bg elevation-3 rounded mx-2 row justify-content-between p-3">
+      <div class="col-md-2 col-12 ghost-bg p-1 pb-3 pb-md-0 rounded" v-for="b in l.books" :key="b.rank">
           <div class="d-flex align-items-start justify-content-center">
             <img @click="searchGbApi(b.primary_isbn10)" class="img-fluid img-style selectable" :src=b.book_image :alt=b.title>
           </div>
@@ -43,7 +43,9 @@ export default {
       async searchGbApi(isbnCode){
         const gbId = await googleBooksService.searchByCode(isbnCode)
 
-        router.push({name:'Book Details', params:{gbId: gbId}})
+        if(gbId == null){
+          return
+        } else(router.push({name:'Book Details', params:{gbId: gbId}}))
       }
     }
   }

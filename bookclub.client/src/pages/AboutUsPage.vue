@@ -34,10 +34,18 @@
           </ul>
           <h2 class="text-center">Meet the Team!</h2>
             <section class="row">
-              <AboutTeamCard :name="'Rebecca VandeWater'" :linkedin="'https://www.linkedin.com/in/rebecca-a-vandewater/'" :github="'https://github.com/RebeccaVandeWater'" :picture="RebeccaPicture" />
-              <AboutTeamCard :name="'Arrington Mata'" :linkedin="'https://www.linkedin.com/in/arrington-mata/'" :github="'https://github.com/ArrMata'" :picture="MataPicture"/>
-              <AboutTeamCard :name="'Bailey Johnson'" :linkedin="'https://www.linkedin.com/in/bailey-johnson-bb28b86b/'" :github="'https://github.com/bjohnson93'" :picture="BaileyPicture"/>
-              <AboutTeamCard :name="'Jared Carlson'"  :linkedin="'https://www.linkedin.com/in/jaredrcarlson/'" :github="'https://github.com/jaredrcarlson'" :picture="JaredPicture"/>
+              <div class="col-12 col-md-6">
+                <AboutTeamCard :name="'Rebecca VandeWater'" :linkedin="'https://www.linkedin.com/in/rebecca-a-vandewater/'" :github="'https://github.com/RebeccaVandeWater'" :picture="RebeccaPicture" />
+              </div>
+              <div class="col-12 col-md-6">
+                <AboutTeamCard :name="'Arrington Mata'" :linkedin="'https://www.linkedin.com/in/arrington-mata/'" :github="'https://github.com/ArrMata'" :picture="MataPicture"/>
+              </div>
+              <div class="col-12 col-md-6">
+                <AboutTeamCard :name="'Bailey Johnson'" :linkedin="'https://www.linkedin.com/in/bailey-johnson-bb28b86b/'" :github="'https://github.com/bjohnson93'" :picture="BaileyPicture"/>
+              </div>
+              <div class="col-12 col-md-6">
+                <AboutTeamCard :name="'Jared Carlson'"  :linkedin="'https://www.linkedin.com/in/jaredrcarlson/'" :github="'https://github.com/jaredrcarlson'" :picture="JaredPicture"/>
+              </div>
           </section>
         </div>
       </div>

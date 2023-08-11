@@ -1,17 +1,16 @@
 <template>
-	<div class="col-md-6 col-12">
-		<div class="team-card d-flex align-items-center p-3">
-		<!-- <i class="mdi mdi-account-circle icon-large me-2" v-if="props.picture == ''"></i> -->
-    <div class="pe-3">
+  <section class="team-card justify-content-between align-items-center p-3 row me-md-1">
+    <div class="col-12 col-md-3">
       <img :src="picture" :alt=name class="img-fluid avatar-img">
     </div>
-		<h3>{{ name }}</h3>
-		<div class="d-flex ms-auto mt-auto">
+    <div class="col-12 col-md-7">
+      <h3>{{ name }}</h3>
+    </div>
+    <div class="d-flex col-12 col-md-2">
       <a class="text-light" :href=linkedin><i class="mdi mdi-linkedin icon-medium"></i></a>
       <a class="text-light" :href=github><i class="mdi mdi-github icon-medium"></i></a>
-		</div>
-		</div>
-	</div>
+    </div>
+  </section>
 </template>
 
 <script>
