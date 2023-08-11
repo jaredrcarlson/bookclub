@@ -43,7 +43,9 @@ export default {
       async searchGbApi(isbnCode){
         const gbId = await googleBooksService.searchByCode(isbnCode)
 
-        router.push({name:'Book Details', params:{gbId: gbId}})
+        if(gbId == null){
+          return
+        } else(router.push({name:'Book Details', params:{gbId: gbId}}))
       }
     }
   }

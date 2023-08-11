@@ -1,4 +1,5 @@
 import { logger } from "../utils/Logger.js"
+import Pop from "../utils/Pop.js"
 import { gbApi } from "./AxiosService.js"
 
 const quotaReached = false
@@ -32,7 +33,13 @@ class GoogleBooksService {
 
     logger.log('[GOT GOOGLE BOOK BY ISBN CODE]', res.data)
 
-    const gbId = res.data.items[0].id
+    let gbId = null
+
+    if (res.data.totalItems == 0) {
+
+      Pop.error('This New York Times Book has no Google Book equivalent')
+
+    } else (gbId = res.data.items[0].id)
 
     return gbId
   }
