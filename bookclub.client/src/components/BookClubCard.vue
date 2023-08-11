@@ -8,8 +8,11 @@
           <span v-if="clubProp.private" class="badge orange-bg">Private Club</span>
           <span v-else class="badge light-blue-bg">Public Club</span>
         </p>
-        <p>
-          {{ computedDescription(clubProp.description) }}
+        <p v-if="width > 1350">
+          {{ computedDescription(clubProp.description, 125) }}
+        </p>
+        <p v-else>
+          {{ computedDescription(clubProp.description, 25) }}
         </p>
         <div class="d-flex justify-content-between">
           <span>
@@ -26,20 +29,39 @@
 
 
 <script>
+import { onMounted, onUnmounted, ref } from 'vue';
 import { Club } from '../models/Club.js';
+import { logger } from '../utils/Logger';
 
 export default {
   props:{
     clubProp: {type: Club, required: true}
   },
   setup(){
+
+    const width = ref(null);
+    function resize() {
+      width.value = window.innerWidth;
+      logger.log(width.value)
+    }
+
+    onMounted(() => {
+      resize()
+      window.addEventListener("resize", resize);
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener("resize", resize);
+    });
+
     return {
-      computedDescription(str) {
+      computedDescription(str, length) {
         if (str.length > 100) {
-          return str.substring(0,126) + "..."
+          return str.substring(0,length) + "..."
         }
         return str
       },
+      width
     }
   }
 }
