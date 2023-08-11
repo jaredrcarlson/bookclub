@@ -17,7 +17,7 @@
   <div class="col-md-2 col-12 justify-content-evenly">
 
       <p class="fs-5 ">
-        <i i title="See Comments on this Post" class="mdi mdi-message-reply"></i> <span>{{ postProp.commentCount }}</span>
+        <i title="See Comments on this Post" class="mdi mdi-message-reply"></i> <span>{{ postProp.commentCount }}</span>
       </p>
   </div>
 </template>
