@@ -4,7 +4,7 @@
       <div class="col-12">
         <div class="d-flex">
           <form class="d-flex" @submit.prevent="search()">
-            <input required maxlength="50" class="border-end-0 rounded-end-0 bg-light form-control shadow-none" v-model="query" type="text" placeholder="Search">
+            <input required maxlength="50" class="border-end-0 rounded-end-0 form-control shadow-none" v-model="query" type="text" placeholder="Search">
             <div @click="search()" class="selectable border-0 rounded-end d-flex align-items-center text-light orange-bg"><i class="mdi mdi-magnify fs-4 mx-3"></i></div>
           </form>
         </div>

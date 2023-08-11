@@ -20,6 +20,9 @@ class ClubMembersService {
     if (body.status != 'joined' && body.status != 'blocked' && body.status != undefined) {
       throw new BadRequest('You can only accept a join request or block it.')
     }
+    if (clubMember.status == 'blocked') {
+      throw new Forbidden('You cannot switch a user to joined once blocked. You must unblock them, and have them request to join again.')
+    }
     clubMember.role = body.role || clubMember.role
     clubMember.status = body.status || clubMember.status
     clubMember.save()
@@ -56,6 +59,9 @@ class ClubMembersService {
     const memberToDelete = await dbContext.ClubMembers.findById(memberId)
     if (!memberToDelete) {
       throw new BadRequest('There is no such member to delete...')
+    }
+    if (!memberToDelete.creatorId == userId && memberToDelete.status == 'blocked') {
+      throw new BadRequest('This club has blocked you, you cannot unblock yourself.')
     }
     const club = await clubsService.getClubById(memberToDelete.clubId)
     if (club.creatorId.toString() == memberToDelete.creatorId.toString()) {

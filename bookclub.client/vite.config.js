@@ -5,9 +5,10 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [vue()],
   build: {
-    outDir: 'docs',
+    outDir: '../bookclub/client',
     sourcemap: false
   },
+  base: '',
   server: {
     port: 8080
   }
