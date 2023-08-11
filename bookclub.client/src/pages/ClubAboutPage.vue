@@ -25,7 +25,7 @@
               </span>
             </p>
           </div>
-          <div class="d-flex justify-content-between mt-5 align-items-end">
+          <div id="v-step-1" class="d-flex justify-content-between mt-5 align-items-end">
             
             <p class="fs-3">
               <i class="mdi mdi-account"></i> {{ selectedClub.memberCount }}
@@ -113,6 +113,14 @@ export default {
           params: {
                 placement: 'bottom',
                 originalPlacement: 'bottom',
+              }
+        },
+        {
+          target: '#v-step-1',
+          content: "To the left you'll find navigation for the club- you can see their members, announcements and discussions, and their book list.",
+          params: {
+                placement: 'right',
+                originalPlacement: 'right',
               }
         },
       ],

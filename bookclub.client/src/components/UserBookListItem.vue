@@ -10,7 +10,7 @@
       </router-link>
     </td>
     <td v-if="bookProp.creatorId == account?.id">
-      <select @change="editUserBook" v-model="progressSelect">
+      <select  @change="editUserBook" v-model="progressSelect">
         <option value="reading">Currently Reading</option>
         <option value="planned">Plan to Read</option>
         <option value="finished">Finished</option>

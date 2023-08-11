@@ -10,7 +10,7 @@
             {{ selectedClub.name }}
           </p>
         </div>
-        <div id="v-step-10" class="flex-grow-1 dark-blue-bg mt-3 rounded-top p-3 fs-4">
+        <div class="flex-grow-1 dark-blue-bg mt-3 rounded-top p-3 fs-4">
           <router-link :to="{name:'Club About Page'}">
             <p class="route-text" type="button" :class="route.name == 'Club About Page' ? 'selected' : ''">
               <i class="mdi mdi-bookmark"></i> About us
@@ -58,7 +58,6 @@
       </div>
     </section>
   </div>
-  <Tour v-if="account.needsTour" :steps="steps" :callbacks="tourCallBacks" />
 </template>
 
 
@@ -93,19 +92,6 @@ export default {
 
 
     return {
-      steps: [
-        {
-          target: '#v-step-10',
-          content: "Over here you can the club's navigation to see the booklist, memberlist, announcement page, and discussion page",
-          params: {
-                placement: 'right',
-                originalPlacement: 'right',
-              }
-        },
-      ],
-      tourCallBacks: {
-        onSkip: (() => accountService.editAccount({needsTour: false}))
-      },
       route,
       selectedClub: computed(() => AppState.selectedClub),
       account: computed(() => AppState.account),
