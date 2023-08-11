@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import { ref, computed, onUnmounted } from 'vue';
+import { ref, computed, onUnmounted, onMounted } from 'vue';
 import { booksService } from '../services/BooksService'
 import { clubsService } from '../services/ClubsService'
 import { AppState } from '../AppState';
@@ -123,6 +123,11 @@ export default {
                 Pop.error(error.message)
             }
         }
+
+        onMounted(() => {
+            clearBooks()
+        })
+
         onUnmounted(() => {
             clearBooks()
         })

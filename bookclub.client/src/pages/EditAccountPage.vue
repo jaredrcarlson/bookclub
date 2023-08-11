@@ -59,11 +59,12 @@ import { computed, ref } from 'vue';
 import { AppState } from '../AppState.js';
 import { accountService } from '../services/AccountService.js';
 import Pop from '../utils/Pop.js';
-import { router } from '../router.js';
+import { useRouter } from 'vue-router';
 
 export default {
   setup(){
     const editable = ref({})
+    const router = useRouter()
 
     editable.value = {...AppState.account}
 
@@ -78,6 +79,7 @@ export default {
 
           await accountService.editAccount(accountData)
 
+          Pop.toast('Saved Changes', 'success', 'bottom-end')
           router.push({name: 'Account'})
         } catch (error) {
           Pop.error(error.message)

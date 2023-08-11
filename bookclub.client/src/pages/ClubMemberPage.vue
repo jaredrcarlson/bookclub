@@ -77,10 +77,10 @@ export default {
           }),
           joinedMembers: computed(() => AppState.members.filter(m => m.status == 'joined').sort((a, b) => {
             if (a.role == 'creator'){
-              return 1
+              return -1
             }
             if (b.role == 'creator'){
-              return 1
+              return -1
             }
           })),
           blockedMembers: computed(() => AppState.members.filter(m => m.status == 'blocked')),
