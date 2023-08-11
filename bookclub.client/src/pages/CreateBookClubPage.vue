@@ -50,7 +50,7 @@
                         <div class="list-section ghost-bg">
                             <ul v-if="booksToAdd.length > 0" class="book-list">
                                 <li v-for="(book, index) in booksToAdd" :key="book.gbid+book.title" class="d-flex justify-content-between align-items-center">
-                                    <p><span>{{ book.title }}  {{ book.subtitle}}</span> by  <span v-for="author in book.authors" :key="author">{{ author }}</span></p>
+                                    <p @click="selectBook(index)" class="selectable"><span>{{ book.title }}  {{ book.subtitle}}</span> by  <span v-for="author in book.authors" :key="author">{{ author }}</span></p>
                                     <i @click="removeBookFromList(index)" class="mdi trash mdi-trash-can-outline fs-3"></i>
                                 </li>
                             </ul>
