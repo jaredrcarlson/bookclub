@@ -1,9 +1,9 @@
   <template>
   <div class="container-fluid">
-    <section class="row" id="v-step-0">
+    <section class="row">
       <div class="col-12 mt-3 dark-blue-bg rounded elevation-3 text-light">
         <div class="p-3">
-          <p class="fs-3 fw-bold">About us</p>
+          <p class="fs-3 fw-bold" id="v-step-0">About us</p>
           <form @submit.prevent="editClub()">
             <input placeholder="club name..." v-model="editable.name" class="form-control mb-2" v-if="isEditing" type="text" required maxlength="40" minlength="3">
             <input placeholder="club cover photo..." v-model="editable.coverImg" class="form-control mb-2" v-if="isEditing" type="url" maxlength="300" minlength="3"  required>
@@ -13,7 +13,7 @@
             </p>
             <button type="submit" v-if="isEditing" class="btn light-blue-btn">Save Changes</button>
           </form>
-          <div>
+          <div v-if="currentBooks.length >= 1">
             <p class="fs-4">
               <span class="pe-2 fw-semibold">Currently Reading:</span>
               <span v-for="(b, index) in currentBooks" :key="b.id" class="pe-2">
@@ -74,7 +74,6 @@ import { AppState } from '../AppState.js';
 import { useRoute } from 'vue-router';
 import { membersService } from '../services/MembersService.js';
 import Pop from '../utils/Pop.js';
-import { logger } from '../utils/Logger.js';
 import { router } from '../router.js';
 import { clubsService } from "../services/ClubsService.js";
 import { booksService } from '../services/BooksService.js';
