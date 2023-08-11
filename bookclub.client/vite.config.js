@@ -8,6 +8,7 @@ export default defineConfig({
     outDir: '../bookclub/client',
     sourcemap: false
   },
+  base: '',
   server: {
     port: 8080
   }
