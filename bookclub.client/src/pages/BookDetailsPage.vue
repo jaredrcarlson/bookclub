@@ -314,6 +314,7 @@ export default {
     const userBookData = ref({rating: 0, status: 'planned'})
     const selectedTab = ref('reviews')
     const reviewData = ref({gbId: gbId, rating: null, content: null })
+    const reviewDataOriginal = ref({})
     const reviewEditMode = ref(false)
     const userReviewedStatus = ref(true)
     const bookListsOptions = ref({})
@@ -537,8 +538,14 @@ export default {
     }
 
     function editReview(review) {
+      reviewDataOriginal.value = reviewData.value
       reviewData.value = review
       reviewEditMode.value = true
+    }
+
+    function cancelEditReview() {
+      reviewData.value = reviewDataOriginal.value
+      reviewEditMode.value = false
     }
 
     async function updateReview() {

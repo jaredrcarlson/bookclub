@@ -1,6 +1,6 @@
 import Axios from 'axios'
-import { baseURL } from '../env'
-import { GOOGLE_BOOKS_API_KEY, NY_TIMES_API_KEY } from '../../api_keys.js'
+import { baseURL } from '../env.js'
+import { GOOGLE_BOOKS_API_KEY, NY_TIMES_API_KEY } from '../env.js'
 import { logger } from '../utils/Logger.js'
 
 export const api = Axios.create({
