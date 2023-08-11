@@ -1,9 +1,9 @@
 <template>
     <div class="container-fluid" v-if="account.id">
-        <section class="row h-100">
-            <div class="col-md-7 col-12">
+        <section  class="row h-100">
+            <div  class="col-md-7 col-12">
                 <div class="px-2">
-                    <form @submit.prevent="searchBooks">
+                    <form id="v-step-0" @submit.prevent="searchBooks">
                         <div class="my-3">
                             <label for="searchBooks" class="fs-3 form-label">Add books to your club!</label>
                             <div class="d-flex me-5">
@@ -19,7 +19,7 @@
                     </div>
                 </div>
             </div>
-            <div class="details-section col-md-5 col-12">
+            <div  class="details-section col-md-5 col-12">
                 <section v-if="selectedBook" class="row h-100 py-5">
                     <div class="col-5">
                         <img class="img-fluid" :src="selectedBook.imgUrlLarge" alt="">
@@ -33,8 +33,8 @@
                         <p class="mb-0">Published {{selectedBook.publishedDate.toLocaleDateString()}}</p>
                         <!-- <p class="mb-0">Clubs that have read this book: 10</p>
                         <p class="mb-0">Clubs reading this book: 3</p> -->
-                        <button v-if="!booksToAdd.includes(selectedBook)" @click="addBookToList" class="btn orange-btn ms-auto">Add To List</button>
-                        <button v-else @click="removeBookFromList" class="btn orange-btn ms-auto">Remove From List</button>
+                        <button id="v-step-1" v-if="!booksToAdd.includes(selectedBook)" @click="addBookToList" class="btn orange-btn ms-auto">Add To List</button>
+                        <button  v-else @click="removeBookFromList" class="btn orange-btn ms-auto">Remove From List</button>
                         </div>
                     </div>
                 </section>
@@ -96,6 +96,7 @@
             </div>
         </section>
     </div>
+    <Tour v-if="account.needsTour" :steps="steps" :callbacks="tourCallBacks" />
 </template>
 
 <script>
@@ -106,6 +107,7 @@ import { AppState } from '../AppState';
 import Pop from '../utils/Pop';
 import { logger } from '../utils/Logger';
 import { router } from '../router.js';
+import { accountService } from "../services/AccountService.js";
 
 export default {
     setup() {
@@ -125,6 +127,27 @@ export default {
             clearBooks()
         })
         return {
+            steps: [
+        {
+            target: '#v-step-0',
+            header: {
+            title: "Let's get started making a bookclub!"
+            },
+            content: "First, search through books and select one to add to your club, the details will appear on the right"
+        },
+        {
+            target: '#v-step-1',
+            content: "Next, click here to add the first book to the list"
+        },
+        {
+            target: '#v-step-2',
+            content: "Finally, fill out the details below to make your club official."
+        },
+        ],
+        tourCallBacks: {
+            onFinish: (() => accountService.editAccount({needsTour: false})),
+            onSkip: (() => accountService.editAccount({needsTour: false}))
+        },
             async searchBooks(){
                 try {
                     booksService.searchBooks(searchQuery.value)
