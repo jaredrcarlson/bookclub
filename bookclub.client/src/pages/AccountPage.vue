@@ -47,8 +47,11 @@
               <p class="fs-5">
                 {{ membership.club.name }}
               </p>
-              <p>
-                {{ computedDescription(membership.club.description) }}
+              <p v-if="width > 1350">
+                {{ computedDescription(membership.club.description, 125) }}
+              </p>
+              <p v-else>
+                {{ computedDescription(membership.club.description, 25) }}
               </p>
               <div class="mt-auto" v-if="loadingRef == false && membership.role != 'creator'">
                 <button class="btn orange-btn" @click="leaveClub(membership.id)" title="Leave Club">
@@ -142,7 +145,7 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { AppState } from '../AppState';
 import Pop from '../utils/Pop.js';
 import { logger } from '../utils/Logger.js';
@@ -150,18 +153,33 @@ import { membersService } from '../services/MembersService.js';
 export default {
     setup() {
         let loadingRef = ref(false);
+        const width = ref(null);
+        function resize() {
+          width.value = window.innerWidth;
+        }
+
+        onMounted(() => {
+          resize()
+          window.addEventListener("resize", resize);
+        });
+
+        onUnmounted(() => {
+          window.removeEventListener("resize", resize);
+        });
+
         return {
             loadingRef,
-            computedDescription(str) {
-                if (str.length > 100) {
-                    return str.substring(0, 98) + "...";
-                }
-                return str;
+            computedDescription(str, length) {
+              if (str.length > 100) {
+                return str.substring(0,length) + "..."
+              }
+              return str
             },
+            width,
             account: computed(() => AppState.account),
             myMemberships: computed(() => {
                 if (AppState.myMemberships)
-                    return AppState.myMemberships.filter(m => m.club);
+                    return AppState.myMemberships.filter(m => m.club && m.status == 'joined');
                 return [];
             }),
             myBooks: computed(() => AppState.myBooks),
@@ -245,7 +263,7 @@ export default {
 }
 
 .membership-card{
-  height: 55vh;
+  height: 40vh;
 }
 
 .image-container {

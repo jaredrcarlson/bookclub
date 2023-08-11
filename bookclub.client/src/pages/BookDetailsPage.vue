@@ -313,7 +313,7 @@ export default {
     
     const userBookData = ref({rating: 0, status: 'planned'})
     const selectedTab = ref('reviews')
-    const userReviewData = ref({})
+    const userReviewData = ref({gbId: gbId})
     const reviewEditMode = ref(false)
     const userReviewedStatus = ref(true)
     const bookListsOptions = ref({})

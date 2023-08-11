@@ -45,8 +45,11 @@
               <p class="fs-5">
                 {{ membership.club.name }}
               </p>
-              <p>
-                {{ membership.club.description }}
+              <p v-if="width > 1350">
+                {{ computedDescription(membership.club.description, 125) }}
+              </p>
+              <p v-else>
+                {{ computedDescription(membership.club.description, 25) }}
               </p>
             </div>
           </router-link>
@@ -136,7 +139,7 @@
 
 
 <script>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import Pop from '../utils/Pop.js';
 import { profilesService } from '../services/ProfilesService.js';
@@ -180,14 +183,33 @@ export default {
       getProfile(route.params.profileId)
       getProfileMemberships()
       getProfileBooks()
+      resize()
+      window.addEventListener("resize", resize);
     })
 
+
+    const width = ref(null);
+    function resize() {
+      width.value = window.innerWidth;
+    }
+    
+    onUnmounted(() => {
+      window.removeEventListener("resize", resize);
+    });
+
     return {
+      computedDescription(str, length) {
+        if (str.length > 100) {
+          return str.substring(0,length) + "..."
+        }
+        return str
+      },
+      width,
       route,
       profile: computed(() => AppState.profile),
       profileMemberships: computed(() => {
         if (AppState.profileMemberships)
-          return AppState.profileMemberships.filter(m => m.club)
+          return AppState.profileMemberships.filter(m => m.club && m.status == 'joined')
         return []
       }),
       profileBooks: computed(() => AppState.profileBooks),

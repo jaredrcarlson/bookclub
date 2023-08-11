@@ -11,11 +11,11 @@
           </h3>
         </div>
 
-        <div>
-          <button id="v-step-0" @click="goToBookclubs" class="fs-3 btn orange-btn m-2">
+        <div id="v-step-0">
+          <button  @click="goToBookclubs" class="fs-3 btn orange-btn m-2" >
             
             Find a Book Club
-          </button>
+          </button >
           <router-link :to="{name: 'Create Book Club'}">
             <button id="v-step-1" class="fs-3 btn light-blue-btn m-2">
               Make a Book Club
@@ -38,18 +38,19 @@
       <NYTCard id="v-step-2"/>
     </section>
 
-<section id="v-step-3" class="row">
+<section  class="row">
+  <div class="mt-3" id="v-step-3"></div>
 
   <BookClubSearch />
 </section>
   
   </div>
-  <!-- <Tour v-if="account.needsTour" :steps="steps" :callbacks="tourCallBacks"/> -->
+  <Tour v-if="account.needsTour" :steps="steps" :callbacks="tourCallBacks"/>
 </template>
 
 <script>
 import Pop from '../utils/Pop.js'
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import NYTCard from '../components/NYTCard.vue'
 import { newYorkTimesService } from '../services/NewYorkTimesService.js'
 import BookClubSearch from '../components/BookClubSearch.vue'
@@ -82,27 +83,40 @@ export default {
               header: {
                 title: "Welcome to the JABB BookClub Site!",
               },
-              content: 'This will take you to our selection of BookClubs below'
+              content: 'Click on one of these buttons to see clubs or Make your own club',
+              params: {
+                placement: 'top-start',
+                originalPlacement: 'top-start',
+              }
             },
-            {
-              target: '#v-step-1',
-              content: 'Or you can click here to create your own BookClub'
-            },
+            // {
+            //   target: '#v-step-1',
+            //   content: 'Or you can click here to create your own BookClub',
+            //   params: {
+            //     placement: 'top'
+            //   }
+            // },
             {
               target: '#v-step-2',
-              content: 'Here is a display of the New York Times Best Sellers that you can Scroll through'
+              content: 'Here is a display of the New York Times Best Sellers that you can Scroll through',
+              params: {
+                placement: 'top',
+                originalPlacement: 'top',
+              }
             },
             {
               target: '#v-step-3',
-              content: 'Down here you can find book clubs with the search bar, click on one to navigate to one of your liking'
+              content: 'Down here you can find book clubs with the search bar, then click on one to navigate to one of your liking',
+              params: {
+                placement: 'bottom',
+                originalPlacement: 'bottom',
+              }
             },
           ],
           tourCallBacks: {
-            onFinish: (() => {
-              router.push({name: 'Book Details Details', params: {clubId: AppState.clubs[0].id}})
-            }),
             onSkip: (() => accountService.editAccount({needsTour: false}))
           },
+          account: computed(() => AppState.account),
             goToBookclubs() {
               document.getElementById('bookclubList').scrollIntoView()
             }
