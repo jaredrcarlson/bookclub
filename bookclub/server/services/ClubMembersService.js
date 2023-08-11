@@ -29,13 +29,7 @@ class ClubMembersService {
     return clubMember
   }
   async getUserClubs(userId) {
-    const clubs = await dbContext.ClubMembers.find({ creatorId: userId }).populate('club').populate({
-      path: 'club',
-      populate: {
-        path: 'memberCount',
-        model: 'ClubMember'
-      }
-    })
+    const clubs = await dbContext.ClubMembers.find({ creatorId: userId }).populate('club')
     return clubs
   }
   async getClubMembers(clubId) {

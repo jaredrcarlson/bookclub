@@ -17,7 +17,7 @@
 
     <section class="row mt-5">
       <div class="col-12 mt-5">
-        <p class="m-3">
+        <p id="v-step-0" class="m-3">
           <span class="fs-2">
             About Me:
           </span>
@@ -58,7 +58,7 @@
     </section>
 
     <section class="row mb-4">
-      <div class="col-12">
+      <div id="v-step-1" class="col-12">
         <p class="m-3 fs-1">
           <span class="pe-3">
             My Booklist
@@ -134,7 +134,7 @@
       </div>
     </section> -->
   </div>
-
+  <Tour v-if="account.needsTour" :steps="steps" :callbacks="tourCallBacks" />
 </template>
 
 
@@ -145,6 +145,7 @@ import Pop from '../utils/Pop.js';
 import { profilesService } from '../services/ProfilesService.js';
 import { AppState } from '../AppState.js';
 import { booksService } from '../services/BooksService';
+import { accountService } from "../services/AccountService.js";
 
 export default {
   setup(){
@@ -198,6 +199,24 @@ export default {
     });
 
     return {
+      account: computed(() => AppState.account),
+      steps: [
+        {
+            target: '#v-step-0',
+            header: {
+            title: "Welcome to the Profile Page!"
+            },
+            content: "Here, you'll find a bio about the user, and a list of the clubs that the user is in"
+        },
+        {
+            target: '#v-step-1',
+            content: "Down here, the user's added books will be listed, and they can rate their book, remove from the list, and mark their progress"
+        },
+        ],
+      tourCallBacks: {
+            onFinish: (() => accountService.editAccount({needsTour: false})),
+            onSkip: (() => accountService.editAccount({needsTour: false}))
+        },
       computedDescription(str, length) {
         if (str.length > 100) {
           return str.substring(0,length) + "..."

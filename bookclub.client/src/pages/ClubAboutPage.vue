@@ -117,7 +117,6 @@ export default {
         },
       ],
       tourCallBacks: {
-        onFinish: (() => accountService.editAccount({needsTour: false})),
         onSkip: (() => accountService.editAccount({needsTour: false}))
       },
       editable,
