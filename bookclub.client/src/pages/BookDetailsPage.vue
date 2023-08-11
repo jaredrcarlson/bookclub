@@ -100,7 +100,7 @@
               <div class="p-2">There are no clubs currently reading this book.</div>
             </div>
             <div v-else class="row py-2">
-              <div v-for="club in clubsReading" :key="club.id" class="col-4">
+              <div v-for="club in clubsReading" :key="club.id" class="col-4 card-height">
                 <BookClubCard :clubProp="club" />
               </div>
             </div>
@@ -111,7 +111,7 @@
               <div class="p-2">There are no clubs planning to read this book.</div>
             </div>
             <div v-else class="row py-2">
-              <div v-for="club in clubsPlanned" :key="club.id" class="col-4">
+              <div v-for="club in clubsPlanned" :key="club.id" class="col-4 card-height">
                 <BookClubCard :clubProp="club" />
               </div>
             </div>
@@ -122,7 +122,7 @@
               <div class="p-2">There are no clubs finished reading this book.</div>
             </div>
             <div v-else class="row py-2">
-              <div v-for="club in clubsFinished" :key="club.id" class="col-4">
+              <div v-for="club in clubsFinished" :key="club.id" class="col-4 card-height">
                 <BookClubCard :clubProp="club" />
               </div>
             </div>
@@ -674,4 +674,7 @@ export default {
   font-size: 1.2dvw;
 }
 
+.card-height{
+  height: 40vh;
+}
 </style>
