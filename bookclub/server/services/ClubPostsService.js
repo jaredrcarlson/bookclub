@@ -58,7 +58,7 @@ class ClubPostsService {
     return newPost
   }
   async updatePost(postId, userId, postData) {
-    const originalPost = await this.getPostById(postId)
+    const originalPost = await this.getPostById(postId, userId)
     if (originalPost.creatorId.toString() != userId) {
       throw new Forbidden(`You aren't the creator of the post titled "${originalPost.title}"!`)
     }
