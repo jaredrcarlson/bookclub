@@ -447,7 +447,7 @@ export default {
         bookListType: 'user',
         bookId: userHasThisBook.value ? userBook.value.id : '',
         existsInBookList: userHasThisBook.value,
-        selected: userHasThisBook
+        selected: userHasThisBook.value
       }
       // ------ ADD OPTION FOR CLUB BOOK LISTS where USER MEMBERSHIP ROLE is [CREATOR, ADMIN]
       userCreatorAdminClubs.value.forEach(async(club) => {
