@@ -31,7 +31,6 @@
 <script>
 import { onMounted, onUnmounted, ref } from 'vue';
 import { Club } from '../models/Club.js';
-import { logger } from '../utils/Logger';
 
 export default {
   props:{
@@ -42,7 +41,6 @@ export default {
     const width = ref(null);
     function resize() {
       width.value = window.innerWidth;
-      logger.log(width.value)
     }
 
     onMounted(() => {
