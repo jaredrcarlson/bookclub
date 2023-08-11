@@ -5,9 +5,17 @@
     </section>
     <section class="dark-blue-bg elevation-3 rounded mx-2 row justify-content-between p-3">
       <div class="col-md-2 col-12 ghost-bg p-1 pb-3 pb-md-0 rounded" v-for="b in l.books" :key="b.rank">
-          <div class="d-flex align-items-start justify-content-center">
-            <img @click="searchGbApi(b.primary_isbn10)" class="img-fluid img-style selectable" :src=b.book_image :alt=b.title>
-          </div>
+        <div class="d-flex align-items-start justify-content-center pt-2" v-if="b.primary_isbn10 != 'None'">
+          <button type="button" class="border border-none" @click="searchGbApi(b.primary_isbn10)" v-if="b.primary_isbn10 != 'None'">
+            <img class="img-fluid img-style" :src=b.book_image :alt=b.title>
+          </button>
+        </div>
+        <div class="d-flex flex-column align-items-center justify-content-center pt-2" v-else>
+          <p class="bg-danger p-1 px-2 fw-bold">
+            Not Available
+          </p>
+          <img class="img-fluid img-style" style="filter:grayscale(100%)" :src=b.book_image :alt=b.title>
+        </div>
         <div class="pt-2 ps-md-2 ps-3 description-style d-flex flex-column">
           <div>
             <span class="fw-semibold">

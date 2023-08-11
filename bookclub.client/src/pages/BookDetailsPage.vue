@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12">
         <div v-if="book" class="row mt-4">
-          <div class="col-5 d-flex justify-content-center">
+          <div class="col-12 col-md-5 d-flex justify-content-center">
             <img class="img-fluid book-img" :src="book.imgUrlLarge" alt="">
           </div>
           <div class="col-7 h-100">
@@ -26,7 +26,7 @@
                   <div class="d-flex justify-content-around">
                     <!-- USER > BOOK RATING -->
                     <div v-if="userHasThisBook" class="text-center pe-2">
-                      <div class="text-light light-blue-bg rounded px-2">My Rating</div>
+                      <div class="text-light light-blue-bg rounded px-2">Rating</div>
                       <select @change="updateUserBookRating()" v-model="userBookData.rating" class="fw-bold form-select form-select-sm ghost-bg border-0 rounded-start shadow-none selectable" aria-label=".form-select-sm rating">
                         <option value="0">Not Rated</option>
                         <option v-for="option in ratingOptions" :key="option.rating" :value="option.rating">
@@ -150,7 +150,7 @@
                           <div class="my-0 ps-2 form-text">Recommendation</div>
                           <div class="d-flex align-items-center justify-content-around">
                             <div class="me-2">
-                              <select v-model="reviewData.rating" class="form-select" aria-label="Rating" required>
+                              <select v-model="userReviewData.rating" class="form-select" aria-label="Rating" required>
                                 <option value="Recommended">Recommend</option>
                                 <option value="Mixed Feelings">Mixed Feelings</option>
                                 <option value="Not Recommended">Not Recommended</option>
@@ -166,7 +166,7 @@
                       </div>
                       <div class="row">
                         <div class="col-12">
-                          <textarea v-model="reviewData.content" class="mb-2 pb-2 form-control" rows="3" placeholder="add review..." required></textarea>
+                          <textarea v-model="userReviewData.content" class="mb-2 pb-2 form-control" rows="3" placeholder="add review..." required></textarea>
                         </div>
                       </div>
                     </form>
@@ -194,14 +194,14 @@
                             <div v-if="reviewEditMode">
                                 <div class="d-flex align-items-center">
                                   <div>
-                                    <select v-model="reviewData.rating" class="form-select form-control input-sm" aria-label="Rating" required>
+                                    <select v-model="userReviewData.rating" class="form-select form-control input-sm" aria-label="Rating" required>
                                       <option value="Recommended">Recommend</option>
                                       <option value="Mixed Feelings">Mixed Feelings</option>
                                       <option value="Not Recommended">Not Recommended</option>
                                     </select>
                                   </div>
                                   <div class="">
-                                    <button class="mx-2 btn btn-sm btn-secondary py-0 px-2" @click="reviewEditMode = false" title="Cancel Changes">
+                                    <button class="mx-2 btn btn-sm btn-secondary py-0 px-2" @click="cancelEditReview()" title="Cancel Changes">
                                       <i class="mdi mdi-close-outline fs-4"></i>
                                     </button>
                                     <button class="btn btn-sm btn-success py-0 px-2 " @click="updateReview()" title="Save Changes">
@@ -250,7 +250,7 @@
                       <div class="row">
                         <div class="col-12">
                           <div v-if="reviewEditMode" class="px-2">
-                            <textarea v-model="reviewData.content" class="mb-2 pb-2 form-control" rows="3" required></textarea>
+                            <textarea v-model="userReviewData.content" class="mb-2 pb-2 form-control" rows="3" required></textarea>
                           </div>
                           <div v-else class="px-2">
                             {{ review.content }}
@@ -313,8 +313,7 @@ export default {
     
     const userBookData = ref({rating: 0, status: 'planned'})
     const selectedTab = ref('reviews')
-    const reviewData = ref({gbId: gbId, rating: null, content: null })
-    const reviewDataOriginal = ref({})
+    const userReviewData = ref({})
     const reviewEditMode = ref(false)
     const userReviewedStatus = ref(true)
     const bookListsOptions = ref({})
@@ -529,8 +528,8 @@ export default {
     // --- [ADD, EDIT, DELETE] USER BOOK REVIEW
     async function createReview() {
       try {
-        const newBookReview = await bookReviewsService.createBookReview(reviewData.value)
-        reviewData.value = newBookReview
+        const newBookReview = await bookReviewsService.createBookReview(userReviewData.value)
+        userReviewData.value = newBookReview
         setUserReviewedStatus()
       } catch (error) {
         Pop.error(error.message)
@@ -538,19 +537,17 @@ export default {
     }
 
     function editReview(review) {
-      reviewDataOriginal.value = reviewData.value
-      reviewData.value = review
+      userReviewData.value = {...review}
       reviewEditMode.value = true
     }
 
     function cancelEditReview() {
-      reviewData.value = reviewDataOriginal.value
       reviewEditMode.value = false
     }
 
     async function updateReview() {
       try {
-        await bookReviewsService.updateBookReview(reviewData.value)
+        await bookReviewsService.updateBookReview(userReviewData.value)
         reviewEditMode.value = false
         Pop.toast('Book Review updated successfully', 'success')
       } catch (error) {
@@ -635,7 +632,7 @@ export default {
       clubsReading,
       clubsFinished,
       selectedTab,
-      reviewData,
+      userReviewData,
       bookListsOptions,
       reviewEditMode,
       ratingOptions,
@@ -645,6 +642,7 @@ export default {
       updateBookLists,
       createReview,
       editReview,
+      cancelEditReview,
       updateReview,
       deleteReview,
       selectTab
