@@ -110,7 +110,11 @@ export default {
           header: {
             title: "Here's a section About the club here to gain user interest"
           },
-          content: "This includes buttons for a user to join or leave the club, or if you're the creator of the club, you can Edit or Delete your club."
+          content: "This includes buttons for a user to join or leave the club, or if you're the creator of the club, you can Edit or Delete your club.",
+          params: {
+                placement: 'bottom',
+                originalPlacement: 'bottom',
+              }
         },
       ],
       tourCallBacks: {
