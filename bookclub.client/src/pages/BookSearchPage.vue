@@ -23,7 +23,7 @@
 
 
 <script>
-import { computed, onUnmounted, ref } from 'vue';
+import { computed, onUnmounted, onMounted, ref } from 'vue';
 import { booksService } from '../services/BooksService.js';
 import { AppState } from '../AppState.js';
 import { logger } from '../utils/Logger';
@@ -52,6 +52,11 @@ export default {
                 Pop.error(error.message)
             }
         }
+
+    onMounted(() => {
+      clearBooks()
+    })
+
     onUnmounted(() => {
         clearBooks()
     })
