@@ -7,5 +7,8 @@
         "setup:client": "cd bookclub.client && npm i",
         "setup:server": "cd bookclub && npm i",
         "start": "node bookclub/index.js"
+    },
+    "engines": {
+        "node": "^16"
     }
 }
