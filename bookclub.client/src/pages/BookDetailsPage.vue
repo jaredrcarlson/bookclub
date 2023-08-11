@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12">
         <div v-if="book" class="row mt-4">
-          <div class="col-5 d-flex justify-content-center">
+          <div class="col-12 col-md-5 d-flex justify-content-center">
             <img class="img-fluid book-img" :src="book.imgUrlLarge" alt="">
           </div>
           <div class="col-7 h-100">
@@ -26,7 +26,7 @@
                   <div class="d-flex justify-content-around">
                     <!-- USER > BOOK RATING -->
                     <div v-if="userHasThisBook" class="text-center pe-2">
-                      <div class="text-light light-blue-bg rounded px-2">My Rating</div>
+                      <div class="text-light light-blue-bg rounded px-2">Rating</div>
                       <select @change="updateUserBookRating()" v-model="userBookData.rating" class="fw-bold form-select form-select-sm ghost-bg border-0 rounded-start shadow-none selectable" aria-label=".form-select-sm rating">
                         <option value="0">Not Rated</option>
                         <option v-for="option in ratingOptions" :key="option.rating" :value="option.rating">
