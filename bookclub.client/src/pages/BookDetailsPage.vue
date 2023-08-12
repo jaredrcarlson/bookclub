@@ -3,19 +3,19 @@
     <div class="row">
       <div class="col-12">
         <div v-if="book" class="row mt-4">
-          <div class="col-12 col-md-5 d-flex justify-content-center">
+          <div class="col-12 col-md-5 d-flex justify-content-md-center">
             <img class="img-fluid book-img rounded elevation-2" :src="book.imgUrlLarge" alt="">
           </div>
           <div class="col-7 h-100">
             <div class="d-flex flex-column h-100">
-              <div class="fs-2 fw-bold">{{book.title}}</div>
+              <div class="fs-4 fw-bold">{{book.title}}</div>
               <div class="fs-5 fw-bold">{{ book.subtitle }}</div>
               <div class="fs-5">By <span>{{ book.author }}</span></div>
               
               <!-- SECTION BOOK DETAILS -->
               <div class="mt-2 d-flex justify-content-between">
                 <!-- BOOK SCORE -->
-                <div class="text-center me-1 mb-2">
+                <div class="text-center me-2 mb-2">
                   <div class="text-light light-blue-bg rounded px-2">Score</div>
                   <div class="fw-bold">{{ bookScore }}</div>
                   <small v-if="bookScoreUserCount == 1" class="text-muted">{{ bookScoreUserCount }} User</small>
@@ -131,7 +131,7 @@
           <div v-else-if="selectedTab == 'reviews'" class="bg-dark">
             <div v-if="user.id && userHasThisBook && !userReviewedStatus">
               <div class="px-3 py-2">
-                <button class="btn orange-btn" type="button" data-bs-toggle="collapse" data-bs-target="#bookReviewForm" aria-expanded="false" aria-controls="bookReviewForm">
+                <button class="btn btn-sm orange-btn" type="button" data-bs-toggle="collapse" data-bs-target="#bookReviewForm" aria-expanded="false" aria-controls="bookReviewForm">
                   Add Review
                 </button>
               </div>             
@@ -147,7 +147,7 @@
                         <div class="col-5">
                         </div>
                         <div class="col-4">
-                          <div class="my-0 ps-2 form-text">Recommendation</div>
+                          <!-- <div class="my-0 ps-2 form-text">Recommendation</div> -->
                           <div class="d-flex align-items-center justify-content-around">
                             <div class="me-2">
                               <select v-model="userReviewData.rating" class="form-select" aria-label="Rating" required>
@@ -650,7 +650,10 @@ export default {
 
 <style lang="scss" scoped>
 .book-img {
-  max-height: 70dvh;
+  max-height: 40dvh;
+  @media screen and (max-width: 768px) {
+    max-height: 30dvh;  
+  }
 }
 
 .description-section {
