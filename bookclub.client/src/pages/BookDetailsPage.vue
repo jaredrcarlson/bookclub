@@ -4,7 +4,7 @@
       <div class="col-12">
         <div v-if="book" class="row mt-4">
           <div class="col-12 col-md-5 d-flex justify-content-center">
-            <img class="img-fluid book-img" :src="book.imgUrlLarge" alt="">
+            <img class="img-fluid book-img rounded elevation-2" :src="book.imgUrlLarge" alt="">
           </div>
           <div class="col-7 h-100">
             <div class="d-flex flex-column h-100">
@@ -73,19 +73,19 @@
     <div class="row mt-3 g-1">
       <!-- CLUBS CURRENTLY READING BOOK -->
       <div class="col-3 text-center selectable">
-        <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'reading', 'dark-blue-bg': selectedTab == 'reading'}" @click="selectTab('reading')">Clubs Currently Reading</div>
+        <div class="tab-text text-light px-2 pt-1 rounded-top" :class="{ 'bg-dark': selectedTab != 'reading', 'dark-blue-bg': selectedTab == 'reading'}" @click="selectTab('reading')">Clubs Currently Reading</div>
       </div>
       <!-- CLUBS PLANNING TO READ BOOK -->
       <div class="col-3 text-center selectable">
-        <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'planned', 'dark-blue-bg': selectedTab == 'planned'}" @click="selectTab('planned')">Clubs Planning To Read</div>
+        <div class="tab-text text-light px-2 pt-1 rounded-top" :class="{ 'bg-dark': selectedTab != 'planned', 'dark-blue-bg': selectedTab == 'planned'}" @click="selectTab('planned')">Clubs Planning To Read</div>
       </div>
       <!-- CLUBS FINISHED READING BOOK -->
       <div class="col-4 text-center selectable">
-        <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'finished', 'dark-blue-bg': selectedTab == 'finished'}" @click="selectTab('finished')">Clubs Finished Reading</div>
+        <div class="tab-text text-light px-2 pt-1 rounded-top" :class="{ 'bg-dark': selectedTab != 'finished', 'dark-blue-bg': selectedTab == 'finished'}" @click="selectTab('finished')">Clubs Finished Reading</div>
       </div>
       <!-- USER BOOK REVIEWS -->
       <div class="col-2 text-center selectable">
-        <div class="tab-text text-light px-2 pt-1"  :class="{ 'bg-dark': selectedTab != 'reviews', 'dark-blue-bg': selectedTab == 'reviews'}" @click="selectTab('reviews')">User Reviews</div>
+        <div class="tab-text text-light px-2 pt-1 rounded-top"  :class="{ 'bg-dark': selectedTab != 'reviews', 'dark-blue-bg': selectedTab == 'reviews'}" @click="selectTab('reviews')">User Reviews</div>
       </div>
     </div>
 
@@ -271,7 +271,6 @@
   <ModalBasic :id="'bookLists'">
     <template v-slot:header>
       <div class="fw-bold fs-5">Book Lists</div>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </template>
     <template v-slot:body>
       <div v-for="(optionValue, optionName, i) in bookListsOptions" :key="i" class="form-check">
@@ -461,8 +460,7 @@ export default {
       })
       Modal.getOrCreateInstance('#bookLists').show()
     }
-        
-    // FIXME this could be making too many API calls
+
     async function getBookInClubBookList(club) {
       const clubBooks = await booksService.getBooksByClubId(club.id)
       if (!clubBooks) {
@@ -671,7 +669,10 @@ export default {
 }
 
 .tab-text {
-  font-size: 1.2dvw;
+  font-size: 1em;
+  @media screen and (max-width: 768px) {
+    font-size: .4em;  
+  }
 }
 
 .card-height{
