@@ -162,9 +162,10 @@ export default {
     }
 
     async function search() {
+      clearBooks()
       updateQueryString()
       try {
-        clearBooks()
+        if (queryString.value == '') { return }
         if (searchType.value != 'keyword') {
           queryString.value = `+${searchType.value}:${query.value}`
         }
