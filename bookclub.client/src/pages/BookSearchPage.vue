@@ -1,9 +1,8 @@
 <template>
   <div class="container-fluid">
-    <section class="row mt-3">
-      <div class="col-12">
-        <div class="d-flex justify-content-around">
-          <div class="flex-grow-1 ms-3 me-2">
+    <section class="row">
+      <div class="col-12 d-md-flex justify-content-between">
+          <div class="flex-grow-1 ms-md-3 mt-2 mt-md-3">
             <div class="ms-1 text-muted">
               <div v-if="searchType == 'isbn'">International Standard Book Number</div>
               <div v-else-if="searchType == 'lccn'">Library of Congress Control Number</div>
@@ -21,7 +20,7 @@
               <div @click="search()" class="selectable border-0 rounded-end d-flex align-items-center text-light orange-bg"><i class="mdi mdi-magnify fs-4 mx-3"></i></div>
             </form>
           </div>
-          <div v-if="searchType == 'keyword'" class="flex-grow-1 ms-2 me-3">
+          <div v-if="searchType == 'keyword'" class="flex-grow-1 mt-2 mt-md-3 mx-md-4">
             <div class="ms-1 text-muted">Narrow Your Search</div>
             <form class="d-flex" @submit.prevent="addQueryTerm()">
               <select v-model="queryTermType" class="rounded-start px-2 dark-blue-bg text-light">
@@ -31,12 +30,28 @@
               <div @click="addQueryTerm()" class="selectable border-0 rounded-end d-flex align-items-center text-light light-blue-bg"><i class="mdi mdi-plus fs-4 mx-3"></i></div>
             </form>
           </div>
+          <div class="d-flex mt-2 mt-md-3 align-items-center">
+            <div class="me-3">
+              <div class="ms-1 text-muted">Print Type</div>
+              <select @change="search()" v-model="queryParams.printType" class="px-1 rounded dark-blue-bg text-light pt-1 pb-1">
+                <option value="books">Books</option>
+                <option value="magazines">Magazines</option>
+                <option value="all">All</option>
+              </select>
+            </div>
+            <div class="me-md-3">
+              <div class="ms-1 text-muted">Order By</div>
+              <select @change="search()" v-model="queryParams.orderBy" class="px-1 rounded dark-blue-bg text-light pt-1 pb-1">
+                <option value="newest">Newest</option>
+                <option value="relevance">Relevance</option>
+              </select>
+            </div>
         </div>
       </div>
     </section>
-    <section v-if="searchType == 'keyword'" class="row mt-3">
-      <div class="col-12 d-flex align-items-center">
-        <div v-for="(termString, termType, i) in queryTerms" :key="`a${i}`" class="ms-3 d-flex">
+    <section v-if="searchType == 'keyword'" class="row">
+      <div class="col-12 d-md-flex align-items-center">
+        <div v-for="(termString, termType, i) in queryTerms" :key="`a${i}`" class="ms-md-3 d-flex mt-2 mt-md-3">
           <div @click="removeQueryTermType(termType)" class="selectable rounded-start bg-danger text-light px-2 d-flex align-items-center"><i class="mdi mdi-trash-can-outline"></i></div>
           <div class="rounded-end dark-blue-bg text-light px-2">
             <div class="d-flex py-2">
@@ -58,29 +73,10 @@
         </div>
       </div>
     </section>
-    <section class="row mt-3">
-      <div class="col-12 d-flex align-items-center">
-        <div class="ms-3">
-          <div class="ms-1 text-muted">Print Type</div>
-          <select @change="search()" v-model="queryParams.printType" class="px-1 rounded dark-blue-bg text-light">
-            <option value="books">Books</option>
-            <option value="magazines">Magazines</option>
-            <option value="all">All</option>
-          </select>
-        </div>
-        <div class="ms-2">
-          <div class="ms-1 text-muted">Order By</div>
-          <select @change="search()" v-model="queryParams.orderBy" class="px-1 rounded dark-blue-bg text-light">
-            <option value="newest">Newest</option>
-            <option value="relevance">Relevance</option>
-          </select>
-        </div>
-      </div>
-    </section>
-    <section class="row mt-3">
+    <section class="row mt-2 p-md-3">
       <div v-for="book in books" :key="book.id" class="col-md-1 col-6 my-1">
         <router-link :to="{name: 'Book Details', params: { gbId: book.gbId }}">
-          <img class="img-fluid book-img" :src="book.imgUrl" :title="book.title">
+          <img class="img-fluid book-img rounded elevation-2" :src="book.imgUrl" :title="book.title">
         </router-link>           
       </div>
     </section>
