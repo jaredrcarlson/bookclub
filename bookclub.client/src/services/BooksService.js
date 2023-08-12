@@ -8,13 +8,13 @@ import { googleBooksService } from "./GoogleBooksService"
 const limitGoogleBooksAPIUsage = true
 
 class BooksService {
-
-  // Function takes in a query as a string and searches the Google Books API with that string. Then populates appstate with found books.
-  // @function
-  // @param {query} - string query to pass to Google Books API
-  async searchBooks(query) {
-    const books = await googleBooksService.search(query)
-    AppState.books = books.map(b => new Book(b))
+  async searchBooks(params) {
+    const results = await googleBooksService.search(params)
+    if (!results) { return }
+    const gbIds = results.map(({ id }) => id);
+    const uniqueBooks = results.filter(({ id }, index) => !gbIds.includes(id, index + 1));
+    logger.log(`${results.length - uniqueBooks.length} gbId duplicates were removed.`)
+    AppState.books = uniqueBooks ? uniqueBooks.map(b => new Book(b)) : []
   }
   // Function that takes in an index of a book in the AppState.books and sets it as the selectedBook
   // @function

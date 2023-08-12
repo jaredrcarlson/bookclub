@@ -9,18 +9,14 @@ class GoogleBooksService {
     return `https://books.google.com/books/publisher/content/images/frontcover/${volumeId}?fife=w${width}-h${height}&source=gbs_api`
   }
 
-  async search(query, startIndex = 0, maxResults = 40) {
+  async search(params) {
     if (quotaReached) { return }
-
-    const res = await gbApi.get('volumes', {
-      params: {
-        q: query,
-        startIndex: startIndex,
-        maxResults: maxResults
-      }
-    })
+    const queryParams = { q: '', startIndex: 0, maxResults: 40, langRestrict: 'en', printType: 'books', orderBy: 'newest' }
+    for (const key of Object.keys(queryParams)) {
+      queryParams[key] = key in params ? params[key] : queryParams[key]
+    }
+    const res = await gbApi.get('volumes', { params: queryParams })
     const volumes = res.data.items
-    // console.log('GOOGLE BOOKS SEARCH RESULTS: ', volumes)
     return volumes
   }
 
