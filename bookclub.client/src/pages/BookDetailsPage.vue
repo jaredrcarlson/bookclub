@@ -141,8 +141,8 @@
                     <form @submit.prevent="createReview()">
                       <div class="row mb-3">
                         <div class="col-3 d-flex align-items-center">
-                          <img class="user-img" :src="account.picture || user.picture" :alt="user.name" :title="user.name">
-                          <div class="ms-2 fw-bold">{{ user.name }}</div>
+                          <img class="user-img" :src="account.picture || user.picture" :alt="account.name" :title="account.name">
+                          <div class="ms-2 fw-bold">{{ account.name }}</div>
                         </div>
                         <div class="col-5">
                         </div>
