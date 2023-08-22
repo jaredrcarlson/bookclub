@@ -18,10 +18,8 @@
       </div>
       </div>
     </section>
-    <section class="row">
-      <div v-for="announcement in announcements" :key="announcement.id" class="col-12 border border-black elevation-2 mb-3 rounded bg-light">
-        <AnnouncementCard :announcementProp="announcement"/>
-      </div>
+    <section v-for="announcement in announcements" :key="announcement.id" class="row bg-white elevation-5 rounded py-3 my-3">
+      <AnnouncementCard :announcementProp="announcement"/>
     </section>
   </div>
 </template>

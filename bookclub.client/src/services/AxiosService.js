@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import { baseURL } from '../env.js'
-import { GOOGLE_BOOKS_API_KEY, NY_TIMES_API_KEY } from '../env.js'
+import { gbak, ntak } from '../env.js'
 import { logger } from '../utils/Logger.js'
 
 export const api = Axios.create({
@@ -14,7 +14,7 @@ export const gbApi = Axios.create({
   baseURL: 'https://www.googleapis.com/books/v1',
   timeout: 8000,
   params: {
-    key: GOOGLE_BOOKS_API_KEY
+    key: gbak
   }
 })
 gbApi.interceptors.request.use(config => config, handleAxiosError)
@@ -23,7 +23,7 @@ export const nyApi = Axios.create({
   baseURL: 'https://api.nytimes.com/svc/books/v3',
   timeout: 8000,
   params: {
-    "api-key": NY_TIMES_API_KEY
+    "api-key": ntak
   }
 })
 nyApi.interceptors.request.use(config => config, handleAxiosError)

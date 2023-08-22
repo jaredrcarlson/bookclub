@@ -3,19 +3,19 @@
     <div class="row">
       <div class="col-12">
         <div v-if="book" class="row mt-4">
-          <div class="col-12 col-md-5 d-flex justify-content-center">
-            <img class="img-fluid book-img" :src="book.imgUrlLarge" alt="">
+          <div class="col-12 col-md-5 d-flex justify-content-md-center">
+            <img class="img-fluid book-img rounded elevation-2" :src="book.imgUrlLarge" alt="">
           </div>
           <div class="col-7 h-100">
             <div class="d-flex flex-column h-100">
-              <div class="fs-2 fw-bold">{{book.title}}</div>
+              <div class="fs-4 fw-bold">{{book.title}}</div>
               <div class="fs-5 fw-bold">{{ book.subtitle }}</div>
               <div class="fs-5">By <span>{{ book.author }}</span></div>
               
               <!-- SECTION BOOK DETAILS -->
               <div class="mt-2 d-flex justify-content-between">
                 <!-- BOOK SCORE -->
-                <div class="text-center me-1 mb-2">
+                <div class="text-center me-2 mb-2">
                   <div class="text-light light-blue-bg rounded px-2">Score</div>
                   <div class="fw-bold">{{ bookScore }}</div>
                   <small v-if="bookScoreUserCount == 1" class="text-muted">{{ bookScoreUserCount }} User</small>
@@ -73,19 +73,19 @@
     <div class="row mt-3 g-1">
       <!-- CLUBS CURRENTLY READING BOOK -->
       <div class="col-3 text-center selectable">
-        <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'reading', 'dark-blue-bg': selectedTab == 'reading'}" @click="selectTab('reading')">Clubs Currently Reading</div>
+        <div class="tab-text text-light px-2 pt-1 rounded-top" :class="{ 'bg-dark': selectedTab != 'reading', 'dark-blue-bg': selectedTab == 'reading'}" @click="selectTab('reading')">Clubs Currently Reading</div>
       </div>
       <!-- CLUBS PLANNING TO READ BOOK -->
       <div class="col-3 text-center selectable">
-        <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'planned', 'dark-blue-bg': selectedTab == 'planned'}" @click="selectTab('planned')">Clubs Planning To Read</div>
+        <div class="tab-text text-light px-2 pt-1 rounded-top" :class="{ 'bg-dark': selectedTab != 'planned', 'dark-blue-bg': selectedTab == 'planned'}" @click="selectTab('planned')">Clubs Planning To Read</div>
       </div>
       <!-- CLUBS FINISHED READING BOOK -->
       <div class="col-4 text-center selectable">
-        <div class="tab-text text-light px-2 pt-1" :class="{ 'bg-dark': selectedTab != 'finished', 'dark-blue-bg': selectedTab == 'finished'}" @click="selectTab('finished')">Clubs Finished Reading</div>
+        <div class="tab-text text-light px-2 pt-1 rounded-top" :class="{ 'bg-dark': selectedTab != 'finished', 'dark-blue-bg': selectedTab == 'finished'}" @click="selectTab('finished')">Clubs Finished Reading</div>
       </div>
       <!-- USER BOOK REVIEWS -->
       <div class="col-2 text-center selectable">
-        <div class="tab-text text-light px-2 pt-1"  :class="{ 'bg-dark': selectedTab != 'reviews', 'dark-blue-bg': selectedTab == 'reviews'}" @click="selectTab('reviews')">User Reviews</div>
+        <div class="tab-text text-light px-2 pt-1 rounded-top"  :class="{ 'bg-dark': selectedTab != 'reviews', 'dark-blue-bg': selectedTab == 'reviews'}" @click="selectTab('reviews')">User Reviews</div>
       </div>
     </div>
 
@@ -131,7 +131,7 @@
           <div v-else-if="selectedTab == 'reviews'" class="bg-dark">
             <div v-if="user.id && userHasThisBook && !userReviewedStatus">
               <div class="px-3 py-2">
-                <button class="btn orange-btn" type="button" data-bs-toggle="collapse" data-bs-target="#bookReviewForm" aria-expanded="false" aria-controls="bookReviewForm">
+                <button class="btn btn-sm orange-btn" type="button" data-bs-toggle="collapse" data-bs-target="#bookReviewForm" aria-expanded="false" aria-controls="bookReviewForm">
                   Add Review
                 </button>
               </div>             
@@ -141,13 +141,13 @@
                     <form @submit.prevent="createReview()">
                       <div class="row mb-3">
                         <div class="col-3 d-flex align-items-center">
-                          <img class="user-img" :src="account.picture || user.picture" :alt="user.name" :title="user.name">
-                          <div class="ms-2 fw-bold">{{ user.name }}</div>
+                          <img class="user-img" :src="account.picture || user.picture" :alt="account.name" :title="account.name">
+                          <div class="ms-2 fw-bold">{{ account.name }}</div>
                         </div>
                         <div class="col-5">
                         </div>
                         <div class="col-4">
-                          <div class="my-0 ps-2 form-text">Recommendation</div>
+                          <!-- <div class="my-0 ps-2 form-text">Recommendation</div> -->
                           <div class="d-flex align-items-center justify-content-around">
                             <div class="me-2">
                               <select v-model="userReviewData.rating" class="form-select" aria-label="Rating" required>
@@ -271,7 +271,6 @@
   <ModalBasic :id="'bookLists'">
     <template v-slot:header>
       <div class="fw-bold fs-5">Book Lists</div>
-      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </template>
     <template v-slot:body>
       <div v-for="(optionValue, optionName, i) in bookListsOptions" :key="i" class="form-check">
@@ -461,8 +460,7 @@ export default {
       })
       Modal.getOrCreateInstance('#bookLists').show()
     }
-        
-    // FIXME this could be making too many API calls
+
     async function getBookInClubBookList(club) {
       const clubBooks = await booksService.getBooksByClubId(club.id)
       if (!clubBooks) {
@@ -652,7 +650,10 @@ export default {
 
 <style lang="scss" scoped>
 .book-img {
-  max-height: 70dvh;
+  max-height: 40dvh;
+  @media screen and (max-width: 768px) {
+    max-height: 30dvh;  
+  }
 }
 
 .description-section {
@@ -671,7 +672,10 @@ export default {
 }
 
 .tab-text {
-  font-size: 1.2dvw;
+  font-size: 1em;
+  @media screen and (max-width: 768px) {
+    font-size: .4em;  
+  }
 }
 
 .card-height{
