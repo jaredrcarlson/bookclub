@@ -9,7 +9,7 @@
       <div class="col-10 mx-auto">
         <div>
           <h2>Problem Statement</h2>
-          <p>In the digital age, the joy of reading and meaningful book discussions are fading away. Traditional book clubs struggle to connect to a global community of
+          <p>In the digital age, the joy of reading and meaningful book discussions are fading away. Traditional book clubs struggle to connect to a global community
             of book enthusiasits, leaving a void in the literary landscape.
           </p>
           <h2>Description and Concept</h2>
