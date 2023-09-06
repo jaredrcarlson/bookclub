@@ -15,7 +15,7 @@
         </div>
         <div class="col-2 text-end">
           <div  class="m-0 fs-3 dropdown">
-            <i class="mdi mdi-dots-vertical" type="button" data-bs-toggle="dropdown" v-if="memberProp.creatorId != selectedClub.creatorId"></i>
+            <i class="mdi mdi-dots-vertical" type="button" data-bs-toggle="dropdown" v-if="account.id == selectedClub.creatorId"></i>
             <div v-if="memberProp.status == 'pending'" class="dropdown-menu">
               <button @click="alterStatus('joined')" class="dropdown-item">
                 <i class="mdi mdi-check"></i> Approve Request
@@ -57,6 +57,7 @@ export default {
 
   setup(props){
     return {
+      account: computed(() => AppState.account),
       selectedClub: computed(() => AppState.selectedClub),
       async removeMembership() {
         try { 
