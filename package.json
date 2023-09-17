@@ -6,7 +6,7 @@
         "setup:app": "npm run setup:server && npm run setup:client",
         "setup:client": "cd bookclub.client && npm i",
         "setup:server": "cd bookclub && npm i",
-        "start": "(cd bookclub && npm run start) & (cd bookclub.client && npm run serve)"
+        "start": "node bookclub/index.js"
     },
     "engines": {
         "node": "^16"
