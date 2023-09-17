@@ -46,7 +46,7 @@
                 {{ membership.club.name }}
               </p>
               <p v-if="width > 1350">
-                {{ computedDescription(membership.club.description, 125) }}
+                {{ computedDescription(membership.club.description, 75) }}
               </p>
               <p v-else>
                 {{ computedDescription(membership.club.description, 25) }}
