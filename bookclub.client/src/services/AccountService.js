@@ -6,7 +6,7 @@ import { api } from './AxiosService'
 class AccountService {
   async getAccount() {
     try {
-      const res = await api.get('/account')
+      const res = await api.get('account')
       AppState.account = new Account(res.data)
     } catch (err) {
       logger.error('HAVE YOU STARTED YOUR SERVER YET???', err)
@@ -14,7 +14,7 @@ class AccountService {
   }
   async editAccount(body) {
     try {
-      const res = await api.put('/account', body)
+      const res = await api.put('account', body)
       // logger.log('updating account needsTour', res.data)
       AppState.account = new Account(res.data)
     } catch (error) {

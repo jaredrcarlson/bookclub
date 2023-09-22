@@ -43,6 +43,7 @@ import { AppState } from '../AppState'
 import { AuthService } from '../services/AuthService'
 import { accountService } from "../services/AccountService.js"
 import { useRouter } from "vue-router"
+import { servePath } from '../env.js'
 export default {
   setup() {
     const router = useRouter()
@@ -53,7 +54,7 @@ export default {
         AuthService.loginWithPopup()
       },
       async logout() {
-        AuthService.logout({ returnTo: window.location.origin })
+        AuthService.logout({ returnTo: window.location.origin + servePath })
       },
       resetTour(){
         accountService.editAccount({needsTour: true}),
