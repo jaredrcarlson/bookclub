@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/jaredrcarlson/bookclub">
+  <a href="https://www.jaredcarlson.dev/bookclub" target="_blank">
     <img src="images/jabb_logo.png" alt="Logo">
   </a>
 
@@ -11,7 +11,7 @@
     Jabb is a book club platform for readers who want to connect and share their love for literature. It offers personalized profiles for tracking and rating books, global book clubs, discussions, advanced search tools, and book recommendations.
   </p>
   <p align="center">
-    <a href="https://github.com/jaredrcarlson/bookclub">Live Demo</a>
+    <a href="https://www.jaredcarlson.dev/bookclub">Live Demo</a>
   </p>
 </div>
 
