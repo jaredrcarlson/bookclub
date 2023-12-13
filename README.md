@@ -1,11 +1,11 @@
 <!-- PROJECT LOGO -->
-<br />
 <div align="center">
   <a href="https://www.jaredcarlson.dev/bookclub" target="_blank">
     <img src="images/jabb_logo.png" alt="Logo">
   </a>
 
-  <br>
+  <br />
+  <br />
   <p align="left">
     Jabb is a book club platform for readers who want to connect and share their love for literature. It offers personalized profiles for tracking and rating books, global book clubs, discussions, advanced search tools, and book recommendations.
   </p>
@@ -13,21 +13,21 @@
     <a href="https://www.jaredcarlson.dev/bookclub" target="_blank">Live Demo</a>
   </p>
 </div>
-
+<br />
 
 
 <!-- ABOUT THE PROJECT -->
-## About
+<!-- ## About -->
 
-[![Contributors][contributors-shield]][contributors-url]
+<!-- [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
-[![MIT License][license-shield]][license-url]
+[![MIT License][license-shield]][license-url] -->
 
 [![Product Name Screen Shot][product-screenshot]](https://www.jaredcarlson.dev/bookclub)
 
 
-### Tech 
+## Stack 
 
 [![Vue][Vue.js]][Vue-url] [![HTML5][HTML5]][HTML5-url] [![CSS3][CSS3]][CSS3-url] [![Bootstrap][Bootstrap]][Bootstrap-url] [![JavaScript][JavaScript]][JavaScript-url] [![Express][Express]][Express-url] [![Node.js][Node.js]][Node.js-url] [![MongoDB][MongoDB]][MongoDB-url] [![Mongoose][Mongoose]][Mongoose-url]
 
