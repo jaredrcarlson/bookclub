@@ -32,19 +32,19 @@
             <li>HTML and CSS</li>
             <li>Bootstrap 5</li>
           </ul>
-          <h2 class="text-center">Meet the Team!</h2>
+          <h2 class="text-center">Contributors</h2>
             <section class="row">
               <div class="col-12 col-md-6">
-                <AboutTeamCard :name="'Rebecca VandeWater'" :linkedin="'https://www.linkedin.com/in/rebecca-a-vandewater/'" :github="'https://github.com/RebeccaVandeWater'" :picture="RebeccaPicture" />
-              </div>
-              <div class="col-12 col-md-6">
-                <AboutTeamCard :name="'Arrington Mata'" :linkedin="'https://www.linkedin.com/in/arrington-mata/'" :github="'https://github.com/ArrMata'" :picture="MataPicture"/>
+                <AboutTeamCard :name="'Jared Carlson'"  :linkedin="'https://www.linkedin.com/in/jaredrcarlson/'" :github="'https://github.com/jaredrcarlson'" :picture="JaredPicture"/>
               </div>
               <div class="col-12 col-md-6">
                 <AboutTeamCard :name="'Bailey Johnson'" :linkedin="'https://www.linkedin.com/in/bailey-johnson-bb28b86b/'" :github="'https://github.com/bjohnson93'" :picture="BaileyPicture"/>
               </div>
               <div class="col-12 col-md-6">
-                <AboutTeamCard :name="'Jared Carlson'"  :linkedin="'https://www.linkedin.com/in/jaredrcarlson/'" :github="'https://github.com/jaredrcarlson'" :picture="JaredPicture"/>
+                <AboutTeamCard :name="'Rebecca VandeWater'" :linkedin="'https://www.linkedin.com/in/rebecca-a-vandewater/'" :github="'https://github.com/RebeccaVandeWater'" :picture="RebeccaPicture" />
+              </div>
+              <div class="col-12 col-md-6">
+                <AboutTeamCard :name="'Arrington Mata'" :linkedin="'https://www.linkedin.com/in/arrington-mata/'" :github="'https://github.com/ArrMata'" :picture="MataPicture"/>
               </div>
           </section>
         </div>
@@ -55,10 +55,10 @@
 
 
 <script>
-import RebeccaPicture from '../assets/img/r-vande.jpg'
-import BaileyPicture from '../assets/img/bjohnson.jpg'
-import MataPicture from '../assets/img/a-mata.jpg'
-import JaredPicture from '../assets/img/j-carlson.jpg'
+import JaredPicture from '../assets/img/j-carlson.png'
+import RebeccaPicture from '../assets/img/r-vande.png'
+import BaileyPicture from '../assets/img/b-johnson.png'
+import MataPicture from '../assets/img/a-mata.png'
 import AboutTeamCard from '../components/AboutTeamCard.vue'
 export default {
     setup() {
