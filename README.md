@@ -5,8 +5,7 @@
     <img src="images/jabb_logo.png" alt="Logo">
   </a>
 
-<h3 align="center">JABB Bookclub</h3>
-
+  <br>
   <p align="left">
     Jabb is a book club platform for readers who want to connect and share their love for literature. It offers personalized profiles for tracking and rating books, global book clubs, discussions, advanced search tools, and book recommendations.
   </p>
