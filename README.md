@@ -51,7 +51,6 @@ Portfolio: <a href="https://www.jaredcarlson.dev" target="_blank">www.jaredcarls
 LinkedIn: <a href="https://linkedin.com/in/jaredrcarlson" target="_blank">jaredrcarlson</a>  
 Email: <a href="mailto:jared@jaredcarlson.dev">jared@jaredcarlson.dev</a>  
 
-JABB Demo Link: [https://jaredcarlson.dev/bookclub](https://jaredcarlson.dev/bookclub)
 
 
 <!-- LICENSE -->
