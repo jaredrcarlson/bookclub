@@ -11,7 +11,7 @@
     Jabb is a book club platform for readers who want to connect and share their love for literature. It offers personalized profiles for tracking and rating books, global book clubs, discussions, advanced search tools, and book recommendations.
   </p>
   <p align="center">
-    <a href="https://www.jaredcarlson.dev/bookclub">Live Demo</a>
+    <a href="https://www.jaredcarlson.dev/bookclub" target="_blank">Live Demo</a>
   </p>
 </div>
 
