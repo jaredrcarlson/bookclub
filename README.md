@@ -25,7 +25,7 @@
 [![Stargazers][stars-shield]][stars-url]
 [![MIT License][license-shield]][license-url]
 
-[![Product Name Screen Shot][product-screenshot]](https://github.com/jaredrcarlson/bookclub)
+[![Product Name Screen Shot][product-screenshot]](https://www.jaredcarlson.dev/bookclub)
 
 
 ### Tech 
